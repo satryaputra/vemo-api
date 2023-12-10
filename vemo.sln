@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{874FD83D-A49C-4AFC-B047-863910A964DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vemo.Api", "src\Vemo.Api\Vemo.Api.csproj", "{230297CF-6069-4A38-9FCB-5F55703D0722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vemo.Application", "src\Vemo.Application\Vemo.Application.csproj", "{F6E0649B-CE5D-441B-964B-6D54D3CB2615}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vemo.Domain", "src\Vemo.Domain\Vemo.Domain.csproj", "{CB8CEA48-719A-4839-BFFB-C929764E23C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vemo.Infrastructure", "src\Vemo.Infrastructure\Vemo.Infrastructure.csproj", "{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{230297CF-6069-4A38-9FCB-5F55703D0722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230297CF-6069-4A38-9FCB-5F55703D0722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230297CF-6069-4A38-9FCB-5F55703D0722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230297CF-6069-4A38-9FCB-5F55703D0722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E0649B-CE5D-441B-964B-6D54D3CB2615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E0649B-CE5D-441B-964B-6D54D3CB2615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E0649B-CE5D-441B-964B-6D54D3CB2615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E0649B-CE5D-441B-964B-6D54D3CB2615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB8CEA48-719A-4839-BFFB-C929764E23C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB8CEA48-719A-4839-BFFB-C929764E23C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB8CEA48-719A-4839-BFFB-C929764E23C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB8CEA48-719A-4839-BFFB-C929764E23C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{230297CF-6069-4A38-9FCB-5F55703D0722} = {874FD83D-A49C-4AFC-B047-863910A964DB}
+		{F6E0649B-CE5D-441B-964B-6D54D3CB2615} = {874FD83D-A49C-4AFC-B047-863910A964DB}
+		{CB8CEA48-719A-4839-BFFB-C929764E23C3} = {874FD83D-A49C-4AFC-B047-863910A964DB}
+		{8FC7CA61-17C6-4837-94F6-F6EDE37B9E5A} = {874FD83D-A49C-4AFC-B047-863910A964DB}
+	EndGlobalSection
+EndGlobal

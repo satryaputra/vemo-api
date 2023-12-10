@@ -1,4 +1,5 @@
 using Vemo.Api;
+using Vemo.Api.Middlewares;
 using Vemo.Application;
 using Vemo.Infrastructure;
 
@@ -23,7 +24,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
+app.UseAuthentication();
+
+app.UseMiddleware<TokenExceptionHandlerMiddleware>();
+
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.MapControllers();
 

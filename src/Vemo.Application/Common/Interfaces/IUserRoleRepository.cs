@@ -36,5 +36,5 @@ public interface IUserRoleRepository
     /// <param name="userRoleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task DeleteRoleAsync(Guid userRoleId, CancellationToken cancellationToken);
+    Task DeleteUserRoleAsync(Guid userRoleId, CancellationToken cancellationToken);
 }

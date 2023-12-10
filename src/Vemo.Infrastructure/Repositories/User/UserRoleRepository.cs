@@ -69,7 +69,7 @@ public class UserRoleRepository : IUserRoleRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task DeleteRoleAsync(Guid userRoleId, CancellationToken cancellationToken)
+    public async Task DeleteUserRoleAsync(Guid userRoleId, CancellationToken cancellationToken)
     {
         var role = await GetUserRoleByIdAsync(userRoleId, cancellationToken);
         _context.UserRoles.Remove(role);

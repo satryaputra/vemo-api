@@ -1,12 +1,17 @@
+using Vemo.Api;
+using Vemo.Application;
+using Vemo.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+var services = builder.Services;
 
 // Add services to the container.
+services.AddApiServices();
+services.AddApplicationServices();
+services.AddInfrastructureServices(configuration);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// App
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

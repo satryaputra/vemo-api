@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Vemo.Application;
 
@@ -13,6 +15,10 @@ public static class DependencyInjection
     /// <param name="services"></param>
     public static void AddApplicationServices(this IServiceCollection services)
     {
-        
+        var assembly = typeof(DependencyInjection).Assembly;
+        services.AddAutoMapper(assembly);
+        services.AddValidatorsFromAssembly(assembly);
+        services.AddMediatR(conf => conf.RegisterServicesFromAssembly(assembly));
+        // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
     }
 }

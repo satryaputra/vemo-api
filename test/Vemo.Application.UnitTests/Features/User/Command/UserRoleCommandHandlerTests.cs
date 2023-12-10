@@ -3,6 +3,7 @@ using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Features.User.Commands.CreateUserRole;
 using Vemo.Application.Features.User.Commands.DeleteUserRole;
 using Vemo.Application.Features.User.Queries.GetUserRoleById;
+using Vemo.Application.Features.User.Queries.GetUserRoles;
 using Vemo.Domain.Entities.User;
 
 namespace Vemo.Application.UnitTests.Features.User.Command;
@@ -32,6 +33,33 @@ public class UserRoleCommandHandlerTests
         result.Should().NotBeNull();
         result.Id.Should().Be(newUserRoleId);
         result.Role.Should().BeEquivalentTo(newUserRole);
+    }
+    
+    [Fact]
+    public async Task Handle_ShouldReturnUserRoles_WhenGettingUserRoles()
+    {
+        // Arrange
+        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
+
+        var expectedUserRoles = new List<UserRole>
+        {
+            new UserRole { Id = Guid.NewGuid(), Role = "Role1" },
+            new UserRole { Id = Guid.NewGuid(), Role = "Role2" },
+        };
+
+        userRoleRepositoryMock.Setup(x => x.GetUserRolesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedUserRoles);
+
+        var handler = new GetUserRolesQueryHandler(userRoleRepositoryMock.Object);
+
+        // Act
+        var result = await handler.Handle(new GetUserRolesQuery(), default);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().HaveCount(expectedUserRoles.Count); 
+        result.Should().Contain(r => r.Role == "Role1");
+        result.Should().Contain(r => r.Role == "Role2");
     }
     
     [Fact]

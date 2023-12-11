@@ -32,6 +32,11 @@ public class BaseController : ControllerBase
             CookieSettings.AddExpires(refreshTokenExpires));
     }
 
+    /// <summary>
+    /// GetAccessTokenFromHeader
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="UnauthorizedException"></exception>
     protected string GetAccessTokenFromHeader()
     {
         if (!Request.Headers.TryGetValue("Authorization", out var bearerToken))

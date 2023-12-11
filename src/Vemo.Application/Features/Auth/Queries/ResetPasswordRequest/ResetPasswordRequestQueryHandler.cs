@@ -1,22 +1,22 @@
 ﻿using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
 
-namespace Vemo.Application.Features.Auth.Queries.ForgotPasswordRequest;
+namespace Vemo.Application.Features.Auth.Queries.ResetPasswordRequest;
 
 /// <summary>
-/// ForgotPasswordRequestQueryHandler
+/// ResetPasswordRequestQueryHandler
 /// </summary>
-internal sealed class ForgotPasswordRequestQueryHandler : IRequestHandler<ForgotPasswordRequestQuery, GenericResponseDto>
+internal sealed class ResetPasswordRequestQueryHandler : IRequestHandler<ResetPasswordRequestQuery, GenericResponseDto>
 {
     private readonly IUserRepository _userRepository;
     private readonly IEmailService _emailService;
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="ForgotPasswordRequestQueryHandler"/> class.
+    /// Initialize a new instance of the <see cref="ResetPasswordRequestQueryHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
     /// <param name="emailService"></param>
-    public ForgotPasswordRequestQueryHandler(IUserRepository userRepository, IEmailService emailService)
+    public ResetPasswordRequestQueryHandler(IUserRepository userRepository, IEmailService emailService)
     {
         _userRepository = userRepository;
         _emailService = emailService;
@@ -28,7 +28,7 @@ internal sealed class ForgotPasswordRequestQueryHandler : IRequestHandler<Forgot
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<GenericResponseDto> Handle(ForgotPasswordRequestQuery request, CancellationToken cancellationToken)
+    public async Task<GenericResponseDto> Handle(ResetPasswordRequestQuery request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByEmailAsync(request.Email, cancellationToken);
         

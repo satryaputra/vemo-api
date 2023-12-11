@@ -1,4 +1,4 @@
-﻿namespace Vemo.Application.Features.Users.Commands.CreateUserRole;
+﻿namespace Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
 
 /// <summary>
 /// CreateUserRoleCommandValidator

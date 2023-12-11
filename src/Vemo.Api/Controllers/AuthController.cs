@@ -5,8 +5,10 @@ using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Dtos;
 using Vemo.Application.Features.Auth.Commands.Login;
 using Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
+using Vemo.Application.Features.Auth.Commands.ResetPassword;
 using Vemo.Application.Features.Auth.Commands.SendOtp;
 using Vemo.Application.Features.Auth.Queries.ForgotPasswordRequest;
+using Vemo.Application.Features.Auth.Queries.ResetPasswordRequest;
 using Vemo.Application.Features.Auth.Queries.VerifyOtp;
 
 namespace Vemo.Api.Controllers;
@@ -59,6 +61,34 @@ public class AuthController : BaseController
     }
 
     /// <summary>
+    /// ResetPasswordRequest
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("reset-password")]
+    public async Task<IActionResult> ResetPasswordRequest(
+        [FromQuery] string email,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new ResetPasswordRequestQuery { Email = email }, cancellationToken));
+    }
+
+    /// <summary>
+    /// ResetPassword
+    /// </summary>
+    /// <param name="resetPasswordCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(
+        ResetPasswordCommand resetPasswordCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(resetPasswordCommand, cancellationToken));
+    }
+
+    /// <summary>
     /// SendOtp
     /// </summary>
     /// <param name="emailDto"></param>
@@ -83,13 +113,5 @@ public class AuthController : BaseController
     {
         return Ok(await Mediator.Send(new VerifyOtpQuery { AccessToken = GetAccessTokenFromHeader(), Otp = otp },
             cancellationToken));
-    }
-
-    [HttpGet("forgot-password")]
-    public async Task<IActionResult> ForgotPasswordRequest(
-        [FromQuery] string email,
-        CancellationToken cancellationToken)
-    {
-        return Ok(await Mediator.Send(new ForgotPasswordRequestQuery { Email = email }, cancellationToken));
     }
 }

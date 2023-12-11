@@ -1,6 +1,6 @@
 ﻿using Vemo.Application.Common.Interfaces;
 
-namespace Vemo.Application.Features.Users.Commands.DeleteUserRole;
+namespace Vemo.Application.Features.Users.Commands.UserRole.DeleteUserRole;
 
 /// <summary>
 /// DeleteUserRoleCommandHandler

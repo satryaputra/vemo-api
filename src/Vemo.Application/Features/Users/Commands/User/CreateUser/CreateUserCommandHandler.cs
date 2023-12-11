@@ -2,9 +2,8 @@
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
-using Vemo.Domain.Entities.Users;
 
-namespace Vemo.Application.Features.Users.Commands.CreateUser;
+namespace Vemo.Application.Features.Users.Commands.User.CreateUser;
 
 /// <summary>
 /// CreateUserCommandHandler
@@ -51,7 +50,7 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
         
         var userRole = await _userRoleRepository.GetUserRoleByRoleAsync(request.Role, cancellationToken);
         
-        var newUser = _mapper.Map<User>(request);
+        var newUser = _mapper.Map<Domain.Entities.Users.User>(request);
         newUser.UserRoleId = userRole.Id;
 
         await _userRepository.CreateUserAsync(newUser, cancellationToken);

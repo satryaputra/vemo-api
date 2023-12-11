@@ -1,11 +1,9 @@
-﻿using Vemo.Domain.Entities.Users;
-
-namespace Vemo.Application.Features.Users.Queries.GetUserRoleById;
+﻿namespace Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
 
 /// <summary>
 /// GetUserRoleByIdQuery
 /// </summary>
-public class GetUserRoleByIdQuery : IRequest<UserRole>
+public class GetUserRoleByIdQuery : IRequest<Domain.Entities.Users.UserRole>
 {
     /// <summary>
     /// Gets or sets UserRoleId

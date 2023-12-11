@@ -1,11 +1,9 @@
-﻿using Vemo.Domain.Entities.Users;
-
-namespace Vemo.Application.Features.Users.Commands.CreateUserRole;
+﻿namespace Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
 
 /// <summary>
 /// CreateUserRoleCommand
 /// </summary>
-public class CreateUserRoleCommand : IRequest<UserRole>
+public class CreateUserRoleCommand : IRequest<Domain.Entities.Users.UserRole>
 {
     /// <summary>
     /// Gets or sets Role

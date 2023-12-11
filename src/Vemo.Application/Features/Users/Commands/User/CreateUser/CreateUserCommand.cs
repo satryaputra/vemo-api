@@ -1,4 +1,4 @@
-﻿namespace Vemo.Application.Features.Users.Commands.CreateUser;
+﻿namespace Vemo.Application.Features.Users.Commands.User.CreateUser;
 
 /// <summary>
 /// CreateUserCommand

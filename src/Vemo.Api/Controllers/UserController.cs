@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Vemo.Application.Features.Users.Commands.CreateUser;
-using Vemo.Application.Features.Users.Commands.CreateUserRole;
-using Vemo.Application.Features.Users.Commands.DeleteUserRole;
+using Vemo.Application.Features.Users.Commands.User.CreateUser;
+using Vemo.Application.Features.Users.Commands.User.UpdatePassword;
+using Vemo.Application.Features.Users.Commands.User.UpdateUser;
+using Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
+using Vemo.Application.Features.Users.Commands.UserRole.DeleteUserRole;
 using Vemo.Application.Features.Users.Queries.GetUserById;
-using Vemo.Application.Features.Users.Queries.GetUserRoleById;
-using Vemo.Application.Features.Users.Queries.GetUserRoles;
+using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
+using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoles;
 
 namespace Vemo.Api.Controllers;
 
@@ -43,6 +45,34 @@ public class UserController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetUserByIdQuery { UserId = userId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// UpdateUser
+    /// </summary>
+    /// <param name="updateUserCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPut]
+    public async Task<IActionResult> UpdateUser(
+        UpdateUserCommand updateUserCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(updateUserCommand, cancellationToken));
+    }
+
+    /// <summary>
+    /// UpdatePassword
+    /// </summary>
+    /// <param name="updatePasswordCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPatch("password")]
+    public async Task<IActionResult> UpdatePassword(
+        UpdatePasswordCommand updatePasswordCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(updatePasswordCommand, cancellationToken));
     }
 
     /// <summary>

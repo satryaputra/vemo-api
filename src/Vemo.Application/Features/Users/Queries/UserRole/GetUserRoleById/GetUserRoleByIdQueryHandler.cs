@@ -1,12 +1,11 @@
 ﻿using Vemo.Application.Common.Interfaces;
-using Vemo.Domain.Entities.Users;
 
-namespace Vemo.Application.Features.Users.Queries.GetUserRoleById;
+namespace Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
 
 /// <summary>
 /// GetUserRoleByIdQueryHandler
 /// </summary>
-internal sealed class GetUserRoleByIdQueryHandler : IRequestHandler<GetUserRoleByIdQuery, UserRole>
+internal sealed class GetUserRoleByIdQueryHandler : IRequestHandler<GetUserRoleByIdQuery, Domain.Entities.Users.UserRole>
 {
     private readonly IUserRoleRepository _userRoleRepository;
 
@@ -25,7 +24,7 @@ internal sealed class GetUserRoleByIdQueryHandler : IRequestHandler<GetUserRoleB
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<UserRole> Handle(GetUserRoleByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Users.UserRole> Handle(GetUserRoleByIdQuery request, CancellationToken cancellationToken)
     {
         return await _userRoleRepository.GetUserRoleByIdAsync(request.UserRoleId, cancellationToken);
     }

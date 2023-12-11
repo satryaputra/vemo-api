@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
+using Vemo.Application.Common.Utils;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Infrastructure.Repositories.Users;
@@ -56,6 +57,27 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email), cancellationToken)
                ?? throw new NotFoundException("User tidak ditemukan | GetUserByEmailAsync");
+    }
+
+    public async Task UpdateUserAsync(Guid userId, string name, string email, CancellationToken cancellationToken)
+    {
+        var user = await GetUserByIdAsync(userId, cancellationToken);
+        user.Name = name;
+        user.Email = email;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// UpdatePasswordAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="newPassword"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdatePasswordAsync(Guid userId, string newPassword, CancellationToken cancellationToken)
+    {
+        var user = await GetUserByIdAsync(userId, cancellationToken);
+        user.Password = PasswordHasher.HashPassword(newPassword);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>

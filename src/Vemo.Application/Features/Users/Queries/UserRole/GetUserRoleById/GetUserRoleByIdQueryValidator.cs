@@ -1,4 +1,4 @@
-﻿namespace Vemo.Application.Features.Users.Queries.GetUserRoleById;
+﻿namespace Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
 
 /// <summary>
 /// GetUserRoleByIdQueryValidator

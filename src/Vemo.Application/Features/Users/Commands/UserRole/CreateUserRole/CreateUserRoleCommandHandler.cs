@@ -1,12 +1,11 @@
 ﻿using Vemo.Application.Common.Interfaces;
-using Vemo.Domain.Entities.Users;
 
-namespace Vemo.Application.Features.Users.Commands.CreateUserRole;
+namespace Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
 
 /// <summary>
 /// CreateUserRoleCommandHandler
 /// </summary>
-internal sealed class CreateUserRoleCommandHandler : IRequestHandler<CreateUserRoleCommand, UserRole>
+internal sealed class CreateUserRoleCommandHandler : IRequestHandler<CreateUserRoleCommand, Domain.Entities.Users.UserRole>
 {
     private readonly IUserRoleRepository _userRoleRepository;
     
@@ -25,7 +24,7 @@ internal sealed class CreateUserRoleCommandHandler : IRequestHandler<CreateUserR
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<UserRole> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.Users.UserRole> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
     {
         return await _userRoleRepository.CreateUserRoleAsync(request.Role, cancellationToken);
     }

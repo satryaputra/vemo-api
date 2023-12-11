@@ -6,7 +6,7 @@ using Vemo.Application.Features.Users.Queries.GetUserRoleById;
 using Vemo.Application.Features.Users.Queries.GetUserRoles;
 using Vemo.Domain.Entities.Users;
 
-namespace Vemo.Application.UnitTests.Features.User.Command;
+namespace Vemo.Application.UnitTests.Features.Users.Command;
 
 public class UserRoleCommandHandlerTests
 {
@@ -17,17 +17,19 @@ public class UserRoleCommandHandlerTests
         var newUserRoleId = Guid.NewGuid();
         var newUserRole = "SomeRole";
         
-        var command = new CreateUserRoleCommand { Role = newUserRole };
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
-        
         var expectedUserRole = new UserRole { Id = newUserRoleId, Role = newUserRole };
-        userRoleRepositoryMock.Setup(x => x.CreateUserRoleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        
+        var command = new CreateUserRoleCommand { Role = newUserRole };
+        
+        // Mock dependencies
+        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
+        userRoleRepositoryMock.Setup(x => x.CreateUserRoleAsync(newUserRole, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedUserRole);
 
         var handler = new CreateUserRoleCommandHandler(userRoleRepositoryMock.Object);
 
         // Act
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -39,21 +41,21 @@ public class UserRoleCommandHandlerTests
     public async Task Handle_ShouldReturnUserRoles_WhenGettingUserRoles()
     {
         // Arrange
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
-
         var expectedUserRoles = new List<UserRole>
         {
-            new UserRole { Id = Guid.NewGuid(), Role = "Role1" },
-            new UserRole { Id = Guid.NewGuid(), Role = "Role2" },
+            new() { Id = Guid.NewGuid(), Role = "Role1" },
+            new() { Id = Guid.NewGuid(), Role = "Role2" },
         };
 
+        // Mock dependencies
+        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
         userRoleRepositoryMock.Setup(x => x.GetUserRolesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedUserRoles);
 
         var handler = new GetUserRolesQueryHandler(userRoleRepositoryMock.Object);
 
         // Act
-        var result = await handler.Handle(new GetUserRolesQuery(), default);
+        var result = await handler.Handle(new GetUserRolesQuery(), CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -67,21 +69,23 @@ public class UserRoleCommandHandlerTests
     {
         // Arrange
         var userRoleIdToGet = Guid.NewGuid();
-        var query = new GetUserRoleByIdQuery { UserRoleId = userRoleIdToGet };
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
-
         var expectedUserRole = new UserRole { Id = userRoleIdToGet, Role = "SomeRole" };
-        userRoleRepositoryMock.Setup(x => x.GetUserRoleByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        var query = new GetUserRoleByIdQuery { UserRoleId = userRoleIdToGet };
+        
+        // Mock dependencies
+        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
+        userRoleRepositoryMock.Setup(x => x.GetUserRoleByIdAsync(userRoleIdToGet, It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedUserRole);
 
         var handler = new GetUserRoleByIdQueryHandler(userRoleRepositoryMock.Object);
 
         // Act
-        var result = await handler.Handle(query, default);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
-        result.Id.Should().Be(userRoleIdToGet);
+        result.Id.Should().Be(expectedUserRole.Id);
+        result.Role.Should().Be(expectedUserRole.Role);
     }
     
     [Fact]
@@ -89,16 +93,18 @@ public class UserRoleCommandHandlerTests
     {
         // Arrange
         var userRoleIdToDelete = Guid.NewGuid();
-        var command = new DeleteUserRoleCommand { UserRoleId = userRoleIdToDelete };
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
         
+        var command = new DeleteUserRoleCommand { UserRoleId = userRoleIdToDelete };
+        
+        // Mock dependencies
+        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
         userRoleRepositoryMock.Setup(x => x.DeleteUserRoleAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
         var handler = new DeleteUserRoleCommandHandler(userRoleRepositoryMock.Object);
 
         // Act
-        var result = await handler.Handle(command, default);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Should().Be(Unit.Value);

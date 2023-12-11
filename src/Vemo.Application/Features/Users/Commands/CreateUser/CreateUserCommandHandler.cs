@@ -2,7 +2,6 @@
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
-using Vemo.Application.Dtos;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.Features.Users.Commands.CreateUser;
@@ -10,7 +9,7 @@ namespace Vemo.Application.Features.Users.Commands.CreateUser;
 /// <summary>
 /// CreateUserCommandHandler
 /// </summary>
-internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, TokenResponseDto>
+internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, TokenCreateUserResponseDto>
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
@@ -43,7 +42,7 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ConflictException"></exception>
-    public async Task<TokenResponseDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<TokenCreateUserResponseDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         if (await _userRepository.IsUserExistsByEmailAsync(request.Email, cancellationToken))
         {
@@ -63,6 +62,6 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
 ;
         await _userAuthInfoRepository.AddNewRefreshTokenAsync(newUser.Id, refreshToken, refreshTokenExpires, cancellationToken);
 
-        return new TokenResponseDto(accessToken, refreshToken, refreshTokenExpires);
+        return new TokenCreateUserResponseDto(newUser.Id, accessToken, refreshToken, refreshTokenExpires);
     }
 }

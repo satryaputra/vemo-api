@@ -18,12 +18,22 @@ public interface IUserAuthInfoRepository
     Task AddNewRefreshTokenAsync(Guid userId, string refreshToken, DateTime refreshTokenExpires, CancellationToken cancellationToken);
 
     /// <summary>
-    /// GetUserAuthInfoByUserId
+    /// AddNewOtpAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="otp"></param>
+    /// <param name="otpExpires"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task AddNewOtpAsync(Guid userId, int otp, DateTime otpExpires, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetUserAuthInfoByUserIdAsync
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<UserAuthInfo> GetUserAuthInfoByUserId(Guid userId, CancellationToken cancellationToken);
+    Task<UserAuthInfo> GetUserAuthInfoByUserIdAsync(Guid userId, CancellationToken cancellationToken);
 
     /// <summary>
     /// IsUserAuthInfoExistsByUserIdAsync

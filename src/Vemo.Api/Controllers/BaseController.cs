@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Vemo.Api.Common.Utils;
+using Vemo.Application.Common.Exceptions;
 
 namespace Vemo.Api.Controllers;
 
@@ -29,5 +30,15 @@ public class BaseController : ControllerBase
             RefreshTokenHandler.GetKey, 
             refreshToken,
             CookieSettings.AddExpires(refreshTokenExpires));
+    }
+
+    protected string GetAccessTokenFromHeader()
+    {
+        if (!Request.Headers.TryGetValue("Authorization", out var bearerToken))
+            throw new UnauthorizedException("invalid_access_token");
+
+        var bearerTokenString = bearerToken.ToString() ?? throw new UnauthorizedException("invalid_access_token");
+
+        return  bearerTokenString.Split(" ").Last();
     }
 }

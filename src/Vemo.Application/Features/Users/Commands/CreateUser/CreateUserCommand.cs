@@ -1,11 +1,9 @@
-﻿using Vemo.Application.Dtos;
-
-namespace Vemo.Application.Features.Users.Commands.CreateUser;
+﻿namespace Vemo.Application.Features.Users.Commands.CreateUser;
 
 /// <summary>
 /// CreateUserCommand
 /// </summary>
-public class CreateUserCommand : IRequest<TokenResponseDto>
+public class CreateUserCommand : IRequest<TokenCreateUserResponseDto>
 {
     /// <summary>
     /// Gets or sets Name

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Users;
 
@@ -29,6 +30,32 @@ public class UserRepository : IUserRepository
     {
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetUserIdByIdAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task<User> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await _context.Users.FindAsync(new object?[] { userId }, cancellationToken)
+               ?? throw new NotFoundException("User tidak ditemukan | GetUserByEmailAsync");
+    }
+
+    /// <summary>
+    /// GetUserByEmailAsync
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email), cancellationToken)
+               ?? throw new NotFoundException("User tidak ditemukan | GetUserByEmailAsync");
     }
 
     /// <summary>

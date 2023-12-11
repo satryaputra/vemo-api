@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Application.Features.Users.Commands.CreateUserRole;
 using Vemo.Application.Features.Users.Commands.DeleteUserRole;
+using Vemo.Application.Features.Users.Queries.GetUserById;
 using Vemo.Application.Features.Users.Queries.GetUserRoleById;
 using Vemo.Application.Features.Users.Queries.GetUserRoles;
 
@@ -12,6 +14,37 @@ namespace Vemo.Api.Controllers;
 [Route("users")]
 public class UserController : BaseController
 {
+    /// <summary>
+    /// RegisterUser
+    /// </summary>
+    /// <param name="createUserCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> CreateUser(
+        CreateUserCommand createUserCommand,
+        CancellationToken cancellationToken)
+    {
+        var createUserResponse = await Mediator.Send(createUserCommand, cancellationToken);
+        SetRefreshToken(createUserResponse.RefreshToken, createUserResponse.RefreshTokenExpires);
+        return CreatedAtAction(nameof(GetUserById), new { userId = createUserResponse.UserId },
+            new { createUserResponse.AccessToken });
+    }
+
+    /// <summary>
+    /// GetUserById
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{userId:guid}")]
+    public async Task<IActionResult> GetUserById(
+        Guid userId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetUserByIdQuery { UserId = userId }, cancellationToken));
+    }
+
     /// <summary>
     /// CreateUserRole
     /// </summary>

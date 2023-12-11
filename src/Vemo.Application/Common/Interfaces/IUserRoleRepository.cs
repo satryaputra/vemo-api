@@ -1,4 +1,4 @@
-﻿using Vemo.Domain.Entities.User;
+﻿using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.Common.Interfaces;
 
@@ -29,6 +29,14 @@ public interface IUserRoleRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<UserRole> GetUserRoleByIdAsync(Guid userRoleId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetUserRoleByRoleAsync
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<UserRole> GetUserRoleByRoleAsync(string role, CancellationToken cancellationToken);
 
     /// <summary>
     /// DeleteRoleAsync

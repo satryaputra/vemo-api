@@ -17,6 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{860ADDAD-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vemo.Application.UnitTests", "test\Vemo.Application.UnitTests\Vemo.Application.UnitTests.csproj", "{DAE2D19A-E01B-449E-85DB-C2D06E414EC5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionitems", "solutionitems", "{537B3E50-9266-40B8-82AD-EF99C70267B6}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.dockerignore = .dockerignore
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

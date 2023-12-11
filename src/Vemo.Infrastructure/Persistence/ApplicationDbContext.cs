@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vemo.Application.Common.Interfaces;
-using Vemo.Domain.Entities.User;
+using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Infrastructure.Persistence;
 

@@ -1,0 +1,28 @@
+# Ignore common files and directories
+bin/
+obj/
+obj-debug/
+bin-debug/
+.vscode/
+.vs/s
+.git/
+.idea/
+
+# Ignore specific files
+docker-compose.yml
+Dockerfile
+.dockerignore
+*.md
+*.txt
+
+# Ignore development and user-specific files
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+*.log
+
+# Ignore build artifacts
+**/*.pdb
+**/*.dll
+**/*.exe

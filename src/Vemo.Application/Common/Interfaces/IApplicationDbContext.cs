@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Vemo.Domain.Entities.User;
+using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.Common.Interfaces;
 

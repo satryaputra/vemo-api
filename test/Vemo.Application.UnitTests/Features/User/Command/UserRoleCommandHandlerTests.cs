@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Vemo.Application.Common.Interfaces;
-using Vemo.Application.Features.User.Commands.CreateUserRole;
-using Vemo.Application.Features.User.Commands.DeleteUserRole;
-using Vemo.Application.Features.User.Queries.GetUserRoleById;
-using Vemo.Application.Features.User.Queries.GetUserRoles;
-using Vemo.Domain.Entities.User;
+using Vemo.Application.Features.Users.Commands.CreateUserRole;
+using Vemo.Application.Features.Users.Commands.DeleteUserRole;
+using Vemo.Application.Features.Users.Queries.GetUserRoleById;
+using Vemo.Application.Features.Users.Queries.GetUserRoles;
+using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.UnitTests.Features.User.Command;
 

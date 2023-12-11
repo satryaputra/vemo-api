@@ -57,7 +57,7 @@ public class GlobalExceptionHandlerMiddleware
                     break;
                 case ValidationException e:
                     response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
-                    responseModel.Message = "Validasi error";
+                    responseModel.Message = "Error validasi";
                     responseModel.Errors = e.Errors;
                     break;
                 default:

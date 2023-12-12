@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Vemo.Application.Common.Utils;
+﻿using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Application.Features.Users.Commands.UpdatePassword;
 using Vemo.Application.Features.Users.Commands.UpdateUser;

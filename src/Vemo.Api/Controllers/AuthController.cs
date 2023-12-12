@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Vemo.Api.Common.Utils;
-using Vemo.Application.Common.Exceptions;
-using Vemo.Application.Features.Auth.Commands.Login;
+﻿using Vemo.Application.Features.Auth.Commands.Login;
 using Vemo.Application.Features.Auth.Commands.RefreshToken;
 using Vemo.Application.Features.Auth.Commands.ResetPassword;
 using Vemo.Application.Features.Auth.Commands.SendOtp;

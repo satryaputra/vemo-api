@@ -33,6 +33,20 @@ public class VehicleRepository : IVehicleRepository
     }
 
     /// <summary>
+    /// ApproveVehicleAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task ApproveVehicleAsync(Guid vehicleId, CancellationToken cancellationToken)
+    {
+        var vehicle = await GetVehicleByIdAsync(vehicleId, cancellationToken);
+        vehicle.Status = Approve();
+        vehicle.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// GetVehicleByIdAsync
     /// </summary>
     /// <param name="vehicleId"></param>

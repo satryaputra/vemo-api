@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Vemo.Api.Common.Utils;
-using Vemo.Application.Common.Exceptions;
-
-namespace Vemo.Api.Controllers;
+﻿namespace Vemo.Api.Controllers;
 
 /// <summary>
 /// Base class for object controllers.

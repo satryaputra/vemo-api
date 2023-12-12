@@ -16,6 +16,14 @@ public interface IVehicleRepository
     Task AddVehicleAsync(Vehicle vehicle, CancellationToken cancellationToken);
 
     /// <summary>
+    /// ApproveVehicleAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task ApproveVehicleAsync(Guid vehicleId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// GetVehicleByIdAsync
     /// </summary>
     /// <param name="vehicleId"></param>

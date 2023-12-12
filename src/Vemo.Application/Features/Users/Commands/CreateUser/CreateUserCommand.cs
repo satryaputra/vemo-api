@@ -1,12 +1,9 @@
-﻿using Vemo.Domain.Common;
-using Vemo.Domain.Entities.Vehicles;
-
-namespace Vemo.Domain.Entities.Users;
+﻿namespace Vemo.Application.Features.Users.Commands.CreateUser;
 
 /// <summary>
-/// User
+/// CreateUserCommand
 /// </summary>
-public class User : BaseAuditableEntity
+public class CreateUserCommand : IRequest<TokenCreateUserResponseDto>
 {
     /// <summary>
     /// Gets or sets Name
@@ -26,15 +23,5 @@ public class User : BaseAuditableEntity
     /// <summary>
     /// Gets or sets Role
     /// </summary>
-    public string Role { get; init; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets UserAuthInfo
-    /// </summary>
-    public UserAuthInfo? UserAuthInfo { get; init; }
-
-    /// <summary>
-    /// Gets or sets Vehicles
-    /// </summary>
-    public List<Vehicle>? Vehicles { get; set; }
+    public string Role { get; set; } = string.Empty;
 }

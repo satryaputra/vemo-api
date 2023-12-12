@@ -30,10 +30,4 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Users\Commands\UserRole\" />
-    <Folder Include="Features\Users\Commands\User\" />
-    <Folder Include="Features\Users\Queries\UserRole\" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Dtos;
-using Vemo.Application.Features.Users.Commands.User.CreateUser;
-using Vemo.Application.Features.Users.Queries.User.GetUserById;
+using Vemo.Application.Features.Users.Commands.CreateUser;
+using Vemo.Application.Features.Users.Queries.GetUserById;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.UnitTests.Features.Users.Command;
@@ -30,10 +30,6 @@ public class CreateUserCommandHandlerTests
         userRepositoryMock.Setup(x => x.CreateUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
-        userRoleRepositoryMock.Setup(x => x.GetUserRoleByRoleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new UserRole());
-
         var userAuthInfoRepositoryMock = new Mock<IUserAuthInfoRepository>();
         userAuthInfoRepositoryMock
             .Setup(x => x.GetUserAuthInfoByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
@@ -42,7 +38,6 @@ public class CreateUserCommandHandlerTests
         var handler = new CreateUserCommandHandler(
             mapperMock.Object,
             userRepositoryMock.Object,
-            userRoleRepositoryMock.Object,
             userAuthInfoRepositoryMock.Object
         );
 
@@ -80,14 +75,9 @@ public class CreateUserCommandHandlerTests
         userRepositoryMock.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new User());
 
-        var userRoleRepositoryMock = new Mock<IUserRoleRepository>();
-        userRoleRepositoryMock.Setup(x => x.GetUserRoleByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new UserRole());
-
         var handler = new GetUserByIdQueryHandler(
             mapperMock.Object,
-            userRepositoryMock.Object,
-            userRoleRepositoryMock.Object);
+            userRepositoryMock.Object);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

@@ -10,22 +10,18 @@ namespace Vemo.Application.Features.Auth.Commands.Login;
 internal sealed class LoginCommandHandler :IRequestHandler<LoginCommand, TokenResponseDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserRoleRepository _userRoleRepository;
     private readonly IUserAuthInfoRepository _userAuthInfoRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="LoginCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
-    /// <param name="userRoleRepository"></param>
     /// <param name="userAuthInfoRepository"></param>
     public LoginCommandHandler(
         IUserRepository userRepository, 
-        IUserRoleRepository userRoleRepository,
         IUserAuthInfoRepository userAuthInfoRepository)
     {
         _userRepository = userRepository;
-        _userRoleRepository = userRoleRepository;
         _userAuthInfoRepository = userAuthInfoRepository;
     }
 
@@ -50,9 +46,7 @@ internal sealed class LoginCommandHandler :IRequestHandler<LoginCommand, TokenRe
             throw new BadRequestException("Password salah");
         }
         
-        var userRole = await _userRoleRepository.GetUserRoleByIdAsync(user.UserRoleId, cancellationToken);
-        
-        var accessToken = TokenBuilder.CreateAccessToken(user.Id, userRole.Role);
+        var accessToken = TokenBuilder.CreateAccessToken(user.Id, user.Role);
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();
         

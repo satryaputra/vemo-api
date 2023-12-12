@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Utils;
-using Vemo.Application.Features.Users.Commands.User.CreateUser;
+using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.Common.Mappings;

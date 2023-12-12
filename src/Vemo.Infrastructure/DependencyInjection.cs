@@ -30,7 +30,6 @@ public static class DependencyInjection
         
         // Users
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         services.AddScoped<IUserAuthInfoRepository, UserAuthInfoRepository>();
         
         // Services

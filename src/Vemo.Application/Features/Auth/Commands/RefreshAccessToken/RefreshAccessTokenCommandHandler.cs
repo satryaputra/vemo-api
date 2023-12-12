@@ -11,19 +11,16 @@ namespace Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
 internal sealed class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, TokenResponseDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserRoleRepository _userRoleRepository;
     private readonly IUserAuthInfoRepository _userAuthInfoRepository;
 
     /// <summary>
     /// Initialize a new intance of the <see cref="RefreshAccessTokenCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
-    /// <param name="userRoleRepository"></param>
     /// <param name="userAuthInfoRepository"></param>
-    public RefreshAccessTokenCommandHandler(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IUserAuthInfoRepository userAuthInfoRepository)
+    public RefreshAccessTokenCommandHandler(IUserRepository userRepository, IUserAuthInfoRepository userAuthInfoRepository)
     {
         _userRepository = userRepository;
-        _userRoleRepository = userRoleRepository;
         _userAuthInfoRepository = userAuthInfoRepository;
     }
 
@@ -45,9 +42,8 @@ internal sealed class RefreshAccessTokenCommandHandler : IRequestHandler<Refresh
         }
         
         var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
-        var userRole = await _userRoleRepository.GetUserRoleByIdAsync(user.UserRoleId, cancellationToken);
         
-        var accessToken = TokenBuilder.CreateAccessToken(user.Id, userRole.Role);
+        var accessToken = TokenBuilder.CreateAccessToken(user.Id, user.Role);
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();
         

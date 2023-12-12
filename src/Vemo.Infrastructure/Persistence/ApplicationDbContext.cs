@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vemo.Application.Common.Interfaces;
+using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Users;
+using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Infrastructure.Persistence;
 
@@ -28,10 +30,25 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<UserAuthInfo> UserAuthInfos { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets UserRoles
+    /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<UserRole> UserRoles { get; set; } = null!;
+    public DbSet<Vehicle> Vehicles { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets VehicleParts
+    /// </summary>
+    public DbSet<VehiclePart> VehicleParts { get; set; } = null!;
     
+    /// <summary>
+    /// Gets or sets VehiclePartMaintenances
+    /// </summary>
+    public DbSet<VehiclePartMaintenance> VehiclePartMaintenances { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets Notifications
+    /// </summary>
+    public DbSet<Notification> Notifications { get; set; } = null!;
+
     /// <summary>
     /// SaveChangesAsync
     /// </summary>
@@ -40,5 +57,23 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return await base.SaveChangesAsync(cancellationToken);
+    }
+    
+    /// <summary>
+    /// OnModelCreating
+    /// </summary>
+    /// <param name="modelBuilder"></param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        
+        modelBuilder.Entity<Vehicle>()
+            .HasIndex(v => v.LicensePlate)
+            .IsUnique();
+
+        base.OnModelCreating(modelBuilder);
     }
 }

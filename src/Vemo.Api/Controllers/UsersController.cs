@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Vemo.Application.Features.Users.Commands.User.CreateUser;
-using Vemo.Application.Features.Users.Commands.User.UpdatePassword;
-using Vemo.Application.Features.Users.Commands.User.UpdateUser;
-using Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
-using Vemo.Application.Features.Users.Commands.UserRole.DeleteUserRole;
-using Vemo.Application.Features.Users.Queries.User.GetCurrentUser;
-using Vemo.Application.Features.Users.Queries.User.GetUserById;
-using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
-using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoles;
+using Vemo.Application.Common.Utils;
+using Vemo.Application.Features.Users.Commands.CreateUser;
+using Vemo.Application.Features.Users.Commands.UpdatePassword;
+using Vemo.Application.Features.Users.Commands.UpdateUser;
+using Vemo.Application.Features.Users.Queries.GetUserById;
+using Vemo.Domain.Enums;
 
 namespace Vemo.Api.Controllers;
 
@@ -66,9 +63,9 @@ public class UsersController : BaseController
     [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetCurrentUserQuery
+        return Ok(await Mediator.Send(new GetUserByIdQuery()
             {
-                AccessToken = GetAccessTokenFromHeader()
+                UserId = TokenBuilder.GetUserIdFromJwtToken(GetAccessTokenFromHeader(), TokenType.AccessToken)
             },
             cancellationToken));
     }
@@ -85,55 +82,5 @@ public class UsersController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(updatePasswordCommand, cancellationToken));
-    }
-
-    /// <summary>
-    /// CreateUserRole
-    /// </summary>
-    /// <param name="createUserRoleCommand"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpPost("roles")]
-    public async Task<IActionResult> CreateUserRole(
-        CreateUserRoleCommand createUserRoleCommand,
-        CancellationToken cancellationToken)
-    {
-        var createdUserRole = await Mediator.Send(createUserRoleCommand, cancellationToken);
-        return CreatedAtAction(nameof(GetUserRoleById), new { userRoleId = createdUserRole.Id }, createdUserRole);
-    }
-
-    /// <summary>
-    /// GetUserRoles
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpGet("roles")]
-    public async Task<IActionResult> GetUserRoles(
-        CancellationToken cancellationToken)
-    {
-        return Ok(await Mediator.Send(new GetUserRolesQuery(), cancellationToken));
-    }
-
-    /// <summary>
-    /// GetUserRoleById
-    /// </summary>
-    /// <param name="userRoleId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpGet("roles/{userRoleId:guid}")]
-    public async Task<IActionResult> GetUserRoleById(
-        Guid userRoleId,
-        CancellationToken cancellationToken)
-    {
-        return Ok(await Mediator.Send(new GetUserRoleByIdQuery { UserRoleId = userRoleId }, cancellationToken));
-    }
-
-    [HttpDelete("roles/{userRoleId:guid}")]
-    public async Task<IActionResult> DeleteUserRole(
-        Guid userRoleId,
-        CancellationToken cancellationToken)
-    {
-        await Mediator.Send(new DeleteUserRoleCommand { UserRoleId = userRoleId }, cancellationToken);
-        return NoContent();
     }
 }

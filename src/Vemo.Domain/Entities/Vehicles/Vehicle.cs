@@ -20,14 +20,14 @@ public class Vehicle : BaseAuditableEntity
     public string OwnerName { get; set; } = string.Empty;
     
     /// <summary>
-    /// Gets or sets LicencePlate
-    /// </summary>
-    public string LicensePlate { get; set; } = string.Empty;
-    
-    /// <summary>
     /// Gets or sets PurchasingDate
     /// </summary>
     public DateTime PurchasingDate { get; set; }
+    
+    /// <summary>
+    /// Gets or sets LicencePlate
+    /// </summary>
+    public string LicensePlate { get; set; } = string.Empty;
     
     /// <summary>
     /// Gets or sets Type

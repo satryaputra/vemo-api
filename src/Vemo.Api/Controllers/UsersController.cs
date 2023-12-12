@@ -21,7 +21,7 @@ public class UsersController : BaseController
     /// <param name="createUserCommand"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost, AllowAnonymous]
     public async Task<IActionResult> CreateUser(
         CreateUserCommand createUserCommand,
         CancellationToken cancellationToken)

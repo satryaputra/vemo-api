@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Infrastructure.Persistence;
 using Vemo.Infrastructure.Repositories.Users;
+using Vemo.Infrastructure.Repositories.Vehicles;
 using Vemo.Infrastructure.Services;
 using IEmailService = Vemo.Application.Common.Interfaces.IEmailService;
 
@@ -31,6 +32,9 @@ public static class DependencyInjection
         // Users
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserAuthInfoRepository, UserAuthInfoRepository>();
+        
+        // Vehicles
+        services.AddScoped<IVehicleRepository, VehicleRepository>();
         
         // Services
         services.AddScoped<IEmailService, EmailService>();

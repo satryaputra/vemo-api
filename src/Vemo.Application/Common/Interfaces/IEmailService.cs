@@ -1,5 +1,8 @@
 ﻿namespace Vemo.Application.Common.Interfaces;
 
+/// <summary>
+/// IEmailService
+/// </summary>
 public interface IEmailService
 {
     /// <summary>

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
+using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Domain.Entities.Users;
+using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Common.Mappings;
 
@@ -14,5 +16,10 @@ public class MappingProfile : Profile
 
         CreateMap<User, UserResponseDto>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+
+        CreateMap<AddVehicleCommand, Vehicle>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.VehicleName))
+            .ForMember(dest => dest.PurchasingDate, opt => opt.MapFrom(src => DateTimeConverter.ToDateTimeUtc(src.PurchasingDate)))
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.VehicleType));
     }
 }

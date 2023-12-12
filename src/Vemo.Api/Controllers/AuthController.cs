@@ -41,7 +41,7 @@ public class AuthController : BaseController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ForbiddenException"></exception>
-    [HttpPost("refresh-token")]
+    [HttpPost("refresh")]
     public async Task<IActionResult> RefreshAccessToken(
         [FromQuery] string accessToken,
         CancellationToken cancellationToken)

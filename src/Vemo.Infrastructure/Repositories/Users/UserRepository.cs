@@ -64,6 +64,7 @@ public class UserRepository : IUserRepository
         var user = await GetUserByIdAsync(userId, cancellationToken);
         user.Name = name;
         user.Email = email;
+        user.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
     }
 
@@ -77,6 +78,7 @@ public class UserRepository : IUserRepository
     {
         var user = await GetUserByIdAsync(userId, cancellationToken);
         user.Password = PasswordHasher.HashPassword(newPassword);
+        user.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
     }
 

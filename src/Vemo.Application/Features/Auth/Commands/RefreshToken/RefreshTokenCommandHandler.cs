@@ -3,22 +3,22 @@ using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
 using Vemo.Domain.Enums;
 
-namespace Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
+namespace Vemo.Application.Features.Auth.Commands.RefreshToken;
 
 /// <summary>
-/// RefreshAccessTokenCommandHandler
+/// RefreshTokenCommandHandler
 /// </summary>
-internal sealed class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, TokenResponseDto>
+internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, TokenResponseDto>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserAuthInfoRepository _userAuthInfoRepository;
 
     /// <summary>
-    /// Initialize a new intance of the <see cref="RefreshAccessTokenCommandHandler"/> class.
+    /// Initialize a new intance of the <see cref="RefreshTokenCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
     /// <param name="userAuthInfoRepository"></param>
-    public RefreshAccessTokenCommandHandler(IUserRepository userRepository, IUserAuthInfoRepository userAuthInfoRepository)
+    public RefreshTokenCommandHandler(IUserRepository userRepository, IUserAuthInfoRepository userAuthInfoRepository)
     {
         _userRepository = userRepository;
         _userAuthInfoRepository = userAuthInfoRepository;
@@ -31,7 +31,7 @@ internal sealed class RefreshAccessTokenCommandHandler : IRequestHandler<Refresh
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ForbiddenException"></exception>
-    public async Task<TokenResponseDto> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
+    public async Task<TokenResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var userId = TokenBuilder.GetUserIdFromJwtToken(request.AccessToken, TokenType.AccessToken);
         var userAuthInfo = await _userAuthInfoRepository.GetUserAuthInfoByUserIdAsync(userId, cancellationToken);

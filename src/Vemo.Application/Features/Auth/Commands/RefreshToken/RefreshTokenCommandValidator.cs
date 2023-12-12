@@ -1,11 +1,11 @@
-﻿namespace Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
+﻿namespace Vemo.Application.Features.Auth.Commands.RefreshToken;
 
-public class RefreshAccessTokenCommandValidator : AbstractValidator<RefreshAccessTokenCommand>
+public class RefreshTokenCommandValidator : AbstractValidator<RefreshTokenCommand>
 {
     /// <summary>
-    /// Initialize a new instance of the <see cref="RefreshAccessTokenCommandValidator"/> class.
+    /// Initialize a new instance of the <see cref="RefreshTokenCommandValidator"/> class.
     /// </summary>
-    public RefreshAccessTokenCommandValidator()
+    public RefreshTokenCommandValidator()
     {
         RuleFor(x => x.AccessToken)
             .NotNull().WithMessage("{PropertyName} wajib diisi")

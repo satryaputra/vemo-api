@@ -16,4 +16,14 @@ public class VehiclePart : BaseAuditableEntity
     /// Gets or sets AgeInMonth
     /// </summary>
     public int AgeInMonth { get; set; }
+
+    /// <summary>
+    /// Gets or sets MaintenancePrice
+    /// </summary>
+    public float MaintenancePrice { get; set; }
+
+    /// <summary>
+    /// Gets or sets MaintenanceServicePrice
+    /// </summary>
+    public float MaintenanceServicePrice { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿namespace Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
+﻿namespace Vemo.Application.Features.Auth.Commands.RefreshToken;
 
 /// <summary>
-/// RefreshAccessTokenCommand
+/// RefreshTokenCommand
 /// </summary>
-public class RefreshAccessTokenCommand : IRequest<TokenResponseDto>
+public class RefreshTokenCommand : IRequest<TokenResponseDto>
 {
     /// <summary>
     /// Gets or sets AccessToken

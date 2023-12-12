@@ -12,7 +12,7 @@ namespace Vemo.Api.Controllers;
 /// <summary>
 /// Represents RESTful of User
 /// </summary>
-[Route("users")]
+[Route("users"), Authorize]
 public class UsersController : BaseController
 {
     /// <summary>

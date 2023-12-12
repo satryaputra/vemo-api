@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Vemo.Application.Features.Users.Commands.User.CreateUser;
 using Vemo.Application.Features.Users.Commands.User.UpdatePassword;
 using Vemo.Application.Features.Users.Commands.User.UpdateUser;
 using Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
 using Vemo.Application.Features.Users.Commands.UserRole.DeleteUserRole;
-using Vemo.Application.Features.Users.Queries.GetUserById;
+using Vemo.Application.Features.Users.Queries.User.GetCurrentUser;
+using Vemo.Application.Features.Users.Queries.User.GetUserById;
 using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoleById;
 using Vemo.Application.Features.Users.Queries.UserRole.GetUserRoles;
 
@@ -14,7 +16,7 @@ namespace Vemo.Api.Controllers;
 /// Represents RESTful of User
 /// </summary>
 [Route("users")]
-public class UserController : BaseController
+public class UsersController : BaseController
 {
     /// <summary>
     /// RegisterUser
@@ -39,7 +41,7 @@ public class UserController : BaseController
     /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("{userId:guid}")]
+    [HttpGet("{userId:guid}"), Authorize(Roles = "admin")]
     public async Task<IActionResult> GetUserById(
         Guid userId,
         CancellationToken cancellationToken)
@@ -59,6 +61,16 @@ public class UserController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(updateUserCommand, cancellationToken));
+    }
+
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetCurrentUserQuery
+            {
+                AccessToken = GetAccessTokenFromHeader()
+            },
+            cancellationToken));
     }
 
     /// <summary>

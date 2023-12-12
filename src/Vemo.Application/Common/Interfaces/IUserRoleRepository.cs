@@ -45,4 +45,12 @@ public interface IUserRoleRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task DeleteUserRoleAsync(Guid userRoleId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// IsUserRoleExistsByRole
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<bool> IsUserRoleExistsByRole(string role, CancellationToken cancellationToken);
 }

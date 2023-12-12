@@ -12,6 +12,7 @@ public class MappingProfile : Profile
         CreateMap<CreateUserCommand, User>()
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => PasswordHasher.HashPassword(src.Password)));
 
-        CreateMap<User, UserResponseDto>();
+        CreateMap<User, UserResponseDto>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
     }
 }

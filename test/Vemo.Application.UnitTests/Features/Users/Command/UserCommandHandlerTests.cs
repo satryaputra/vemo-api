@@ -2,7 +2,7 @@
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Dtos;
 using Vemo.Application.Features.Users.Commands.User.CreateUser;
-using Vemo.Application.Features.Users.Queries.GetUserById;
+using Vemo.Application.Features.Users.Queries.User.GetUserById;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Application.UnitTests.Features.Users.Command;

@@ -23,6 +23,6 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(x => x.Role)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")
-            .Must(role => role is "Admin" or "Customer").WithMessage("{PropertyName} harus 'Admin' atau 'Customer'");
+            .Must(role => role is "admin" or "customer").WithMessage("{PropertyName} harus 'admin' atau 'customer'");
     }
 }

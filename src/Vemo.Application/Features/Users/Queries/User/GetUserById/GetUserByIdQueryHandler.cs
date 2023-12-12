@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Interfaces;
 
-namespace Vemo.Application.Features.Users.Queries.GetUserById;
+namespace Vemo.Application.Features.Users.Queries.User.GetUserById;
 
 /// <summary>
 /// GetUserByIdQueryHandler

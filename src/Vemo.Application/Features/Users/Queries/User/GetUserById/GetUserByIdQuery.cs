@@ -1,4 +1,4 @@
-﻿namespace Vemo.Application.Features.Users.Queries.GetUserById;
+﻿namespace Vemo.Application.Features.Users.Queries.User.GetUserById;
 
 /// <summary>
 /// GetUserByIdQuery

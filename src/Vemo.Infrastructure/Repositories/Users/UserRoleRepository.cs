@@ -89,4 +89,16 @@ public class UserRoleRepository : IUserRoleRepository
         _context.UserRoles.Remove(role);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    /// <summary>
+    /// IsUserRoleExistsByRole
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<bool> IsUserRoleExistsByRole(string role, CancellationToken cancellationToken)
+    {
+        return await _context.UserRoles.AnyAsync(x => x.Role.Equals(role), cancellationToken);
+    }
 }

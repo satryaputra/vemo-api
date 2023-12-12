@@ -1,4 +1,5 @@
-﻿using Vemo.Application.Common.Interfaces;
+﻿using Vemo.Application.Common.Exceptions;
+using Vemo.Application.Common.Interfaces;
 
 namespace Vemo.Application.Features.Users.Commands.UserRole.CreateUserRole;
 
@@ -26,6 +27,10 @@ internal sealed class CreateUserRoleCommandHandler : IRequestHandler<CreateUserR
     /// <returns></returns>
     public async Task<Domain.Entities.Users.UserRole> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
     {
+        if (await _userRoleRepository.IsUserRoleExistsByRole(request.Role, cancellationToken))
+        {
+            throw new ConflictException("Role sudah ada");
+        }
         return await _userRoleRepository.CreateUserRoleAsync(request.Role, cancellationToken);
     }
 }

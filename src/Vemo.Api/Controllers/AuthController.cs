@@ -7,9 +7,9 @@ using Vemo.Application.Features.Auth.Commands.Login;
 using Vemo.Application.Features.Auth.Commands.RefreshAccessToken;
 using Vemo.Application.Features.Auth.Commands.ResetPassword;
 using Vemo.Application.Features.Auth.Commands.SendOtp;
-using Vemo.Application.Features.Auth.Queries.ForgotPasswordRequest;
 using Vemo.Application.Features.Auth.Queries.ResetPasswordRequest;
 using Vemo.Application.Features.Auth.Queries.VerifyOtp;
+using Vemo.Application.Features.Auth.Queries.VerifyPassword;
 
 namespace Vemo.Api.Controllers;
 
@@ -61,17 +61,35 @@ public class AuthController : BaseController
     }
 
     /// <summary>
-    /// ResetPasswordRequest
+    /// VerifyPassword
     /// </summary>
-    /// <param name="email"></param>
+    /// <param name="verify"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("reset-password")]
-    public async Task<IActionResult> ResetPasswordRequest(
-        [FromQuery] string email,
+    [HttpGet("password"), Authorize]
+    public async Task<IActionResult> VerifyPassword(
+        [FromQuery] string verify,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new ResetPasswordRequestQuery { Email = email }, cancellationToken));
+        return Ok(await Mediator.Send(new VerifyPasswordQuery
+        {
+            AccessToken = GetAccessTokenFromHeader(),
+            Password = verify
+        }, cancellationToken));
+    }
+
+    /// <summary>
+    /// ResetPasswordRequest
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("password/reset")]
+    public async Task<IActionResult> ResetPasswordRequest(
+        [FromQuery] string request,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new ResetPasswordRequestQuery { Email = request }, cancellationToken));
     }
 
     /// <summary>
@@ -80,7 +98,7 @@ public class AuthController : BaseController
     /// <param name="resetPasswordCommand"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("reset-password")]
+    [HttpPost("password/reset")]
     public async Task<IActionResult> ResetPassword(
         ResetPasswordCommand resetPasswordCommand,
         CancellationToken cancellationToken)
@@ -97,21 +115,28 @@ public class AuthController : BaseController
     [HttpPost("otp"), Authorize]
     public async Task<IActionResult> SendOtp([FromBody] EmailDto emailDto, CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(
-            new SendOtpCommand { AccessToken = GetAccessTokenFromHeader(), Email = emailDto.Email },
+        return Ok(await Mediator.Send(new SendOtpCommand
+            {
+                AccessToken = GetAccessTokenFromHeader(), 
+                Email = emailDto.Email
+            },
             cancellationToken));
     }
 
     /// <summary>
     /// VerifyOtp
     /// </summary>
-    /// <param name="otp"></param>
+    /// <param name="verify"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("otp/{otp:int}"), Authorize]
-    public async Task<IActionResult> VerifyOtp(int otp, CancellationToken cancellationToken)
+    [HttpGet("otp"), Authorize]
+    public async Task<IActionResult> VerifyOtp([FromQuery] int verify, CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new VerifyOtpQuery { AccessToken = GetAccessTokenFromHeader(), Otp = otp },
+        return Ok(await Mediator.Send(new VerifyOtpQuery
+            {
+                AccessToken = GetAccessTokenFromHeader(), 
+                Otp = verify
+            },
             cancellationToken));
     }
 }

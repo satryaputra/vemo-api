@@ -3,7 +3,7 @@
 /// <summary>
 /// AddVehicleCommand
 /// </summary>
-public class AddVehicleCommand : IRequest<GenericResponseDto>
+public class AddVehicleCommand : IRequest<Guid>
 {
     /// <summary>
     /// Gets or sets VehicleName

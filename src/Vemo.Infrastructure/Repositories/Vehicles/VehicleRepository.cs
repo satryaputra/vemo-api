@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Vehicles;
 
@@ -29,6 +30,19 @@ public class VehicleRepository : IVehicleRepository
     {
         await _context.Vehicles.AddAsync(vehicle, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetVehicleByIdAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<Vehicle> GetVehicleByIdAsync(Guid vehicleId, CancellationToken cancellationToken)
+    {
+        return await _context.Vehicles.FindAsync(new object?[] { vehicleId }, cancellationToken)
+            ?? throw new NotFoundException("Kendaraan tidak ditemukan | GetVehicleByIdAsync");
     }
 
     /// <summary>

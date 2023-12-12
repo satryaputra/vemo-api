@@ -8,7 +8,7 @@ namespace Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 /// <summary>
 /// AddVehicleCommandHandler
 /// </summary>
-internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleCommand, GenericResponseDto>
+internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleCommand, Guid>
 {
     private readonly IMapper _mapper;
     private readonly IVehicleRepository _vehicleRepository;
@@ -31,7 +31,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="BadRequestException"></exception>
-    public async Task<GenericResponseDto> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
     {
         if (await _vehicleRepository.IsVehicleExistsByLicensePlateAsync(request.LicensePlate, cancellationToken))
         {
@@ -42,6 +42,6 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
         newVehicle.Status = _vehicleRepository.Pending();
         await _vehicleRepository.AddVehicleAsync(newVehicle, cancellationToken);
 
-        return new GenericResponseDto("Berhasil menambahkan kendaraan");
+        return newVehicle.Id;
     }
 }

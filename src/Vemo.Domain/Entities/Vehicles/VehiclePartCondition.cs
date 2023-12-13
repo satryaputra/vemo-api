@@ -40,6 +40,13 @@ public class VehiclePartCondition : BaseEntity
     /// </summary>
     public Guid VehiclePartId { get; set; }
 
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VehiclePartCondition"/> class.
+    /// </summary>
+    /// <param name="lastMaintenance"></param>
+    /// <param name="nextMaintenance"></param>
+    /// <param name="vehicleId"></param>
+    /// <param name="vehiclePartId"></param>
     public VehiclePartCondition(
         DateTime lastMaintenance, 
         DateTime nextMaintenance, 

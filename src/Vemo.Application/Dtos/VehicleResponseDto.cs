@@ -49,7 +49,7 @@ public class VehicleResponseDto
 /// <summary>
 /// VehicleResponseDtoExcludeUserId
 /// </summary>
-public class VehicleResponseDtoExcludeUserId
+public class VehicleResponseExcludeUserIdDto
 {
     /// <summary>
     /// Gets or sets VehicleId

@@ -30,6 +30,29 @@ public interface IVehicleRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<Vehicle> GetVehicleByIdAsync(Guid vehicleId, CancellationToken cancellationToken);
+    
+    /// <summary>
+    /// GetAllVehiclesAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<Vehicle>> GetAllVehiclesAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetVehicleByUserIdAsync
+    /// </summary>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<Vehicle>> GetVehiclesByStatusAsync(string? status, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetVehicleByUserIdAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<Vehicle>> GetVehiclesByUserIdAsync(Guid? userId, CancellationToken cancellationToken);
 
     /// <summary>
     /// IsVehicleExistsByLicensePlateAsync

@@ -60,6 +60,40 @@ public class VehicleRepository : IVehicleRepository
     }
 
     /// <summary>
+    /// GetAllVehiclesAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<Vehicle>> GetAllVehiclesAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Vehicles.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetVehiclesByStatusAsync
+    /// </summary>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<Vehicle>> GetVehiclesByStatusAsync(string? status, CancellationToken cancellationToken)
+    {
+        return await _context.Vehicles.Where(v => v.Status.Equals(status)).ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetVehicleByUserIdAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<Vehicle>> GetVehiclesByUserIdAsync(Guid? userId, CancellationToken cancellationToken)
+    {
+        return await _context.Vehicles.Where(v => v.UserId.Equals(userId)).ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// IsVehicleExistsByLicensePlateAsync
     /// </summary>
     /// <param name="licensePlate"></param>

@@ -19,10 +19,16 @@ public class MappingProfile : Profile
 
         CreateMap<AddVehicleCommand, Vehicle>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.VehicleName))
-            .ForMember(dest => dest.PurchasingDate, opt => opt.MapFrom(src => DateTimeConverter.ToDateTimeUtc(src.PurchasingDate)))
+            .ForMember(dest => dest.PurchasingDate,
+                opt => opt.MapFrom(src => DateTimeConverter.ToDateTimeUtc(src.PurchasingDate)))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.VehicleType));
 
         CreateMap<Vehicle, VehicleResponseDto>()
+            .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.VehicleName, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));
+
+        CreateMap<Vehicle, VehicleResponseExcludeUserIdDto>()
             .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.VehicleName, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));

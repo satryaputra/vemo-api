@@ -30,4 +30,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Vehicles\Commands\AddVehiclePart\" />
+  </ItemGroup>
+
 </Project>

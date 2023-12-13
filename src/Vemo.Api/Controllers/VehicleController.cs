@@ -1,6 +1,7 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicleById;
+using Vemo.Application.Features.Vehicles.Queries.GetVehicles;
 
 namespace Vemo.Api.Controllers;
 
@@ -22,7 +23,7 @@ public class VehicleController : BaseController
         CancellationToken cancellationToken)
     {
         return CreatedAtAction(
-            nameof(GetVehicleById), 
+            nameof(GetVehicleById),
             new { vehicleId = await Mediator.Send(addVehicleCommand, cancellationToken) },
             new GenericResponseDto("Berhasil menambahkan kendaraan"));
     }
@@ -39,6 +40,21 @@ public class VehicleController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetVehicleByIdQuery { VehicleId = vehicleId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// GetVehicles
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<IActionResult> GetVehicles(
+        [FromQuery] Guid? userId,
+        [FromQuery] string? status,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId }, cancellationToken));
     }
 
     /// <summary>

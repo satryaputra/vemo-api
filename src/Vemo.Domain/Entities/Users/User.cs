@@ -1,4 +1,5 @@
-﻿using Vemo.Domain.Common;
+﻿using System.Text.Json.Serialization;
+using Vemo.Domain.Common;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Domain.Entities.Users;
@@ -31,10 +32,12 @@ public class User : BaseAuditableEntity
     /// <summary>
     /// Gets or sets UserAuthInfo
     /// </summary>
+    [JsonIgnore]
     public UserAuthInfo? UserAuthInfo { get; init; }
 
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
+    [JsonIgnore]
     public List<Vehicle>? Vehicles { get; set; }
 }

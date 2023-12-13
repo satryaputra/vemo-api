@@ -1,18 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using Vemo.Domain.Common;
-
-namespace Vemo.Domain.Entities.Vehicles;
+﻿namespace Vemo.Application.Features.Vehicles.Commands.AddVehiclePart;
 
 /// <summary>
-/// VehiclePart
+/// AddVehiclePartCommand
 /// </summary>
-public class VehiclePart : BaseAuditableEntity
+public class AddVehiclePartCommand : IRequest<Guid>
 {
     /// <summary>
     /// Gets or sets Name
     /// </summary>
     public string Name { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets or sets AgeInMonth
     /// </summary>
@@ -32,16 +29,4 @@ public class VehiclePart : BaseAuditableEntity
     /// Gets or sets VehicleType
     /// </summary>
     public string? VehicleType { get; set; }
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceSchedules
-    /// </summary>
-    [JsonIgnore]
-    public List<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceHistories
-    /// </summary>
-    [JsonIgnore]
-    public List<VehiclePartMaintenanceHistory>? VehiclePartMaintenanceHistories { get; set; }
 }

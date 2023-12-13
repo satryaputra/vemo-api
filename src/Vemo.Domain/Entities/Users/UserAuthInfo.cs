@@ -1,4 +1,5 @@
-﻿using Vemo.Domain.Common;
+﻿using System.Text.Json.Serialization;
+using Vemo.Domain.Common;
 
 namespace Vemo.Domain.Entities.Users;
 
@@ -30,6 +31,7 @@ public class UserAuthInfo : BaseEntity
     /// <summary>
     /// Gets or sets User
     /// </summary>
+    [JsonIgnore]
     public User User { get; set; } = null!;
 
     /// <summary>

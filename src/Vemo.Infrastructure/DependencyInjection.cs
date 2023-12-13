@@ -35,6 +35,7 @@ public static class DependencyInjection
         
         // Vehicles
         services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddScoped<IVehiclePartRepository, VehiclePartRepository>();
         
         // Services
         services.AddScoped<IEmailService, EmailService>();

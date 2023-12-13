@@ -1,4 +1,5 @@
-﻿using Vemo.Domain.Common;
+﻿using System.Text.Json.Serialization;
+using Vemo.Domain.Common;
 using Vemo.Domain.Entities.Users;
 
 namespace Vemo.Domain.Entities.Notifications;
@@ -21,7 +22,7 @@ public class Notification : BaseEntity
     /// <summary>
     /// Gets or sets IsBool
     /// </summary>
-    public bool IsBool { get; set; }
+    public bool Read { get; set; }
     
     /// <summary>
     /// Gets or sets Category
@@ -36,10 +37,11 @@ public class Notification : BaseEntity
     /// <summary>
     /// Gets or sets User
     /// </summary>
+    [JsonIgnore]
     public User User { get; set; } = null!;
     
     /// <summary>
     /// Gets or sets UserId
     /// </summary>
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 }

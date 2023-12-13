@@ -12,7 +12,7 @@ using Vemo.Infrastructure.Persistence;
 namespace Vemo.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231213010530_InitialDb")]
+    [Migration("20231213073408_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,14 +41,14 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsBool")
+                    b.Property<bool>("Read")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -196,12 +196,49 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("VehicleType")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("VehicleParts");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenance", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("MaintenanceDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<float>("MaintenanceFinalPrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MaintenanceServiceFinalPrice")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VehiclePartId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.HasIndex("VehiclePartId");
+
+                    b.ToTable("VehiclePartMaintenanceHistories");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceSchedule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -225,16 +262,14 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("VehiclePartId");
 
-                    b.ToTable("VehiclePartMaintenances");
+                    b.ToTable("VehiclePartMaintenanceSchedules");
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notification", b =>
                 {
                     b.HasOne("Vemo.Domain.Entities.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -261,16 +296,35 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenance", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceHistory", b =>
                 {
                     b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
-                        .WithMany()
+                        .WithMany("VehiclePartMaintenanceHistories")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Vemo.Domain.Entities.Vehicles.VehiclePart", "VehiclePart")
-                        .WithMany()
+                        .WithMany("VehiclePartMaintenanceHistories")
+                        .HasForeignKey("VehiclePartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+
+                    b.Navigation("VehiclePart");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceSchedule", b =>
+                {
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
+                        .WithMany("VehiclePartMaintenanceSchedules")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.VehiclePart", "VehiclePart")
+                        .WithMany("VehiclePartMaintenanceSchedules")
                         .HasForeignKey("VehiclePartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -285,6 +339,20 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Navigation("UserAuthInfo");
 
                     b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Vehicle", b =>
+                {
+                    b.Navigation("VehiclePartMaintenanceHistories");
+
+                    b.Navigation("VehiclePartMaintenanceSchedules");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePart", b =>
+                {
+                    b.Navigation("VehiclePartMaintenanceHistories");
+
+                    b.Navigation("VehiclePartMaintenanceSchedules");
                 });
 #pragma warning restore 612, 618
         }

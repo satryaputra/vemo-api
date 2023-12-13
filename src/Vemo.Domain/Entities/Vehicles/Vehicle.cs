@@ -49,4 +49,16 @@ public class Vehicle : BaseAuditableEntity
     /// Gets or sets UserId
     /// </summary>
     public Guid UserId { get; set; }
+    
+    /// <summary>
+    /// Gets or sets VehiclePartMaintenanceSchedules
+    /// </summary>
+    [JsonIgnore]
+    public List<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets VehiclePartMaintenanceHistories
+    /// </summary>
+    [JsonIgnore]
+    public List<VehiclePartMaintenanceHistory>? VehiclePartMaintenanceHistories { get; set; }
 }

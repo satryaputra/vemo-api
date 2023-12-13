@@ -40,10 +40,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<VehiclePart> VehicleParts { get; set; } = null!;
     
     /// <summary>
-    /// Gets or sets VehiclePartMaintenances
+    /// Gets or sets VehiclePartMaintenanceSchedules
     /// </summary>
-    public DbSet<VehiclePartMaintenance> VehiclePartMaintenances { get; set; } = null!;
-    
+    public DbSet<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets VehiclePartMaintenanceHistories
+    /// </summary>
+    public DbSet<VehiclePartMaintenanceHistory> VehiclePartMaintenanceHistories { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets Notifications
     /// </summary>

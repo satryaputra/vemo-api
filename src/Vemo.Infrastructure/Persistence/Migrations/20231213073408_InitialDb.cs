@@ -35,6 +35,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     AgeInMonth = table.Column<int>(type: "integer", nullable: false),
                     MaintenancePrice = table.Column<float>(type: "real", nullable: false),
                     MaintenanceServicePrice = table.Column<float>(type: "real", nullable: false),
+                    VehicleType = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -50,10 +51,10 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    IsBool = table.Column<bool>(type: "boolean", nullable: false),
+                    Read = table.Column<bool>(type: "boolean", nullable: false),
                     Category = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,8 +63,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         name: "FK_Notifications_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,36 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VehiclePartMaintenances",
+                name: "VehiclePartMaintenanceHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    MaintenanceDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MaintenanceFinalPrice = table.Column<float>(type: "real", nullable: false),
+                    MaintenanceServiceFinalPrice = table.Column<float>(type: "real", nullable: false),
+                    VehicleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VehiclePartId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehiclePartMaintenanceHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VehiclePartMaintenanceHistories_VehicleParts_VehiclePartId",
+                        column: x => x.VehiclePartId,
+                        principalTable: "VehicleParts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VehiclePartMaintenanceHistories_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehiclePartMaintenanceSchedules",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -126,15 +155,15 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VehiclePartMaintenances", x => x.Id);
+                    table.PrimaryKey("PK_VehiclePartMaintenanceSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VehiclePartMaintenances_VehicleParts_VehiclePartId",
+                        name: "FK_VehiclePartMaintenanceSchedules_VehicleParts_VehiclePartId",
                         column: x => x.VehiclePartId,
                         principalTable: "VehicleParts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VehiclePartMaintenances_Vehicles_VehicleId",
+                        name: "FK_VehiclePartMaintenanceSchedules_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
@@ -159,13 +188,23 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_VehiclePartMaintenances_VehicleId",
-                table: "VehiclePartMaintenances",
+                name: "IX_VehiclePartMaintenanceHistories_VehicleId",
+                table: "VehiclePartMaintenanceHistories",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VehiclePartMaintenances_VehiclePartId",
-                table: "VehiclePartMaintenances",
+                name: "IX_VehiclePartMaintenanceHistories_VehiclePartId",
+                table: "VehiclePartMaintenanceHistories",
+                column: "VehiclePartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehiclePartMaintenanceSchedules_VehicleId",
+                table: "VehiclePartMaintenanceSchedules",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehiclePartMaintenanceSchedules_VehiclePartId",
+                table: "VehiclePartMaintenanceSchedules",
                 column: "VehiclePartId");
 
             migrationBuilder.CreateIndex(
@@ -189,7 +228,10 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 name: "UserAuthInfos");
 
             migrationBuilder.DropTable(
-                name: "VehiclePartMaintenances");
+                name: "VehiclePartMaintenanceHistories");
+
+            migrationBuilder.DropTable(
+                name: "VehiclePartMaintenanceSchedules");
 
             migrationBuilder.DropTable(
                 name: "VehicleParts");

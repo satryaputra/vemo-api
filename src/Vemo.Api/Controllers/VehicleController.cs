@@ -54,7 +54,7 @@ public class VehicleController : BaseController
         [FromQuery] string? status,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId, Status = status }, cancellationToken));
+        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId }, cancellationToken));
     }
 
     /// <summary>

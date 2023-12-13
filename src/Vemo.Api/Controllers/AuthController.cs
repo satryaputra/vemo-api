@@ -21,7 +21,7 @@ public class AuthController : BaseController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost("login")]
-    public async Task<IActionResult> RegisterUser(
+    public async Task<IActionResult> LoginUser(
         LoginCommand loginCommand,
         CancellationToken cancellationToken)
     {
@@ -79,9 +79,9 @@ public class AuthController : BaseController
     /// <param name="email"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("password/reset/{email}")]
+    [HttpGet("password/reset")]
     public async Task<IActionResult> ResetPasswordRequest(
-        [FromRoute] string email,
+        [FromQuery] string email,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new ResetPasswordRequestQuery { Email = email }, cancellationToken));

@@ -39,4 +39,16 @@ public class VehiclePartCondition : BaseEntity
     /// Gets or sets VehiclePartId
     /// </summary>
     public Guid VehiclePartId { get; set; }
+
+    public VehiclePartCondition(
+        DateTime lastMaintenance, 
+        DateTime nextMaintenance, 
+        Guid vehicleId, 
+        Guid vehiclePartId)
+    {
+        LastMaintenance = lastMaintenance;
+        NextMaintenance = nextMaintenance;
+        VehicleId = vehicleId;
+        VehiclePartId = vehiclePartId;
+    }
 }

@@ -14,6 +14,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     private readonly IMapper _mapper;
     private readonly IVehicleRepository _vehicleRepository;
     private readonly IVehiclePartRepository _partRepository;
+    private readonly IVehiclePartConditionRepository _conditionRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="AddVehicleCommandHandler"/> class.
@@ -24,11 +25,12 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     public AddVehicleCommandHandler(
         IMapper mapper, 
         IVehicleRepository vehicleRepository, 
-        IVehiclePartRepository partRepository)
+        IVehiclePartRepository partRepository, IVehiclePartConditionRepository conditionRepository)
     {
         _mapper = mapper;
         _vehicleRepository = vehicleRepository;
         _partRepository = partRepository;
+        _conditionRepository = conditionRepository;
     }
 
     /// <summary>
@@ -56,10 +58,18 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
 
         var vehicleParts = await _partRepository.GetVehiclePartsByVehicleType(request.VehicleType, cancellationToken);
         
-        foreach (var vehiclePart in vehicleParts)
+        var conditionTasks = vehicleParts.Select(vehiclePart =>
         {
-            
-        }
+            var newVehiclePartCondition = new VehiclePartCondition(
+                DateTime.UtcNow.AddMonths(-request.LastMaintenance),
+                DateTime.UtcNow.AddMonths(vehiclePart.AgeInMonth),
+                newVehicle.Id,
+                vehiclePart.Id);
+
+            return _conditionRepository.AddVehiclePartConditionAsync(newVehiclePartCondition, cancellationToken);
+        });
+        
+        await Task.WhenAll(conditionTasks);
 
         return newVehicle.Id;
     }

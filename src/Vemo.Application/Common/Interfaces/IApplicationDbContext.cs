@@ -33,7 +33,7 @@ public interface IApplicationDbContext
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; }
+    public DbSet<VehiclePartCondition> VehiclePartConditions { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles

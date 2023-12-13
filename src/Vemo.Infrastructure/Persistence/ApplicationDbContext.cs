@@ -42,7 +42,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceSchedules
     /// </summary>
-    public DbSet<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; } = null!;
+    public DbSet<VehiclePartCondition> VehiclePartConditions { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceHistories

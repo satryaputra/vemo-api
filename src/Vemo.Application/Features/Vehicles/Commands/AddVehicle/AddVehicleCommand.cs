@@ -21,14 +21,19 @@ public class AddVehicleCommand : IRequest<Guid>
     public string LicensePlate { get; set; } = string.Empty;
     
     /// <summary>
-    /// Gets or sets PurchasingTime
-    /// </summary>
-    public string PurchasingDate { get; set; } = string.Empty;
-    
-    /// <summary>
     /// Gets or sets VehicleType
     /// </summary>
     public string VehicleType { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets or sets PurchasingTime
+    /// </summary>
+    public string PurchasingDate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets LastMaintenance
+    /// </summary>
+    public int LastMaintenance { get; set; }
     
     /// <summary>
     /// Gets or sets UserId

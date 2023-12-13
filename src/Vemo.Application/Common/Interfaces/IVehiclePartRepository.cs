@@ -22,4 +22,12 @@ public interface IVehiclePartRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<VehiclePart> GetVehiclePartByIdAsync(Guid vehiclePartId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetVehiclePartsByVehicleType
+    /// </summary>
+    /// <param name="vehicleType"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<VehiclePart>> GetVehiclePartsByVehicleType(string vehicleType, CancellationToken cancellationToken);
 }

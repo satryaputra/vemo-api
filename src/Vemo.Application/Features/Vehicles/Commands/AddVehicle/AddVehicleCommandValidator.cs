@@ -19,10 +19,6 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")
             .MinimumLength(3).WithMessage("{PropertyName} harus 3 karakter atau lebih");
-
-        RuleFor(x => x.PurchasingDate)
-            .NotNull().WithMessage("{PropertyName} wajib diisi")
-            .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
         
         RuleFor(x => x.VehicleType)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
@@ -33,6 +29,14 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")
             .MinimumLength(3).WithMessage("{PropertyName} harus 3 karakter atau lebih");
+
+        RuleFor(x => x.PurchasingDate)
+            .NotNull().WithMessage("{PropertyName} wajib diisi")
+            .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
+
+        RuleFor(x => x.LastMaintenance)
+            .NotNull().WithMessage("{PropertyName} wajib diisi")
+            .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
 
         RuleFor(x => x.UserId)
             .NotNull().WithMessage("{PropertyName} wajib diisi")

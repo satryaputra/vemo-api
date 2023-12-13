@@ -1,4 +1,5 @@
-﻿using Vemo.Application.Common.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Vehicles;
 
@@ -43,5 +44,18 @@ public class VehiclePartRepository : IVehiclePartRepository
     {
         return await _context.VehicleParts.FindAsync(new object?[] { vehiclePartId }, cancellationToken)
                ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetVehiclePartByIdAsync");
+    }
+
+    /// <summary>
+    /// GetVehiclePartsByVehicleType
+    /// </summary>
+    /// <param name="vehicleType"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<VehiclePart>> GetVehiclePartsByVehicleType(string vehicleType, CancellationToken cancellationToken)
+    {
+        return await _context.VehicleParts
+            .Where(p => p.VehicleType == null || p.VehicleType.Equals(vehicleType))
+            .ToListAsync(cancellationToken);
     }
 }

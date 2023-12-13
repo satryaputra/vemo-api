@@ -37,7 +37,7 @@ public class VehiclePart : BaseAuditableEntity
     /// Gets or sets VehiclePartMaintenanceSchedules
     /// </summary>
     [JsonIgnore]
-    public List<VehiclePartMaintenanceSchedule> VehiclePartMaintenanceSchedules { get; set; } = null!;
+    public List<VehiclePartCondition> VehiclePartConditions { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceHistories

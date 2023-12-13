@@ -6,7 +6,7 @@ namespace Vemo.Domain.Entities.Vehicles;
 /// <summary>
 /// VehiclePartMaintenance
 /// </summary>
-public class VehiclePartMaintenanceSchedule : BaseEntity
+public class VehiclePartCondition : BaseEntity
 {
     /// <summary>
     /// Gets or sets LastMaintenance

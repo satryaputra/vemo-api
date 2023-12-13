@@ -3,12 +3,15 @@
 /// <summary>
 /// GetVehiclesQuery
 /// </summary>
-public class GetVehiclesQuery : IRequest<List<VehicleResponseExcludeUserIdDto>>
+public class GetVehiclesQuery : IRequest<List<VehicleResponseDto>>
 {
     /// <summary>
     /// Gets or sets UserId
     /// </summary>
     public Guid? UserId { get; set; }
 
+    /// <summary>
+    /// Gets or sets UserId Status
+    /// </summary>
     public string? Status { get; set; }
 }

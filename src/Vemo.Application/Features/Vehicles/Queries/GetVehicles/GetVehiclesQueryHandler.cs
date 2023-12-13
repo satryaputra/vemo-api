@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 
 namespace Vemo.Application.Features.Vehicles.Queries.GetVehicles;

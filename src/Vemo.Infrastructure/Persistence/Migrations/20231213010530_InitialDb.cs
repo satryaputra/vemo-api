@@ -33,6 +33,8 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     AgeInMonth = table.Column<int>(type: "integer", nullable: false),
+                    MaintenancePrice = table.Column<float>(type: "real", nullable: false),
+                    MaintenanceServicePrice = table.Column<float>(type: "real", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -93,8 +95,8 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     OwnerName = table.Column<string>(type: "text", nullable: false),
-                    LicensePlate = table.Column<string>(type: "text", nullable: false),
                     PurchasingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LicensePlate = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),

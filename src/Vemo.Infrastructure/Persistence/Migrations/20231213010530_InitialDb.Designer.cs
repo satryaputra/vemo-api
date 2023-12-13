@@ -12,8 +12,8 @@ using Vemo.Infrastructure.Persistence;
 namespace Vemo.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231212043511_AddMaintenancePriceAndAddMaintenanceServicePrice")]
-    partial class AddMaintenancePriceAndAddMaintenanceServicePrice
+    [Migration("20231213010530_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

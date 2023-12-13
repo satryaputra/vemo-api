@@ -16,14 +16,14 @@ public class AddVehicleCommand : IRequest<Guid>
     public string OwnerName { get; set; } = string.Empty;
     
     /// <summary>
-    /// Gets or sets PurchasingTime
-    /// </summary>
-    public string PurchasingDate { get; set; } = string.Empty;
-    
-    /// <summary>
     /// Gets or sets LicenseNumber
     /// </summary>
     public string LicensePlate { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets or sets PurchasingTime
+    /// </summary>
+    public string PurchasingDate { get; set; } = string.Empty;
     
     /// <summary>
     /// Gets or sets VehicleType

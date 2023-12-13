@@ -200,6 +200,102 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VehicleParts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8b004f17-b152-40f1-90c9-760ce584ff63"),
+                            AgeInMonth = 4,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7589),
+                            MaintenancePrice = 50000f,
+                            MaintenanceServicePrice = 10000f,
+                            Name = "Oli"
+                        },
+                        new
+                        {
+                            Id = new Guid("ffb0e187-1942-4d21-8e3e-2e5e6ae948f4"),
+                            AgeInMonth = 10,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7591),
+                            MaintenancePrice = 30000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Radiator"
+                        },
+                        new
+                        {
+                            Id = new Guid("2bcfae8e-0aba-4ce6-823a-4117b94ace55"),
+                            AgeInMonth = 6,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7593),
+                            MaintenancePrice = 25000f,
+                            MaintenanceServicePrice = 5000f,
+                            Name = "Busi"
+                        },
+                        new
+                        {
+                            Id = new Guid("ba078600-1309-413d-bdac-1c9d01e01523"),
+                            AgeInMonth = 5,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7605),
+                            MaintenancePrice = 40000f,
+                            MaintenanceServicePrice = 15000f,
+                            Name = "Rem"
+                        },
+                        new
+                        {
+                            Id = new Guid("b663225a-e936-455a-8bb9-c185e1a56bab"),
+                            AgeInMonth = 24,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7606),
+                            MaintenancePrice = 300000f,
+                            MaintenanceServicePrice = 25000f,
+                            Name = "Ban"
+                        },
+                        new
+                        {
+                            Id = new Guid("a49e2cd4-fbc8-4a04-8fd8-759627870e15"),
+                            AgeInMonth = 3,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7608),
+                            MaintenancePrice = 20000f,
+                            MaintenanceServicePrice = 10000f,
+                            Name = "Aki"
+                        },
+                        new
+                        {
+                            Id = new Guid("d616d6ab-37b9-4b39-a5dc-438183cd34b1"),
+                            AgeInMonth = 8,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7609),
+                            MaintenancePrice = 60000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "V-Belt",
+                            VehicleType = "matic"
+                        },
+                        new
+                        {
+                            Id = new Guid("be8addb4-d0bf-4d45-810a-19e9c9b77182"),
+                            AgeInMonth = 12,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7613),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "CVT",
+                            VehicleType = "matic"
+                        },
+                        new
+                        {
+                            Id = new Guid("ebf3b9b9-aee0-4ea6-bac2-a0b19a5b0651"),
+                            AgeInMonth = 8,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7615),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Rantai dan Gear",
+                            VehicleType = "manual"
+                        },
+                        new
+                        {
+                            Id = new Guid("84a6070f-70b5-41b5-aacc-53b3f4d5732c"),
+                            AgeInMonth = 9,
+                            CreatedAt = new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7616),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Kampas Kopling",
+                            VehicleType = "manual"
+                        });
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceHistory", b =>

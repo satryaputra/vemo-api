@@ -170,6 +170,23 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "VehicleParts",
+                columns: new[] { "Id", "AgeInMonth", "CreatedAt", "MaintenancePrice", "MaintenanceServicePrice", "Name", "UpdatedAt", "VehicleType" },
+                values: new object[,]
+                {
+                    { new Guid("2bcfae8e-0aba-4ce6-823a-4117b94ace55"), 6, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7593), 25000f, 5000f, "Busi", null, null },
+                    { new Guid("84a6070f-70b5-41b5-aacc-53b3f4d5732c"), 9, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7616), 100000f, 20000f, "Kampas Kopling", null, "manual" },
+                    { new Guid("8b004f17-b152-40f1-90c9-760ce584ff63"), 4, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7589), 50000f, 10000f, "Oli", null, null },
+                    { new Guid("a49e2cd4-fbc8-4a04-8fd8-759627870e15"), 3, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7608), 20000f, 10000f, "Aki", null, null },
+                    { new Guid("b663225a-e936-455a-8bb9-c185e1a56bab"), 24, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7606), 300000f, 25000f, "Ban", null, null },
+                    { new Guid("ba078600-1309-413d-bdac-1c9d01e01523"), 5, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7605), 40000f, 15000f, "Rem", null, null },
+                    { new Guid("be8addb4-d0bf-4d45-810a-19e9c9b77182"), 12, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7613), 100000f, 20000f, "CVT", null, "matic" },
+                    { new Guid("d616d6ab-37b9-4b39-a5dc-438183cd34b1"), 8, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7609), 60000f, 20000f, "V-Belt", null, "matic" },
+                    { new Guid("ebf3b9b9-aee0-4ea6-bac2-a0b19a5b0651"), 8, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7615), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
+                    { new Guid("ffb0e187-1942-4d21-8e3e-2e5e6ae948f4"), 10, new DateTime(2023, 12, 13, 9, 18, 9, 285, DateTimeKind.Utc).AddTicks(7591), 30000f, 20000f, "Radiator", null, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_UserId",
                 table: "Notifications",

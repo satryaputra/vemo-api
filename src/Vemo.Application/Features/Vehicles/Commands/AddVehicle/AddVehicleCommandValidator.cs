@@ -35,8 +35,7 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
 
         RuleFor(x => x.LastMaintenance)
-            .NotNull().WithMessage("{PropertyName} wajib diisi")
-            .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
+            .NotNull().WithMessage("{PropertyName} wajib diisi");
 
         RuleFor(x => x.UserId)
             .NotNull().WithMessage("{PropertyName} wajib diisi")

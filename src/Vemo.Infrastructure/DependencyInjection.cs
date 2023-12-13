@@ -25,7 +25,7 @@ public static class DependencyInjection
         // Persistence
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("LocalConnection"));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         

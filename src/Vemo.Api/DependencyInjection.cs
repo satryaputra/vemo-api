@@ -60,7 +60,7 @@ public static class DependencyInjection
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(new[] { "http://localhost:5173" })
+                policy.WithOrigins(new[] { "https://vemo.biz.id" })
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

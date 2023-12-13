@@ -46,6 +46,7 @@ public class VehicleController : BaseController
     /// GetVehicles
     /// </summary>
     /// <param name="userId"></param>
+    /// <param name="status"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
@@ -54,7 +55,7 @@ public class VehicleController : BaseController
         [FromQuery] string? status,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId }, cancellationToken));
+        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId, Status = status}, cancellationToken));
     }
 
     /// <summary>

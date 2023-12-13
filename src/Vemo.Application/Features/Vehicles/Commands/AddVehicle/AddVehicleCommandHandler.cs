@@ -46,30 +46,35 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
         {
             throw new BadRequestException("Pembelian tanggal kendaraan tidak valid");
         }
+
+        if (request.LastMaintenance < 0)
+        {
+            throw new BadRequestException("Tanggal terakhir perawatan kendaraan tidak valid");
+        }
         
         if (await _vehicleRepository.IsVehicleExistsByLicensePlateAsync(request.LicensePlate, cancellationToken))
         {
             throw new BadRequestException("Plat nomor sudah terdaftar");
         }
         
+        // Add new vehicle with status pending
         var newVehicle = _mapper.Map<Vehicle>(request);
         newVehicle.Status = _vehicleRepository.Pending();
         await _vehicleRepository.AddVehicleAsync(newVehicle, cancellationToken);
 
         var vehicleParts = await _partRepository.GetVehiclePartsByVehicleType(request.VehicleType, cancellationToken);
         
-        var conditionTasks = vehicleParts.Select(vehiclePart =>
+        // Generate vehicle condition
+        foreach (var vehiclePart in vehicleParts)
         {
             var newVehiclePartCondition = new VehiclePartCondition(
-                DateTime.UtcNow.AddMonths(-request.LastMaintenance),
-                DateTime.UtcNow.AddMonths(vehiclePart.AgeInMonth),
+                DateTime.UtcNow.AddMonths(-request.LastMaintenance), 
+                DateTime.UtcNow.AddMonths(vehiclePart.AgeInMonth), 
                 newVehicle.Id,
                 vehiclePart.Id);
-
-            return _conditionRepository.AddVehiclePartConditionAsync(newVehiclePartCondition, cancellationToken);
-        });
-        
-        await Task.WhenAll(conditionTasks);
+            
+            await _conditionRepository.AddVehiclePartConditionAsync(newVehiclePartCondition, cancellationToken);
+        }
 
         return newVehicle.Id;
     }

@@ -48,6 +48,7 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
 
         await _userRepository.CreateUserAsync(newUser, cancellationToken);
         
+        // Generate token
         var accessToken = TokenBuilder.CreateAccessToken(newUser.Id, newUser.Role);
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();

@@ -29,11 +29,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.VehicleName, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));
 
-        CreateMap<Vehicle, VehicleResponseExcludeUserIdDto>()
-            .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.VehicleName, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));
-
         CreateMap<AddVehiclePartCommand, VehiclePart>();
     }
 }

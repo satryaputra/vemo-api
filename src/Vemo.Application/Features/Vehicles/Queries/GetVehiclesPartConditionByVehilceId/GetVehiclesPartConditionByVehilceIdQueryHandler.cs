@@ -11,6 +11,11 @@ internal sealed class GetVehiclesPartConditionByVehilceIdQueryHandler : IRequest
     private readonly IVehiclePartRepository _partRepository;
     private readonly IVehiclePartConditionRepository _conditionRepository;
 
+    /// <summary>
+    /// Initialize a new instance of the <see cref="GetVehiclesPartConditionByVehilceIdQueryHandler"/> class
+    /// </summary>
+    /// <param name="partRepository"></param>
+    /// <param name="conditionRepository"></param>
     public GetVehiclesPartConditionByVehilceIdQueryHandler(
         IVehiclePartRepository partRepository,
         IVehiclePartConditionRepository conditionRepository)
@@ -19,6 +24,12 @@ internal sealed class GetVehiclesPartConditionByVehilceIdQueryHandler : IRequest
         _conditionRepository = conditionRepository;
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<List<VehiclePartConditionResponseDto>> Handle(GetVehiclesPartConditionByVehilceIdQuery request,
         CancellationToken cancellationToken)
     {

@@ -16,7 +16,6 @@ public static class CookieSettings
         {
             HttpOnly = true,
             Expires = expires,
-            SameSite = SameSiteMode.None
         };
     }
 }

@@ -28,7 +28,8 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
         RuleFor(x => x.LicensePlate)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")
-            .MinimumLength(3).WithMessage("{PropertyName} harus 3 karakter atau lebih");
+            .MinimumLength(3).WithMessage("{PropertyName} harus 3 karakter atau lebih")
+            .Must(BeAlphanumeric).WithMessage("{PropertyName} tidak valid");
 
         RuleFor(x => x.PurchasingDate)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
@@ -40,5 +41,15 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
         RuleFor(x => x.UserId)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong");
+    }
+    
+    /// <summary>
+    /// BeAlphanumeric
+    /// </summary>
+    /// <param name="licensePlate"></param>
+    /// <returns></returns>
+    private static bool BeAlphanumeric(string licensePlate)
+    {
+        return !string.IsNullOrWhiteSpace(licensePlate) && licensePlate.All(char.IsLetterOrDigit);
     }
 }

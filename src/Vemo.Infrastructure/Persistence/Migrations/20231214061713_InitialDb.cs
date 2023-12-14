@@ -171,20 +171,29 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedAt", "Email", "Name", "Password", "Role", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { new Guid("ab21666f-501c-4fa1-9cdb-1e28a1b11538"), new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9280), "customer@vemo.com", "customer", "y8p7CnUadBvgyIZc3O4CriLVWxdSrPH4s3vYZu7XMF7K+J9n", "customer", null },
+                    { new Guid("b7390ca0-27b4-48b9-91ac-25f0216d4365"), new DateTime(2023, 12, 14, 6, 17, 13, 607, DateTimeKind.Utc).AddTicks(5249), "admin@vemo.com", "admin", "GTqUiGEV27X1HrpJ5aCIUmp5I35pbskPBTB3P0f2vgd+ViSr", "admin", null }
+                });
+
+            migrationBuilder.InsertData(
                 table: "VehicleParts",
                 columns: new[] { "Id", "AgeInMonth", "CreatedAt", "MaintenancePrice", "MaintenanceServicePrice", "Name", "UpdatedAt", "VehicleType" },
                 values: new object[,]
                 {
-                    { new Guid("054c38e2-a176-42a2-a6ed-b2ebceb0c67f"), 6, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6878), 25000f, 5000f, "Busi", null, null },
-                    { new Guid("0bbc6d37-16db-4a84-8e65-3f8a9079b072"), 10, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6875), 30000f, 20000f, "Radiator", null, null },
-                    { new Guid("0cc92144-ffff-4ace-baf6-d9d47b54f0ec"), 8, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6891), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
-                    { new Guid("39272e95-acde-436c-aa59-bf9c3c947b8a"), 3, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6886), 20000f, 10000f, "Aki", null, null },
-                    { new Guid("47647a64-2114-4781-83cf-73b9c56bd725"), 5, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6880), 40000f, 15000f, "Rem", null, null },
-                    { new Guid("506b85f3-3fac-47ca-b31a-8be2e3c503e5"), 24, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6881), 300000f, 25000f, "Ban", null, null },
-                    { new Guid("91ea877b-f36b-4447-9041-98c8f9d73aa0"), 12, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6889), 100000f, 20000f, "CVT", null, "matic" },
-                    { new Guid("93998af9-57f8-43eb-82ce-e31eedee4973"), 8, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6888), 60000f, 20000f, "V-Belt", null, "matic" },
-                    { new Guid("c8d2201a-0be9-45a2-a2ab-8596286ad219"), 4, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6861), 50000f, 10000f, "Oli", null, null },
-                    { new Guid("d03aa7c6-7e1c-4de7-87a7-af5e53a54ed0"), 9, new DateTime(2023, 12, 13, 14, 5, 18, 401, DateTimeKind.Utc).AddTicks(6895), 100000f, 20000f, "Kampas Kopling", null, "manual" }
+                    { new Guid("36b8d8bf-d29d-4b0b-b01c-669b2998f1c4"), 8, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9541), 60000f, 20000f, "V-Belt", null, "matic" },
+                    { new Guid("3877491e-bfbb-4fa2-972b-316a05ef138e"), 6, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9530), 25000f, 5000f, "Busi", null, null },
+                    { new Guid("6818748e-8a6f-4608-b837-9c125ff7f5bb"), 24, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9536), 300000f, 25000f, "Ban", null, null },
+                    { new Guid("a013a650-656e-4a63-b9fe-18f98af709b4"), 10, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9528), 30000f, 20000f, "Radiator", null, null },
+                    { new Guid("a28c75de-0d0b-43a5-96ec-1d7fb0006733"), 8, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9547), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
+                    { new Guid("ac250928-641a-4e14-acc3-07e678e45a4f"), 9, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9549), 100000f, 20000f, "Kampas Kopling", null, "manual" },
+                    { new Guid("c8038437-b554-4cd2-9b36-13502d97d20a"), 5, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9532), 40000f, 15000f, "Rem", null, null },
+                    { new Guid("dd4cd404-ea0c-4cf0-9688-83032c4925da"), 3, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9539), 20000f, 10000f, "Aki", null, null },
+                    { new Guid("f0f8e9d4-2e24-43ca-bf8c-f859f6d2f554"), 12, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9543), 100000f, 20000f, "CVT", null, "matic" },
+                    { new Guid("f857afd0-01e8-4492-9435-d9d3c3cd7459"), 4, new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9526), 50000f, 10000f, "Oli", null, null }
                 });
 
             migrationBuilder.CreateIndex(

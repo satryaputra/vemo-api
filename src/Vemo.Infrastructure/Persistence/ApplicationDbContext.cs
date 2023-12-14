@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vemo.Application.Common.Interfaces;
+using Vemo.Application.Common.Utils;
 using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Users;
 using Vemo.Domain.Entities.Vehicles;
@@ -77,6 +78,34 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.Entity<Vehicle>()
             .HasIndex(v => v.LicensePlate)
             .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasData(
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "admin",
+                    Email = "admin@vemo.com",
+                    Password = PasswordHasher.HashPassword("Admin!123"),
+                    Role = "admin",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = null,
+                    Vehicles = null,
+                    UserAuthInfo = null
+                },
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "customer",
+                    Email = "customer@vemo.com",
+                    Password = PasswordHasher.HashPassword("Customer!123"),
+                    Role = "customer",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = null,
+                    Vehicles = null,
+                    UserAuthInfo = null
+                }
+            );
 
         modelBuilder.Entity<VehiclePart>()
             .HasData(

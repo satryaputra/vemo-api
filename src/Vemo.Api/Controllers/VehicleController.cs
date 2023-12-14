@@ -73,8 +73,8 @@ public class VehicleController : BaseController
         return Ok(await Mediator.Send(new ApproveVehicleCommand { VehicleId = vehicleId }, cancellationToken));
     }
 
-    [HttpGet("parts/{vehicleId:guid}")]
-    public async Task<IActionResult> GetVehiclePartConditions(
+    [HttpGet("{vehicleId:guid}/parts")]
+    public async Task<IActionResult> GetVehiclePartConditionsByVehicleId(
         Guid vehicleId,
         CancellationToken cancellationToken)
     {

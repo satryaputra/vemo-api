@@ -19,9 +19,20 @@ public class VehiclePartConditionResponseDto
     /// Gets or sets VehiclePartName
     /// </summary>
     public string VehiclePartName { get; set; } = string.Empty;
-    
+
+    private int _condition;
+
     /// <summary>
     /// Gets or sets Condition
     /// </summary>
-    public int Condition { get; set; }
+    public int Condition
+    {
+        get => _condition;
+        set => _condition = CalculateCondition(value);
+    }
+
+    private int CalculateCondition(int percentage)
+    {
+        return 100 - percentage;
+    }
 }

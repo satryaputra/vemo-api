@@ -1,4 +1,5 @@
-﻿using Vemo.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Infrastructure.Repositories.Vehicles;
@@ -30,5 +31,19 @@ public class VehiclePartConditionRepository : IVehiclePartConditionRepository
     {
         await _context.VehiclePartConditions.AddAsync(vehiclePartCondition, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetVehiclePartConditionByUserIdAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<VehiclePartCondition>> GetVehiclesPartConditionByVehicleIdAsync(Guid vehicleId, CancellationToken cancellationToken)
+    {
+        return await _context.VehiclePartConditions
+            .Where(x => x.VehicleId.Equals(vehicleId))
+            .ToListAsync(cancellationToken);
     }
 }

@@ -28,6 +28,11 @@ public class User : BaseAuditableEntity
     /// Gets or sets Role
     /// </summary>
     public string Role { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets
+    /// </summary>
+    public string? Photo { get; set; }
     
     [JsonIgnore]
     public AuthInfo? UserAuthInfo { get; init; }

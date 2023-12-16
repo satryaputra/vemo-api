@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Vehicles;
 
@@ -45,6 +46,13 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     /// <returns></returns>
     public async Task<GenericResponseDto> Handle(RequestMaintenanceCommand request, CancellationToken cancellationToken)
     {
+        var vehicle = await _vehicleRepository.GetVehicleByIdAsync(request.VehicleId, cancellationToken);
+
+        if (vehicle.Status.Equals(_vehicleRepository.Pending()))
+        {
+            throw new BadRequestException("Kendaraan masih dalam status pending");
+        }
+        
         var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
         newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
         await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);

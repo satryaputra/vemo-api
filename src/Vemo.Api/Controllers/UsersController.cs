@@ -1,6 +1,7 @@
 ﻿using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Application.Features.Users.Commands.UpdatePassword;
+using Vemo.Application.Features.Users.Commands.UpdatePhotoProfile;
 using Vemo.Application.Features.Users.Commands.UpdateUser;
 using Vemo.Application.Features.Users.Queries.GetUserById;
 using Vemo.Domain.Enums;
@@ -80,5 +81,23 @@ public class UsersController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(updatePasswordCommand, cancellationToken));
+    }
+
+    [HttpPatch("photo"), AllowAnonymous]
+    public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
+    {
+        var updatePhotoResponse = await Mediator.Send(new UpdatePhotoProfileCommand
+        {
+            AccessToken = GetAccessTokenFromHeader(),
+            ImageName = image.FileName + image.ContentType,
+        });
+        
+        var imagePath = Path.Combine("../../../frontend/public/PhotoProfile", image.FileName);
+        await using (var stream = new FileStream(imagePath, FileMode.Create))
+        {
+            await image.CopyToAsync(stream);
+        }
+
+        return Ok(updatePhotoResponse);
     }
 }

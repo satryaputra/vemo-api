@@ -51,10 +51,27 @@ public interface IUserRepository
     Task UpdatePasswordAsync(Guid userId, string newPassword, CancellationToken cancellationToken);
 
     /// <summary>
+    /// UpdatePhotoAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="imageName"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task UpdatePhotoAsync(Guid userId, string imageName, CancellationToken cancellationToken);
+
+    /// <summary>
     /// IsUserExistsByEmailAsync
     /// </summary>
     /// <param name="email"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<bool> IsUserExistsByEmailAsync(string email, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// IsEmptyPhotoAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<bool> IsEmptyPhotoAsync(Guid userId, CancellationToken cancellationToken);
 }

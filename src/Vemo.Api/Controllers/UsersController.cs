@@ -89,10 +89,10 @@ public class UsersController : BaseController
         var updatePhotoResponse = await Mediator.Send(new UpdatePhotoProfileCommand
         {
             AccessToken = GetAccessTokenFromHeader(),
-            ImageName = image.FileName + image.ContentType,
+            ImageName = image.FileName,
         });
         
-        var imagePath = Path.Combine("../../../frontend/public/PhotoProfile", image.FileName);
+        var imagePath = Path.Combine("/app/PhotoProfile", image.FileName);
         await using (var stream = new FileStream(imagePath, FileMode.Create))
         {
             await image.CopyToAsync(stream);

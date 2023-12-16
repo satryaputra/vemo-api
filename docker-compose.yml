@@ -17,9 +17,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:80"
-    environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=vemodev;Username=postgres;Password=postgres;"
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:80
     depends_on:
         - postgres
+    volumes:
+      - "$HOME/vemo/frontend/public/PhotoProfile:/app/PhotoProfile"

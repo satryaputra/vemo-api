@@ -14,6 +14,13 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     private readonly IMaintenanceVehicleRepository _maintenanceVehicleRepository;
     private readonly IMaintenancePartRepository _maintenancePartRepository;
 
+    /// <summary>
+    /// Initialize a new instance of the <see cref="RequestMaintenanceCommandHandler" /> class.
+    /// </summary>
+    /// <param name="mapper"></param>
+    /// <param name="partRepository"></param>
+    /// <param name="maintenanceVehicleRepository"></param>
+    /// <param name="maintenancePartRepository"></param>
     public RequestMaintenanceCommandHandler(
         IMapper mapper,
         IPartRepository partRepository,
@@ -26,6 +33,12 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         _maintenancePartRepository = maintenancePartRepository;
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<GenericResponseDto> Handle(RequestMaintenanceCommand request, CancellationToken cancellationToken)
     {
         var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);

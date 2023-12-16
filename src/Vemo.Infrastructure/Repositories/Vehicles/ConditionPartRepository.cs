@@ -34,7 +34,7 @@ public class ConditionPartRepository : IConditionPartRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task AddConditionPartAsync(ConditionPart conditionPart, CancellationToken cancellationToken)
     {
-        await _context.ConditionPartVehicles.AddAsync(conditionPart, cancellationToken);
+        await _context.ConditionParts.AddAsync(conditionPart, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
@@ -47,7 +47,7 @@ public class ConditionPartRepository : IConditionPartRepository
     /// <exception cref="NotImplementedException"></exception>
     public async Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid vehicleId, CancellationToken cancellationToken)
     {
-        return await _context.ConditionPartVehicles
+        return await _context.ConditionParts
             .Where(x => x.VehicleId.Equals(vehicleId))
             .ToListAsync(cancellationToken);
     }

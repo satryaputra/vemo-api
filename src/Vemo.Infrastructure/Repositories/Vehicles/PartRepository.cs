@@ -22,39 +22,39 @@ public class PartRepository : IPartRepository
     }
 
     /// <summary>
-    /// AddPartVehicleAsync
+    /// AddPartAsync
     /// </summary>
     /// <param name="part"></param>
     /// <param name="cancellationToken"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task AddPartVehicleAsync(Part part, CancellationToken cancellationToken)
+    public async Task AddPartAsync(Part part, CancellationToken cancellationToken)
     {
-        await _context.PartVehicles.AddAsync(part, cancellationToken);
+        await _context.Parts.AddAsync(part, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
-    /// GetPartVehicleByIdAsync
+    /// GetPartByIdAsync
     /// </summary>
-    /// <param name="vehiclePartId"></param>
+    /// <param name="partId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<Part> GetPartVehicleByIdAsync(Guid vehiclePartId, CancellationToken cancellationToken)
+    public async Task<Part> GetPartByIdAsync(Guid partId, CancellationToken cancellationToken)
     {
-        return await _context.PartVehicles.FindAsync(new object?[] { vehiclePartId }, cancellationToken)
+        return await _context.Parts.FindAsync(new object?[] { partId }, cancellationToken)
                ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetPartVehicleByIdAsync");
     }
 
     /// <summary>
-    /// GetPartVehiclesByVehicleType
+    /// GetPartsByVehicleType
     /// </summary>
     /// <param name="vehicleType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<Part>> GetPartVehiclesByVehicleType(string vehicleType, CancellationToken cancellationToken)
+    public async Task<List<Part>> GetPartsByVehicleType(string vehicleType, CancellationToken cancellationToken)
     {
-        return await _context.PartVehicles
+        return await _context.Parts
             .Where(p => p.VehicleType == null || p.VehicleType.Equals(vehicleType))
             .ToListAsync(cancellationToken);
     }

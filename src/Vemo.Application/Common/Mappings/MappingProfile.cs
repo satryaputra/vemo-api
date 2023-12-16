@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
-using Vemo.Application.Features.Vehicles.Commands.AddPartVehicle;
+using Vemo.Application.Features.Vehicles.Commands.AddPart;
 using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
+using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 using Vemo.Domain.Entities.Users;
 using Vemo.Domain.Entities.Vehicles;
 
@@ -36,5 +37,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));
 
         CreateMap<AddPartVehicleCommand, Part>();
+
+        CreateMap<RequestMaintenanceCommand, MaintenanceVehicle>();
     }
 }

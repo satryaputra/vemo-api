@@ -26,19 +26,24 @@ public interface IApplicationDbContext
     public DbSet<Vehicle> Vehicles { get; set; }
     
     /// <summary>
-    /// Gets or sets Vehicles
+    /// Gets or sets Parts
     /// </summary>
-    public DbSet<Part> PartVehicles { get; set; }
+    public DbSet<Part> Parts { get; set; }
+    
+    /// <summary>
+    /// Gets or sets ConditionParts
+    /// </summary>
+    public DbSet<ConditionPart> ConditionParts { get; set; }
+    
+    /// <summary>
+    /// Gets or sets MaintenanceVehicles
+    /// </summary>
+    DbSet<MaintenanceVehicle> MaintenanceVehicles { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<ConditionPart> ConditionPartVehicles { get; set; }
-    
-    /// <summary>
-    /// Gets or sets Vehicles
-    /// </summary>
-    public DbSet<MaintenancePart> MaintenancePartVehicles { get; set; }
+    public DbSet<MaintenancePart> MaintenanceParts { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles

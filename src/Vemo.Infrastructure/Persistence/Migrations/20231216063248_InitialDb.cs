@@ -10,7 +10,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PartVehicles",
+                name: "Parts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -24,7 +24,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PartVehicles", x => x.Id);
+                    table.PrimaryKey("PK_Parts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ConditionPartVehicles",
+                name: "ConditionParts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -125,15 +125,15 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConditionPartVehicles", x => x.Id);
+                    table.PrimaryKey("PK_ConditionParts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConditionPartVehicles_PartVehicles_PartId",
+                        name: "FK_ConditionParts_Parts_PartId",
                         column: x => x.PartId,
-                        principalTable: "PartVehicles",
+                        principalTable: "Parts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ConditionPartVehicles_Vehicles_VehicleId",
+                        name: "FK_ConditionParts_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
@@ -141,7 +141,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaintenanceVehicle",
+                name: "MaintenanceVehicles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -154,9 +154,9 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaintenanceVehicle", x => x.Id);
+                    table.PrimaryKey("PK_MaintenanceVehicles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MaintenanceVehicle_Vehicles_VehicleId",
+                        name: "FK_MaintenanceVehicles_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
@@ -164,7 +164,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaintenancePartVehicles",
+                name: "MaintenanceParts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -177,36 +177,36 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaintenancePartVehicles", x => x.Id);
+                    table.PrimaryKey("PK_MaintenanceParts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MaintenancePartVehicles_MaintenanceVehicle_MaintenanceVehic~",
+                        name: "FK_MaintenanceParts_MaintenanceVehicles_MaintenanceVehicleId",
                         column: x => x.MaintenanceVehicleId,
-                        principalTable: "MaintenanceVehicle",
+                        principalTable: "MaintenanceVehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MaintenancePartVehicles_PartVehicles_PartId",
+                        name: "FK_MaintenanceParts_Parts_PartId",
                         column: x => x.PartId,
-                        principalTable: "PartVehicles",
+                        principalTable: "Parts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "PartVehicles",
+                table: "Parts",
                 columns: new[] { "Id", "AgeInMonth", "CreatedAt", "MaintenancePrice", "MaintenanceServicePrice", "Name", "UpdatedAt", "VehicleType" },
                 values: new object[,]
                 {
-                    { new Guid("072b4168-ac97-4ba1-9d04-94738ef2f0ca"), 24, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9922), 300000f, 25000f, "Ban", null, null },
-                    { new Guid("0ab772bc-f543-44d3-8b0e-018bc0e79a08"), 10, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9916), 30000f, 20000f, "Radiator", null, null },
-                    { new Guid("0d8a75de-3bee-4344-bbf5-48cc30362de7"), 5, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9920), 40000f, 15000f, "Rem", null, null },
-                    { new Guid("0e389c2c-e026-4179-901b-c8da47bbfb7b"), 9, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9934), 100000f, 20000f, "Kampas Kopling", null, "manual" },
-                    { new Guid("1966a564-39cf-49e2-b09c-45e45208cd72"), 3, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9925), 20000f, 10000f, "Aki", null, null },
-                    { new Guid("1dcc0e7c-aa60-44f7-9f70-0d102a9a887e"), 8, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9927), 60000f, 20000f, "V-Belt", null, "matic" },
-                    { new Guid("326f70a3-cd3a-485c-8673-c35ebc81e0b5"), 4, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9909), 50000f, 10000f, "Oli", null, null },
-                    { new Guid("5084a8d2-c1c3-4c82-94f1-0796b114ba7d"), 8, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9931), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
-                    { new Guid("5762e3be-0581-4a71-85a6-41b412fe8a11"), 12, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9929), 100000f, 20000f, "CVT", null, "matic" },
-                    { new Guid("dafdf6f4-a1bd-414b-b2e0-03433afbe4ca"), 6, new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9918), 25000f, 5000f, "Busi", null, null }
+                    { new Guid("0de60c35-d190-48ca-bddd-e8c7e50aee97"), 12, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4106), 100000f, 20000f, "CVT", null, "matic" },
+                    { new Guid("393097ba-8737-40fe-862a-d842a7e99962"), 10, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4062), 30000f, 20000f, "Radiator", null, null },
+                    { new Guid("5107e048-f2a9-4cee-8082-bbb386ceb076"), 5, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4083), 40000f, 15000f, "Rem", null, null },
+                    { new Guid("6aeefee1-fb66-48a2-b2e0-88089ecab98e"), 4, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4058), 50000f, 10000f, "Oli", null, null },
+                    { new Guid("706ab5aa-ff07-4311-854d-5e73ad2c8371"), 8, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4108), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
+                    { new Guid("73b82984-c5f0-4bb3-a404-13cb1383c6bc"), 6, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4081), 25000f, 5000f, "Busi", null, null },
+                    { new Guid("a3e3e2a6-f954-4ac9-9461-b49a0feceb1f"), 9, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4110), 100000f, 20000f, "Kampas Kopling", null, "manual" },
+                    { new Guid("b9ff0e80-aa1f-43aa-a4e2-3d6022e57bde"), 8, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4103), 60000f, 20000f, "V-Belt", null, "matic" },
+                    { new Guid("e272f915-f101-46fd-9c5e-32b5dd39758e"), 24, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4092), 300000f, 25000f, "Ban", null, null },
+                    { new Guid("f6b6b79b-5452-4a46-9349-75e33bf1e837"), 3, new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4095), 20000f, 10000f, "Aki", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -214,8 +214,8 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "Name", "Password", "Role", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("7e7eecb5-e92b-48bc-a5d2-f518e6b9462f"), new DateTime(2023, 12, 14, 13, 56, 58, 631, DateTimeKind.Utc).AddTicks(8183), "admin@vemo.com", "admin", "+JHxeivwJk30Tz6siVjKhh9zQjr6/NRFuxvcvHbwVuv2wiWo", "admin", null },
-                    { new Guid("c94dd6b2-8269-4cf2-a39f-7aa11eee2996"), new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9756), "customer@vemo.com", "customer", "KHMMQF5ydL4D6ZZG+HcQ/eaEBTo9MOUQvWc+tzfqj4aNVefZ", "customer", null }
+                    { new Guid("53c96d08-6e9d-4350-b3e9-21e1008b89c5"), new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(3390), "customer@vemo.com", "customer", "TUcAZcC1KOwJaVgCWFsc4AXJVcMEHCaoBbWcTYPd2SAZgB8n", "customer", null },
+                    { new Guid("7575941d-9ba1-4588-89fb-72a430eabab2"), new DateTime(2023, 12, 16, 6, 32, 47, 934, DateTimeKind.Utc).AddTicks(2922), "admin@vemo.com", "admin", "BKqGre1UnWBqEZqMDmmIU5b83HTCrR2hfXR2avoAcZH8w0NB", "admin", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -225,28 +225,28 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConditionPartVehicles_PartId",
-                table: "ConditionPartVehicles",
+                name: "IX_ConditionParts_PartId",
+                table: "ConditionParts",
                 column: "PartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConditionPartVehicles_VehicleId",
-                table: "ConditionPartVehicles",
+                name: "IX_ConditionParts_VehicleId",
+                table: "ConditionParts",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MaintenancePartVehicles_MaintenanceVehicleId",
-                table: "MaintenancePartVehicles",
+                name: "IX_MaintenanceParts_MaintenanceVehicleId",
+                table: "MaintenanceParts",
                 column: "MaintenanceVehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MaintenancePartVehicles_PartId",
-                table: "MaintenancePartVehicles",
+                name: "IX_MaintenanceParts_PartId",
+                table: "MaintenanceParts",
                 column: "PartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MaintenanceVehicle_VehicleId",
-                table: "MaintenanceVehicle",
+                name: "IX_MaintenanceVehicles_VehicleId",
+                table: "MaintenanceVehicles",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
@@ -278,19 +278,19 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 name: "AuthInfos");
 
             migrationBuilder.DropTable(
-                name: "ConditionPartVehicles");
+                name: "ConditionParts");
 
             migrationBuilder.DropTable(
-                name: "MaintenancePartVehicles");
+                name: "MaintenanceParts");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "MaintenanceVehicle");
+                name: "MaintenanceVehicles");
 
             migrationBuilder.DropTable(
-                name: "PartVehicles");
+                name: "Parts");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

@@ -30,13 +30,15 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         
         // Repositories
-        // -- users
+        // -- Users
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAuthInfoRepository, AuthInfoRepository>();
-        // -- vehicles
+        // -- Vehicles
         services.AddScoped<IVehicleRepository, VehicleRepository>();
         services.AddScoped<IPartRepository, PartRepository>();
         services.AddScoped<IConditionPartRepository, ConditionPartRepository>();
+        services.AddScoped<IMaintenanceVehicleRepository, MaintenanceVehicleRepository>();
+        services.AddScoped<IMaintenancePartRepository, MaintenancePartRepository>();
         
         // Services
         // -- email

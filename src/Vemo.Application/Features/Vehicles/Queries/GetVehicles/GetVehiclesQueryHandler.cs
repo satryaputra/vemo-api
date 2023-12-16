@@ -101,7 +101,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
         {
             int percentage;
             
-            var part = await _partRepository.GetPartVehicleByIdAsync(conditionPart.PartId, cancellationToken);
+            var part = await _partRepository.GetPartByIdAsync(conditionPart.PartId, cancellationToken);
             var monthsSinceLastMaintenance = (int)((DateTime.Now - conditionPart.LastMaintenance).TotalDays / 30.44);
 
             if (monthsSinceLastMaintenance >= part.AgeInMonth)

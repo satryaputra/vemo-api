@@ -1,4 +1,4 @@
-﻿namespace Vemo.Application.Features.Vehicles.Commands.AddPartVehicle;
+﻿namespace Vemo.Application.Features.Vehicles.Commands.AddPart;
 
 /// <summary>
 /// AddVehiclePartCommand

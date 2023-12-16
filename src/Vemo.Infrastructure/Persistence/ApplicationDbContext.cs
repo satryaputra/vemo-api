@@ -36,19 +36,24 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets VehicleParts
+    /// Gets or sets Parts
     /// </summary>
-    public DbSet<Part> PartVehicles { get; set; } = null!;
+    public DbSet<Part> Parts { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets VehiclePartMaintenanceSchedules
+    /// Gets or sets ConditionParts
     /// </summary>
-    public DbSet<ConditionPart> ConditionPartVehicles { get; set; } = null!;
+    public DbSet<ConditionPart> ConditionParts { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets MaintenanceVehicles
+    /// </summary>
+    public DbSet<MaintenanceVehicle> MaintenanceVehicles { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceHistories
     /// </summary>
-    public DbSet<MaintenancePart> MaintenancePartVehicles { get; set; } = null!;
+    public DbSet<MaintenancePart> MaintenanceParts { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets Notifications

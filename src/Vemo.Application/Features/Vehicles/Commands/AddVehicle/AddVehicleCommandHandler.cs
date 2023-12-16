@@ -62,7 +62,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
         newVehicle.Status = _vehicleRepository.Pending();
         await _vehicleRepository.AddVehicleAsync(newVehicle, cancellationToken);
 
-        var parts = await _partRepository.GetPartVehiclesByVehicleType(request.VehicleType, cancellationToken);
+        var parts = await _partRepository.GetPartsByVehicleType(request.VehicleType, cancellationToken);
         
         // Generate vehicle condition
         foreach (var part in parts)

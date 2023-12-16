@@ -8,26 +8,26 @@ namespace Vemo.Application.Common.Interfaces;
 public interface IPartRepository
 {
     /// <summary>
-    /// AddPartVehicleAsync
+    /// AddPartAsync
     /// </summary>
     /// <param name="part"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task AddPartVehicleAsync(Part part, CancellationToken cancellationToken);
+    Task AddPartAsync(Part part, CancellationToken cancellationToken);
 
     /// <summary>
-    /// GetPartVehicleByIdAsync
+    /// GetPartByIdAsync
     /// </summary>
-    /// <param name="vehiclePartId"></param>
+    /// <param name="partId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Part> GetPartVehicleByIdAsync(Guid vehiclePartId, CancellationToken cancellationToken);
+    Task<Part> GetPartByIdAsync(Guid partId, CancellationToken cancellationToken);
 
     /// <summary>
-    /// GetPartVehiclesByVehicleType
+    /// GetPartsByVehicleType
     /// </summary>
     /// <param name="vehicleType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<Part>> GetPartVehiclesByVehicleType(string vehicleType, CancellationToken cancellationToken);
+    Task<List<Part>> GetPartsByVehicleType(string vehicleType, CancellationToken cancellationToken);
 }

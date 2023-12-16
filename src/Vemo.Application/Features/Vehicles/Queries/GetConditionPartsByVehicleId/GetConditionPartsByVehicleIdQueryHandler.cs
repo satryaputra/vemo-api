@@ -39,7 +39,7 @@ internal sealed class GetConditionPartsByVehicleIdQueryHandler : IRequestHandler
 
         foreach (var conditionPartVehicle in conditionPartVehicles)
         {
-            var part = await _partRepository.GetPartVehicleByIdAsync(conditionPartVehicle.PartId, cancellationToken);
+            var part = await _partRepository.GetPartByIdAsync(conditionPartVehicle.PartId, cancellationToken);
 
             int percentage;
 

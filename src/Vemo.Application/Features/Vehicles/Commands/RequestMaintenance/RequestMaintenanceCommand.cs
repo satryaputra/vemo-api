@@ -3,7 +3,7 @@
 /// <summary>
 /// RequestMaintenanceCommand
 /// </summary>
-public class RequestMaintenanceCommand
+public class RequestMaintenanceCommand : IRequest<GenericResponseDto>
 {
     /// <summary>
     /// Gets or sets Contact
@@ -23,5 +23,5 @@ public class RequestMaintenanceCommand
     /// <summary>
     /// Gets or sets VehiclePartsId
     /// </summary>
-    public List<Guid> VehiclePartsId { get; set; } = null!;
+    public List<Guid> ListPartId { get; set; } = null!;
 }

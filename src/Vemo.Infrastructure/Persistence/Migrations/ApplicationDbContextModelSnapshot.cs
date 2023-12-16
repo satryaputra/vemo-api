@@ -123,20 +123,20 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7e7eecb5-e92b-48bc-a5d2-f518e6b9462f"),
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 631, DateTimeKind.Utc).AddTicks(8183),
+                            Id = new Guid("7575941d-9ba1-4588-89fb-72a430eabab2"),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 934, DateTimeKind.Utc).AddTicks(2922),
                             Email = "admin@vemo.com",
                             Name = "admin",
-                            Password = "+JHxeivwJk30Tz6siVjKhh9zQjr6/NRFuxvcvHbwVuv2wiWo",
+                            Password = "BKqGre1UnWBqEZqMDmmIU5b83HTCrR2hfXR2avoAcZH8w0NB",
                             Role = "admin"
                         },
                         new
                         {
-                            Id = new Guid("c94dd6b2-8269-4cf2-a39f-7aa11eee2996"),
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9756),
+                            Id = new Guid("53c96d08-6e9d-4350-b3e9-21e1008b89c5"),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(3390),
                             Email = "customer@vemo.com",
                             Name = "customer",
-                            Password = "KHMMQF5ydL4D6ZZG+HcQ/eaEBTo9MOUQvWc+tzfqj4aNVefZ",
+                            Password = "TUcAZcC1KOwJaVgCWFsc4AXJVcMEHCaoBbWcTYPd2SAZgB8n",
                             Role = "customer"
                         });
                 });
@@ -162,7 +162,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("ConditionPartVehicles");
+                    b.ToTable("ConditionParts");
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenancePart", b =>
@@ -195,7 +195,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("MaintenancePartVehicles");
+                    b.ToTable("MaintenanceParts");
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenanceVehicle", b =>
@@ -229,7 +229,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("MaintenanceVehicle");
+                    b.ToTable("MaintenanceVehicles");
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Part", b =>
@@ -262,68 +262,68 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PartVehicles");
+                    b.ToTable("Parts");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("326f70a3-cd3a-485c-8673-c35ebc81e0b5"),
+                            Id = new Guid("6aeefee1-fb66-48a2-b2e0-88089ecab98e"),
                             AgeInMonth = 4,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9909),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4058),
                             MaintenancePrice = 50000f,
                             MaintenanceServicePrice = 10000f,
                             Name = "Oli"
                         },
                         new
                         {
-                            Id = new Guid("0ab772bc-f543-44d3-8b0e-018bc0e79a08"),
+                            Id = new Guid("393097ba-8737-40fe-862a-d842a7e99962"),
                             AgeInMonth = 10,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9916),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4062),
                             MaintenancePrice = 30000f,
                             MaintenanceServicePrice = 20000f,
                             Name = "Radiator"
                         },
                         new
                         {
-                            Id = new Guid("dafdf6f4-a1bd-414b-b2e0-03433afbe4ca"),
+                            Id = new Guid("73b82984-c5f0-4bb3-a404-13cb1383c6bc"),
                             AgeInMonth = 6,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9918),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4081),
                             MaintenancePrice = 25000f,
                             MaintenanceServicePrice = 5000f,
                             Name = "Busi"
                         },
                         new
                         {
-                            Id = new Guid("0d8a75de-3bee-4344-bbf5-48cc30362de7"),
+                            Id = new Guid("5107e048-f2a9-4cee-8082-bbb386ceb076"),
                             AgeInMonth = 5,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9920),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4083),
                             MaintenancePrice = 40000f,
                             MaintenanceServicePrice = 15000f,
                             Name = "Rem"
                         },
                         new
                         {
-                            Id = new Guid("072b4168-ac97-4ba1-9d04-94738ef2f0ca"),
+                            Id = new Guid("e272f915-f101-46fd-9c5e-32b5dd39758e"),
                             AgeInMonth = 24,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9922),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4092),
                             MaintenancePrice = 300000f,
                             MaintenanceServicePrice = 25000f,
                             Name = "Ban"
                         },
                         new
                         {
-                            Id = new Guid("1966a564-39cf-49e2-b09c-45e45208cd72"),
+                            Id = new Guid("f6b6b79b-5452-4a46-9349-75e33bf1e837"),
                             AgeInMonth = 3,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9925),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4095),
                             MaintenancePrice = 20000f,
                             MaintenanceServicePrice = 10000f,
                             Name = "Aki"
                         },
                         new
                         {
-                            Id = new Guid("1dcc0e7c-aa60-44f7-9f70-0d102a9a887e"),
+                            Id = new Guid("b9ff0e80-aa1f-43aa-a4e2-3d6022e57bde"),
                             AgeInMonth = 8,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9927),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4103),
                             MaintenancePrice = 60000f,
                             MaintenanceServicePrice = 20000f,
                             Name = "V-Belt",
@@ -331,9 +331,9 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5762e3be-0581-4a71-85a6-41b412fe8a11"),
+                            Id = new Guid("0de60c35-d190-48ca-bddd-e8c7e50aee97"),
                             AgeInMonth = 12,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9929),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4106),
                             MaintenancePrice = 100000f,
                             MaintenanceServicePrice = 20000f,
                             Name = "CVT",
@@ -341,9 +341,9 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5084a8d2-c1c3-4c82-94f1-0796b114ba7d"),
+                            Id = new Guid("706ab5aa-ff07-4311-854d-5e73ad2c8371"),
                             AgeInMonth = 8,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9931),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4108),
                             MaintenancePrice = 100000f,
                             MaintenanceServicePrice = 20000f,
                             Name = "Rantai dan Gear",
@@ -351,9 +351,9 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0e389c2c-e026-4179-901b-c8da47bbfb7b"),
+                            Id = new Guid("a3e3e2a6-f954-4ac9-9461-b49a0feceb1f"),
                             AgeInMonth = 9,
-                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9934),
+                            CreatedAt = new DateTime(2023, 12, 16, 6, 32, 47, 940, DateTimeKind.Utc).AddTicks(4110),
                             MaintenancePrice = 100000f,
                             MaintenanceServicePrice = 20000f,
                             Name = "Kampas Kopling",

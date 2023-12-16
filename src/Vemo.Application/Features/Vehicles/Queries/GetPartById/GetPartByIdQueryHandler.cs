@@ -24,6 +24,6 @@ internal sealed class GetPartByIdQueryHandler : IRequestHandler<GetPartByIdQuery
     /// <returns></returns>
     public async Task<Part> Handle(GetPartByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _partRepository.GetPartVehicleByIdAsync(request.PartId, cancellationToken);
+        return await _partRepository.GetPartByIdAsync(request.PartId, cancellationToken);
     }
 }

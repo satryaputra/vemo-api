@@ -12,7 +12,7 @@ using Vemo.Infrastructure.Persistence;
 namespace Vemo.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231214061713_InitialDb")]
+    [Migration("20231214135658_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,35 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Vemo.Domain.Entities.Users.AuthInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Otp")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("OtpExpires")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpires")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("AuthInfos");
+                });
+
             modelBuilder.Entity("Vemo.Domain.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -96,51 +125,242 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b7390ca0-27b4-48b9-91ac-25f0216d4365"),
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 607, DateTimeKind.Utc).AddTicks(5249),
+                            Id = new Guid("7e7eecb5-e92b-48bc-a5d2-f518e6b9462f"),
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 631, DateTimeKind.Utc).AddTicks(8183),
                             Email = "admin@vemo.com",
                             Name = "admin",
-                            Password = "GTqUiGEV27X1HrpJ5aCIUmp5I35pbskPBTB3P0f2vgd+ViSr",
+                            Password = "+JHxeivwJk30Tz6siVjKhh9zQjr6/NRFuxvcvHbwVuv2wiWo",
                             Role = "admin"
                         },
                         new
                         {
-                            Id = new Guid("ab21666f-501c-4fa1-9cdb-1e28a1b11538"),
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9280),
+                            Id = new Guid("c94dd6b2-8269-4cf2-a39f-7aa11eee2996"),
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9756),
                             Email = "customer@vemo.com",
                             Name = "customer",
-                            Password = "y8p7CnUadBvgyIZc3O4CriLVWxdSrPH4s3vYZu7XMF7K+J9n",
+                            Password = "KHMMQF5ydL4D6ZZG+HcQ/eaEBTo9MOUQvWc+tzfqj4aNVefZ",
                             Role = "customer"
                         });
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Users.UserAuthInfo", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.ConditionPart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("Otp")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("OtpExpires")
+                    b.Property<DateTime>("LastMaintenance")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("RefreshTokenExpires")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("VehicleId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("PartId");
 
-                    b.ToTable("UserAuthInfos");
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("ConditionPartVehicles");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenancePart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("MaintenanceFinalPrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("MaintenanceServiceFinalPrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("MaintenanceVehicleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaintenanceVehicleId");
+
+                    b.HasIndex("PartId");
+
+                    b.ToTable("MaintenancePartVehicles");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenanceVehicle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Contact")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("MaintenanceVehicle");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Part", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AgeInMonth")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<float>("MaintenancePrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MaintenanceServicePrice")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VehicleType")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PartVehicles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("326f70a3-cd3a-485c-8673-c35ebc81e0b5"),
+                            AgeInMonth = 4,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9909),
+                            MaintenancePrice = 50000f,
+                            MaintenanceServicePrice = 10000f,
+                            Name = "Oli"
+                        },
+                        new
+                        {
+                            Id = new Guid("0ab772bc-f543-44d3-8b0e-018bc0e79a08"),
+                            AgeInMonth = 10,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9916),
+                            MaintenancePrice = 30000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Radiator"
+                        },
+                        new
+                        {
+                            Id = new Guid("dafdf6f4-a1bd-414b-b2e0-03433afbe4ca"),
+                            AgeInMonth = 6,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9918),
+                            MaintenancePrice = 25000f,
+                            MaintenanceServicePrice = 5000f,
+                            Name = "Busi"
+                        },
+                        new
+                        {
+                            Id = new Guid("0d8a75de-3bee-4344-bbf5-48cc30362de7"),
+                            AgeInMonth = 5,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9920),
+                            MaintenancePrice = 40000f,
+                            MaintenanceServicePrice = 15000f,
+                            Name = "Rem"
+                        },
+                        new
+                        {
+                            Id = new Guid("072b4168-ac97-4ba1-9d04-94738ef2f0ca"),
+                            AgeInMonth = 24,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9922),
+                            MaintenancePrice = 300000f,
+                            MaintenanceServicePrice = 25000f,
+                            Name = "Ban"
+                        },
+                        new
+                        {
+                            Id = new Guid("1966a564-39cf-49e2-b09c-45e45208cd72"),
+                            AgeInMonth = 3,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9925),
+                            MaintenancePrice = 20000f,
+                            MaintenanceServicePrice = 10000f,
+                            Name = "Aki"
+                        },
+                        new
+                        {
+                            Id = new Guid("1dcc0e7c-aa60-44f7-9f70-0d102a9a887e"),
+                            AgeInMonth = 8,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9927),
+                            MaintenancePrice = 60000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "V-Belt",
+                            VehicleType = "matic"
+                        },
+                        new
+                        {
+                            Id = new Guid("5762e3be-0581-4a71-85a6-41b412fe8a11"),
+                            AgeInMonth = 12,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9929),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "CVT",
+                            VehicleType = "matic"
+                        },
+                        new
+                        {
+                            Id = new Guid("5084a8d2-c1c3-4c82-94f1-0796b114ba7d"),
+                            AgeInMonth = 8,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9931),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Rantai dan Gear",
+                            VehicleType = "manual"
+                        },
+                        new
+                        {
+                            Id = new Guid("0e389c2c-e026-4179-901b-c8da47bbfb7b"),
+                            AgeInMonth = 9,
+                            CreatedAt = new DateTime(2023, 12, 14, 13, 56, 58, 634, DateTimeKind.Utc).AddTicks(9934),
+                            MaintenancePrice = 100000f,
+                            MaintenanceServicePrice = 20000f,
+                            Name = "Kampas Kopling",
+                            VehicleType = "manual"
+                        });
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Vehicle", b =>
@@ -191,196 +411,6 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePart", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AgeInMonth")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<float>("MaintenancePrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("MaintenanceServicePrice")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("VehicleType")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VehicleParts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f857afd0-01e8-4492-9435-d9d3c3cd7459"),
-                            AgeInMonth = 4,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9526),
-                            MaintenancePrice = 50000f,
-                            MaintenanceServicePrice = 10000f,
-                            Name = "Oli"
-                        },
-                        new
-                        {
-                            Id = new Guid("a013a650-656e-4a63-b9fe-18f98af709b4"),
-                            AgeInMonth = 10,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9528),
-                            MaintenancePrice = 30000f,
-                            MaintenanceServicePrice = 20000f,
-                            Name = "Radiator"
-                        },
-                        new
-                        {
-                            Id = new Guid("3877491e-bfbb-4fa2-972b-316a05ef138e"),
-                            AgeInMonth = 6,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9530),
-                            MaintenancePrice = 25000f,
-                            MaintenanceServicePrice = 5000f,
-                            Name = "Busi"
-                        },
-                        new
-                        {
-                            Id = new Guid("c8038437-b554-4cd2-9b36-13502d97d20a"),
-                            AgeInMonth = 5,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9532),
-                            MaintenancePrice = 40000f,
-                            MaintenanceServicePrice = 15000f,
-                            Name = "Rem"
-                        },
-                        new
-                        {
-                            Id = new Guid("6818748e-8a6f-4608-b837-9c125ff7f5bb"),
-                            AgeInMonth = 24,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9536),
-                            MaintenancePrice = 300000f,
-                            MaintenanceServicePrice = 25000f,
-                            Name = "Ban"
-                        },
-                        new
-                        {
-                            Id = new Guid("dd4cd404-ea0c-4cf0-9688-83032c4925da"),
-                            AgeInMonth = 3,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9539),
-                            MaintenancePrice = 20000f,
-                            MaintenanceServicePrice = 10000f,
-                            Name = "Aki"
-                        },
-                        new
-                        {
-                            Id = new Guid("36b8d8bf-d29d-4b0b-b01c-669b2998f1c4"),
-                            AgeInMonth = 8,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9541),
-                            MaintenancePrice = 60000f,
-                            MaintenanceServicePrice = 20000f,
-                            Name = "V-Belt",
-                            VehicleType = "matic"
-                        },
-                        new
-                        {
-                            Id = new Guid("f0f8e9d4-2e24-43ca-bf8c-f859f6d2f554"),
-                            AgeInMonth = 12,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9543),
-                            MaintenancePrice = 100000f,
-                            MaintenanceServicePrice = 20000f,
-                            Name = "CVT",
-                            VehicleType = "matic"
-                        },
-                        new
-                        {
-                            Id = new Guid("a28c75de-0d0b-43a5-96ec-1d7fb0006733"),
-                            AgeInMonth = 8,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9547),
-                            MaintenancePrice = 100000f,
-                            MaintenanceServicePrice = 20000f,
-                            Name = "Rantai dan Gear",
-                            VehicleType = "manual"
-                        },
-                        new
-                        {
-                            Id = new Guid("ac250928-641a-4e14-acc3-07e678e45a4f"),
-                            AgeInMonth = 9,
-                            CreatedAt = new DateTime(2023, 12, 14, 6, 17, 13, 610, DateTimeKind.Utc).AddTicks(9549),
-                            MaintenancePrice = 100000f,
-                            MaintenanceServicePrice = 20000f,
-                            Name = "Kampas Kopling",
-                            VehicleType = "manual"
-                        });
-                });
-
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartCondition", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("LastMaintenance")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("NextMaintenance")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("VehicleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("VehiclePartId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.HasIndex("VehiclePartId");
-
-                    b.ToTable("VehiclePartConditions");
-                });
-
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("MaintenanceDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<float>("MaintenanceFinalPrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("MaintenanceServiceFinalPrice")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("VehicleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("VehiclePartId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.HasIndex("VehiclePartId");
-
-                    b.ToTable("VehiclePartMaintenanceHistories");
-                });
-
             modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notification", b =>
                 {
                     b.HasOne("Vemo.Domain.Entities.Users.User", "User")
@@ -390,15 +420,64 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Users.UserAuthInfo", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Users.AuthInfo", b =>
                 {
                     b.HasOne("Vemo.Domain.Entities.Users.User", "User")
                         .WithOne("UserAuthInfo")
-                        .HasForeignKey("Vemo.Domain.Entities.Users.UserAuthInfo", "UserId")
+                        .HasForeignKey("Vemo.Domain.Entities.Users.AuthInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.ConditionPart", b =>
+                {
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.Part", "Part")
+                        .WithMany("ConditionParts")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
+                        .WithMany("ConditionParts")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenancePart", b =>
+                {
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.MaintenanceVehicle", "MaintenanceVehicle")
+                        .WithMany("MaintenanceParts")
+                        .HasForeignKey("MaintenanceVehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.Part", "Part")
+                        .WithMany("MaintenanceParts")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaintenanceVehicle");
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenanceVehicle", b =>
+                {
+                    b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
+                        .WithMany("MaintenanceVehicles")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Vehicle", b =>
@@ -412,44 +491,6 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartCondition", b =>
-                {
-                    b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
-                        .WithMany("VehiclePartConditions")
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vemo.Domain.Entities.Vehicles.VehiclePart", "VehiclePart")
-                        .WithMany("VehiclePartConditions")
-                        .HasForeignKey("VehiclePartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vehicle");
-
-                    b.Navigation("VehiclePart");
-                });
-
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePartMaintenanceHistory", b =>
-                {
-                    b.HasOne("Vemo.Domain.Entities.Vehicles.Vehicle", "Vehicle")
-                        .WithMany("VehiclePartMaintenanceHistories")
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vemo.Domain.Entities.Vehicles.VehiclePart", "VehiclePart")
-                        .WithMany("VehiclePartMaintenanceHistories")
-                        .HasForeignKey("VehiclePartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vehicle");
-
-                    b.Navigation("VehiclePart");
-                });
-
             modelBuilder.Entity("Vemo.Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("UserAuthInfo");
@@ -457,18 +498,23 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.Navigation("Vehicles");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Vehicle", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.MaintenanceVehicle", b =>
                 {
-                    b.Navigation("VehiclePartConditions");
-
-                    b.Navigation("VehiclePartMaintenanceHistories");
+                    b.Navigation("MaintenanceParts");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.VehiclePart", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Part", b =>
                 {
-                    b.Navigation("VehiclePartConditions");
+                    b.Navigation("ConditionParts");
 
-                    b.Navigation("VehiclePartMaintenanceHistories");
+                    b.Navigation("MaintenanceParts");
+                });
+
+            modelBuilder.Entity("Vemo.Domain.Entities.Vehicles.Vehicle", b =>
+                {
+                    b.Navigation("ConditionParts");
+
+                    b.Navigation("MaintenanceVehicles");
                 });
 #pragma warning restore 612, 618
         }

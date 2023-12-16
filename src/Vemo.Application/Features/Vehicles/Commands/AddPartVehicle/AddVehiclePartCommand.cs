@@ -1,9 +1,9 @@
-﻿namespace Vemo.Application.Features.Vehicles.Commands.AddVehiclePart;
+﻿namespace Vemo.Application.Features.Vehicles.Commands.AddPartVehicle;
 
 /// <summary>
 /// AddVehiclePartCommand
 /// </summary>
-public class AddVehiclePartCommand : IRequest<Guid>
+public class AddPartVehicleCommand : IRequest<Guid>
 {
     /// <summary>
     /// Gets or sets Name

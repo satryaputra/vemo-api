@@ -18,7 +18,7 @@ public interface IApplicationDbContext
     /// <summary>
     /// Gets or sets UserAuthInfos
     /// </summary>
-    public DbSet<UserAuthInfo> UserAuthInfos { get; set; }
+    public DbSet<AuthInfo> AuthInfos { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles
@@ -28,17 +28,17 @@ public interface IApplicationDbContext
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<VehiclePart> VehicleParts { get; set; }
+    public DbSet<Part> PartVehicles { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<VehiclePartCondition> VehiclePartConditions { get; set; }
+    public DbSet<ConditionPart> ConditionPartVehicles { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles
     /// </summary>
-    public DbSet<VehiclePartMaintenanceHistory> VehiclePartMaintenanceHistories { get; set; }
+    public DbSet<MaintenancePart> MaintenancePartVehicles { get; set; }
     
     /// <summary>
     /// Gets or sets Vehicles

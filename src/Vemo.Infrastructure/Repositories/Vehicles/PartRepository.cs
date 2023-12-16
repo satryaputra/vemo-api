@@ -6,55 +6,55 @@ using Vemo.Domain.Entities.Vehicles;
 namespace Vemo.Infrastructure.Repositories.Vehicles;
 
 /// <summary>
-/// VehiclePartRepository
+/// PartRepository
 /// </summary>
-public class VehiclePartRepository : IVehiclePartRepository
+public class PartRepository : IPartRepository
 {
     private readonly IApplicationDbContext _context;
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="VehiclePartRepository"/> class.
+    /// Initialize a new instance of the <see cref="PartRepository"/> class.
     /// </summary>
     /// <param name="context"></param>
-    public VehiclePartRepository(IApplicationDbContext context)
+    public PartRepository(IApplicationDbContext context)
     {
         _context = context;
     }
 
     /// <summary>
-    /// AddVehiclePartAsync
+    /// AddPartVehicleAsync
     /// </summary>
-    /// <param name="vehiclePart"></param>
+    /// <param name="part"></param>
     /// <param name="cancellationToken"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task AddVehiclePartAsync(VehiclePart vehiclePart, CancellationToken cancellationToken)
+    public async Task AddPartVehicleAsync(Part part, CancellationToken cancellationToken)
     {
-        await _context.VehicleParts.AddAsync(vehiclePart, cancellationToken);
+        await _context.PartVehicles.AddAsync(part, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
-    /// GetVehiclePartByIdAsync
+    /// GetPartVehicleByIdAsync
     /// </summary>
     /// <param name="vehiclePartId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<VehiclePart> GetVehiclePartByIdAsync(Guid vehiclePartId, CancellationToken cancellationToken)
+    public async Task<Part> GetPartVehicleByIdAsync(Guid vehiclePartId, CancellationToken cancellationToken)
     {
-        return await _context.VehicleParts.FindAsync(new object?[] { vehiclePartId }, cancellationToken)
-               ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetVehiclePartByIdAsync");
+        return await _context.PartVehicles.FindAsync(new object?[] { vehiclePartId }, cancellationToken)
+               ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetPartVehicleByIdAsync");
     }
 
     /// <summary>
-    /// GetVehiclePartsByVehicleType
+    /// GetPartVehiclesByVehicleType
     /// </summary>
     /// <param name="vehicleType"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<VehiclePart>> GetVehiclePartsByVehicleType(string vehicleType, CancellationToken cancellationToken)
+    public async Task<List<Part>> GetPartVehiclesByVehicleType(string vehicleType, CancellationToken cancellationToken)
     {
-        return await _context.VehicleParts
+        return await _context.PartVehicles
             .Where(p => p.VehicleType == null || p.VehicleType.Equals(vehicleType))
             .ToListAsync(cancellationToken);
     }

@@ -6,17 +6,17 @@ using Vemo.Domain.Entities.Users;
 namespace Vemo.Infrastructure.Repositories.Users;
 
 /// <summary>
-/// UserAuthInfoRepository
+/// AuthInfoRepository
 /// </summary>
-public class UserAuthInfoRepository : IUserAuthInfoRepository
+public class AuthInfoRepository : IAuthInfoRepository
 {
     private readonly IApplicationDbContext _context;
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="UserAuthInfoRepository"/> class.
+    /// Initialize a new instance of the <see cref="AuthInfoRepository"/> class.
     /// </summary>
     /// <param name="context"></param>
-    public UserAuthInfoRepository(IApplicationDbContext context)
+    public AuthInfoRepository(IApplicationDbContext context)
     {
         _context = context;
     }
@@ -30,22 +30,22 @@ public class UserAuthInfoRepository : IUserAuthInfoRepository
     /// <param name="cancellationToken"></param>
     public async Task AddNewRefreshTokenAsync(Guid userId, string refreshToken, DateTime refreshTokenExpires, CancellationToken cancellationToken)
     {
-        if (await IsUserAuthInfoExistsByUserIdAsync(userId, cancellationToken))
+        if (await IsAuthInfoExistsByUserIdAsync(userId, cancellationToken))
         {
-            var userAuthInfo = await GetUserAuthInfoByUserIdAsync(userId, cancellationToken);
+            var userAuthInfo = await GetAuthInfoByUserIdAsync(userId, cancellationToken);
             userAuthInfo.RefreshToken = refreshToken;
             userAuthInfo.RefreshTokenExpires = refreshTokenExpires;
             await _context.SaveChangesAsync(cancellationToken);
         }
         else
         {
-            var newUserAuthInfo = new UserAuthInfo
+            var newUserAuthInfo = new AuthInfo
             {
                 RefreshToken = refreshToken,
                 RefreshTokenExpires = refreshTokenExpires,
                 UserId = userId
             };
-            await _context.UserAuthInfos.AddAsync(newUserAuthInfo, cancellationToken);
+            await _context.AuthInfos.AddAsync(newUserAuthInfo, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }
@@ -59,7 +59,7 @@ public class UserAuthInfoRepository : IUserAuthInfoRepository
     /// <param name="cancellationToken"></param>
     public async Task AddNewOtpAsync(Guid userId, int otp, DateTime otpExpires, CancellationToken cancellationToken)
     {
-        var userAuthInfo = await GetUserAuthInfoByUserIdAsync(userId, cancellationToken);
+        var userAuthInfo = await GetAuthInfoByUserIdAsync(userId, cancellationToken);
         userAuthInfo.Otp = otp;
         userAuthInfo.OtpExpires = otpExpires;
         await _context.SaveChangesAsync(cancellationToken);
@@ -72,10 +72,10 @@ public class UserAuthInfoRepository : IUserAuthInfoRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<UserAuthInfo> GetUserAuthInfoByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<AuthInfo> GetAuthInfoByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await _context.UserAuthInfos.FirstOrDefaultAsync(x => x.UserId.Equals(userId), cancellationToken)
-               ?? throw new NotFoundException("UserAuthInfo tidak ditemukan | GetUserAuthInfoByUserId");
+        return await _context.AuthInfos.FirstOrDefaultAsync(x => x.UserId.Equals(userId), cancellationToken)
+               ?? throw new NotFoundException("AuthInfo tidak ditemukan | GetUserAuthInfoByUserId");
     }
 
     /// <summary>
@@ -84,8 +84,8 @@ public class UserAuthInfoRepository : IUserAuthInfoRepository
     /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<bool> IsUserAuthInfoExistsByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    public Task<bool> IsAuthInfoExistsByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return _context.UserAuthInfos.AnyAsync(x => x.UserId.Equals(userId), cancellationToken);
+        return _context.AuthInfos.AnyAsync(x => x.UserId.Equals(userId), cancellationToken);
     }
 }

@@ -4,9 +4,9 @@ using Vemo.Domain.Common;
 namespace Vemo.Domain.Entities.Users;
 
 /// <summary>
-/// UserAuthInfo
+/// AuthInfo
 /// </summary>
-public class UserAuthInfo : BaseEntity
+public class AuthInfo : BaseEntity
 {
     /// <summary>
     /// Gets or sets RefreshToken
@@ -27,10 +27,7 @@ public class UserAuthInfo : BaseEntity
     /// Gets or sets OtpExpires
     /// </summary>
     public DateTime? OtpExpires { get; set; }
-
-    /// <summary>
-    /// Gets or sets User
-    /// </summary>
+    
     [JsonIgnore]
     public User User { get; set; } = null!;
 

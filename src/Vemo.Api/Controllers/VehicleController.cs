@@ -1,8 +1,8 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
+using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicleById;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicles;
-using Vemo.Application.Features.Vehicles.Queries.GetVehiclesPartConditionByVehilceId;
 
 namespace Vemo.Api.Controllers;
 
@@ -74,11 +74,11 @@ public class VehicleController : BaseController
     }
 
     [HttpGet("{vehicleId:guid}/parts")]
-    public async Task<IActionResult> GetVehiclePartConditionsByVehicleId(
+    public async Task<IActionResult> GetConditionPartsByVehicleId(
         Guid vehicleId,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetVehiclesPartConditionByVehilceIdQuery
+        return Ok(await Mediator.Send(new GetConditionPartsByVehicleIdQuery
         {
             VehicleId = vehicleId
         }, cancellationToken));

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 
 namespace Vemo.Application.Features.Vehicles.Queries.GetVehicles;
@@ -10,8 +11,8 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
 {
     private readonly IMapper _mapper;
     private readonly IVehicleRepository _vehicleRepository;
-    private readonly IVehiclePartRepository _partRepository;
-    private readonly IVehiclePartConditionRepository _conditionRepository;
+    private readonly IPartRepository _partRepository;
+    private readonly IConditionPartRepository _conditionRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="GetVehiclesQueryHandler"/> class.
@@ -23,8 +24,8 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
     public GetVehiclesQueryHandler(
         IMapper mapper,
         IVehicleRepository vehicleRepository,
-        IVehiclePartRepository partRepository,
-        IVehiclePartConditionRepository conditionRepository)
+        IPartRepository partRepository,
+        IConditionPartRepository conditionRepository)
     {
         _mapper = mapper;
         _vehicleRepository = vehicleRepository;
@@ -47,7 +48,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
             
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetVehiclePartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
@@ -61,7 +62,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
             
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetVehiclePartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
@@ -70,7 +71,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
         }
         else if (request.UserId is not null && !string.IsNullOrEmpty(request.Status))
         {
-            throw new Exception("This features is under development");
+            throw new NotFoundException("This features is under development");
         }
         else
         {
@@ -79,7 +80,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
             
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetVehiclePartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
@@ -88,38 +89,35 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
         }
     }
 
-    private async Task<List<VehiclePartConditionResponseDto>> GetVehiclePartConditionByVehicleIdAsync(Guid vehicleId,
+    private async Task<List<ConditionPartResponseDto>> GetPartConditionByVehicleIdAsync(Guid vehicleId,
         CancellationToken cancellationToken)
     {
-        var vehiclePartConditions =
-            await _conditionRepository.GetVehiclesPartConditionByVehicleIdAsync(vehicleId, cancellationToken);
+        var conditionParts =
+            await _conditionRepository.GetConditionPartsByVehicleIdAsync(vehicleId, cancellationToken);
 
-        var result = new List<VehiclePartConditionResponseDto>();
+        var result = new List<ConditionPartResponseDto>();
 
-        foreach (var vehiclePartCondition in vehiclePartConditions)
+        foreach (var conditionPart in conditionParts)
         {
-            var vehiclePart =
-                await _partRepository.GetVehiclePartByIdAsync(vehiclePartCondition.VehiclePartId, cancellationToken);
-
             int percentage;
+            
+            var part = await _partRepository.GetPartVehicleByIdAsync(conditionPart.PartId, cancellationToken);
+            var monthsSinceLastMaintenance = (int)((DateTime.Now - conditionPart.LastMaintenance).TotalDays / 30.44);
 
-            var monthsSinceLastMaintenance =
-                (int)((DateTime.Now - vehiclePartCondition.LastMaintenance).TotalDays / 30.44);
-
-            if (monthsSinceLastMaintenance >= vehiclePart.AgeInMonth)
+            if (monthsSinceLastMaintenance >= part.AgeInMonth)
             {
                 percentage = 100;
             }
             else
             {
-                percentage = 100 * monthsSinceLastMaintenance / vehiclePart.AgeInMonth;
+                percentage = 100 * monthsSinceLastMaintenance / part.AgeInMonth;
             }
 
-            var responseDto = new VehiclePartConditionResponseDto
+            var responseDto = new ConditionPartResponseDto
             {
-                VehiclePartConditionId = vehiclePartCondition.Id,
-                VehiclePartId = vehiclePart.Id,
-                VehiclePartName = vehiclePart.Name,
+                ConditionPartId = conditionPart.Id,
+                PartId = part.Id,
+                PartName = part.Name,
                 Condition = percentage
             };
 

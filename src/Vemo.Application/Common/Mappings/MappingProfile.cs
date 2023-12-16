@@ -1,15 +1,21 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
+using Vemo.Application.Features.Vehicles.Commands.AddPartVehicle;
 using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
-using Vemo.Application.Features.Vehicles.Commands.AddVehiclePart;
 using Vemo.Domain.Entities.Users;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Common.Mappings;
 
+/// <summary>
+/// MappingProfile
+/// </summary>
 public class MappingProfile : Profile
 {
+    /// <summary>
+    /// Initialize a new instance of the <see cref="MappingProfile"/> class.
+    /// </summary>
     public MappingProfile()
     {
         CreateMap<CreateUserCommand, User>()
@@ -21,7 +27,7 @@ public class MappingProfile : Profile
         CreateMap<AddVehicleCommand, Vehicle>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.VehicleName))
             .ForMember(dest => dest.PurchasingDate,
-                opt => opt.MapFrom(src => DateTimeConverter.ToDateTimeUtc(src.PurchasingDate)))
+                opt => opt.MapFrom(src => DateTimeUtcConverter.FromIsoString(src.PurchasingDate)))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.VehicleType));
 
         CreateMap<Vehicle, VehicleResponseDto>()
@@ -29,6 +35,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.VehicleName, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.VehicleType, opt => opt.MapFrom(src => src.Type));
 
-        CreateMap<AddVehiclePartCommand, VehiclePart>();
+        CreateMap<AddPartVehicleCommand, Part>();
     }
 }

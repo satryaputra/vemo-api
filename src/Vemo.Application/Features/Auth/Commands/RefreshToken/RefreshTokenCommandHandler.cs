@@ -11,17 +11,17 @@ namespace Vemo.Application.Features.Auth.Commands.RefreshToken;
 internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, TokenResponseDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserAuthInfoRepository _userAuthInfoRepository;
+    private readonly IAuthInfoRepository _authInfoRepository;
 
     /// <summary>
     /// Initialize a new intance of the <see cref="RefreshTokenCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
-    /// <param name="userAuthInfoRepository"></param>
-    public RefreshTokenCommandHandler(IUserRepository userRepository, IUserAuthInfoRepository userAuthInfoRepository)
+    /// <param name="authInfoRepository"></param>
+    public RefreshTokenCommandHandler(IUserRepository userRepository, IAuthInfoRepository authInfoRepository)
     {
         _userRepository = userRepository;
-        _userAuthInfoRepository = userAuthInfoRepository;
+        _authInfoRepository = authInfoRepository;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenC
     public async Task<TokenResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var userId = TokenBuilder.GetUserIdFromJwtToken(request.AccessToken, TokenType.AccessToken);
-        var userAuthInfo = await _userAuthInfoRepository.GetUserAuthInfoByUserIdAsync(userId, cancellationToken);
+        var userAuthInfo = await _authInfoRepository.GetAuthInfoByUserIdAsync(userId, cancellationToken);
         
         if (!TokenBuilder.IsValidRefreshToken(userAuthInfo, request.RefreshToken))
         {
@@ -47,7 +47,7 @@ internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenC
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();
         
-        await _userAuthInfoRepository.AddNewRefreshTokenAsync(user.Id, refreshToken, refreshTokenExpires, cancellationToken);
+        await _authInfoRepository.AddNewRefreshTokenAsync(user.Id, refreshToken, refreshTokenExpires, cancellationToken);
 
         return new TokenResponseDto(accessToken, refreshToken, refreshTokenExpires);
     }

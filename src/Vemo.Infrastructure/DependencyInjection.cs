@@ -29,16 +29,17 @@ public static class DependencyInjection
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         
-        // Users
+        // Repositories
+        // -- users
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserAuthInfoRepository, UserAuthInfoRepository>();
-        
-        // Vehicles
+        services.AddScoped<IAuthInfoRepository, AuthInfoRepository>();
+        // -- vehicles
         services.AddScoped<IVehicleRepository, VehicleRepository>();
-        services.AddScoped<IVehiclePartRepository, VehiclePartRepository>();
-        services.AddScoped<IVehiclePartConditionRepository, VehiclePartConditionRepository>();
+        services.AddScoped<IPartRepository, PartRepository>();
+        services.AddScoped<IConditionPartRepository, ConditionPartRepository>();
         
         // Services
+        // -- email
         services.AddScoped<IEmailService, EmailService>();
     }
 }

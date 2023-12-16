@@ -1,26 +1,26 @@
 ﻿namespace Vemo.Application.Dtos;
 
 /// <summary>
-/// VehiclePartConditionResponseDto
+/// ConditionPartResponseDto
 /// </summary>
-public class VehiclePartConditionResponseDto
+public class ConditionPartResponseDto
 {
     /// <summary>
     /// Gets or sets VehiclePartConditionId
     /// </summary>
-    public Guid VehiclePartConditionId { get; set; }
+    public Guid ConditionPartId { get; set; }
 
     /// <summary>
     /// Gets or sets VehiclePartId
     /// </summary>
-    public Guid VehiclePartId { get; set; }
+    public Guid PartId { get; set; }
     
     /// <summary>
-    /// Gets or sets VehiclePartName
+    /// Gets or sets PartName
     /// </summary>
-    public string VehiclePartName { get; set; } = string.Empty;
+    public string PartName { get; set; } = string.Empty;
 
-    private int _condition;
+    private readonly int _condition;
 
     /// <summary>
     /// Gets or sets Condition
@@ -28,10 +28,10 @@ public class VehiclePartConditionResponseDto
     public int Condition
     {
         get => _condition;
-        set => _condition = CalculateCondition(value);
+        init => _condition = CalculateCondition(value);
     }
 
-    private int CalculateCondition(int percentage)
+    private static int CalculateCondition(int percentage)
     {
         return 100 - percentage;
     }

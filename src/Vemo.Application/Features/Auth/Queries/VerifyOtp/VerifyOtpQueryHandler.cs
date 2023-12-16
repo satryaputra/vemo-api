@@ -10,15 +10,15 @@ namespace Vemo.Application.Features.Auth.Queries.VerifyOtp;
 /// </summary>
 internal sealed class VerifyOtpQueryHandler : IRequestHandler<VerifyOtpQuery, GenericResponseDto>
 {
-    private readonly IUserAuthInfoRepository _userAuthInfoRepository;
+    private readonly IAuthInfoRepository _authInfoRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="VerifyOtpQueryHandler"/> class.
     /// </summary>
-    /// <param name="userAuthInfoRepository"></param>
-    public VerifyOtpQueryHandler(IUserAuthInfoRepository userAuthInfoRepository)
+    /// <param name="authInfoRepository"></param>
+    public VerifyOtpQueryHandler(IAuthInfoRepository authInfoRepository)
     {
-        _userAuthInfoRepository = userAuthInfoRepository;
+        _authInfoRepository = authInfoRepository;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ internal sealed class VerifyOtpQueryHandler : IRequestHandler<VerifyOtpQuery, Ge
     {
         var userId = TokenBuilder.GetUserIdFromJwtToken(request.AccessToken, TokenType.AccessToken);
 
-        var userAuthInfo = await _userAuthInfoRepository.GetUserAuthInfoByUserIdAsync(userId, cancellationToken);
+        var userAuthInfo = await _authInfoRepository.GetAuthInfoByUserIdAsync(userId, cancellationToken);
         
         if (userAuthInfo.Otp != request.Otp)
             throw new BadRequestException("Kode otp salah");

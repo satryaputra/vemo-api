@@ -13,8 +13,8 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
 {
     private readonly IMapper _mapper;
     private readonly IVehicleRepository _vehicleRepository;
-    private readonly IVehiclePartRepository _partRepository;
-    private readonly IVehiclePartConditionRepository _conditionRepository;
+    private readonly IPartRepository _partRepository;
+    private readonly IConditionPartRepository _conditionRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="AddVehicleCommandHandler"/> class.
@@ -25,7 +25,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     public AddVehicleCommandHandler(
         IMapper mapper, 
         IVehicleRepository vehicleRepository, 
-        IVehiclePartRepository partRepository, IVehiclePartConditionRepository conditionRepository)
+        IPartRepository partRepository, IConditionPartRepository conditionRepository)
     {
         _mapper = mapper;
         _vehicleRepository = vehicleRepository;
@@ -42,7 +42,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     /// <exception cref="BadRequestException"></exception>
     public async Task<Guid> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
     {
-        if (DateTimeConverter.ToDateTimeUtc(request.PurchasingDate) > DateTime.Now)
+        if (DateTimeUtcConverter.FromIsoString(request.PurchasingDate) > DateTime.Now)
         {
             throw new BadRequestException("Pembelian tanggal kendaraan tidak valid");
         }
@@ -62,18 +62,19 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
         newVehicle.Status = _vehicleRepository.Pending();
         await _vehicleRepository.AddVehicleAsync(newVehicle, cancellationToken);
 
-        var vehicleParts = await _partRepository.GetVehiclePartsByVehicleType(request.VehicleType, cancellationToken);
+        var parts = await _partRepository.GetPartVehiclesByVehicleType(request.VehicleType, cancellationToken);
         
         // Generate vehicle condition
-        foreach (var vehiclePart in vehicleParts)
+        foreach (var part in parts)
         {
-            var newVehiclePartCondition = new VehiclePartCondition(
-                DateTime.UtcNow.AddMonths(-request.LastMaintenance), 
-                DateTime.UtcNow.AddMonths(vehiclePart.AgeInMonth), 
-                newVehicle.Id,
-                vehiclePart.Id);
+            var newConditionPart = new ConditionPart
+            {
+                LastMaintenance = DateTimeUtcConverter.FromInt(-request.LastMaintenance),
+                PartId = part.Id,
+                VehicleId = newVehicle.Id
+            };
             
-            await _conditionRepository.AddVehiclePartConditionAsync(newVehiclePartCondition, cancellationToken);
+            await _conditionRepository.AddConditionPartAsync(newConditionPart, cancellationToken);
         }
 
         return newVehicle.Id;

@@ -28,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     /// <summary>
     /// Gets or sets UserAuthInfos
     /// </summary>
-    public DbSet<UserAuthInfo> UserAuthInfos { get; set; } = null!;
+    public DbSet<AuthInfo> AuthInfos { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets Vehicles
@@ -38,17 +38,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     /// <summary>
     /// Gets or sets VehicleParts
     /// </summary>
-    public DbSet<VehiclePart> VehicleParts { get; set; } = null!;
+    public DbSet<Part> PartVehicles { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceSchedules
     /// </summary>
-    public DbSet<VehiclePartCondition> VehiclePartConditions { get; set; } = null!;
+    public DbSet<ConditionPart> ConditionPartVehicles { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceHistories
     /// </summary>
-    public DbSet<VehiclePartMaintenanceHistory> VehiclePartMaintenanceHistories { get; set; } = null!;
+    public DbSet<MaintenancePart> MaintenancePartVehicles { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets Notifications
@@ -107,9 +107,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 }
             );
 
-        modelBuilder.Entity<VehiclePart>()
+        modelBuilder.Entity<Part>()
             .HasData(
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Oli",
@@ -119,7 +119,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Radiator",
@@ -129,7 +129,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Busi",
@@ -139,7 +139,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Rem",
@@ -149,7 +149,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Ban",
@@ -159,7 +159,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Aki",
@@ -169,7 +169,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "V-Belt",
@@ -179,7 +179,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "matic",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "CVT",
@@ -189,7 +189,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "matic",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Rantai dan Gear",
@@ -199,7 +199,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "manual",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Kampas Kopling",

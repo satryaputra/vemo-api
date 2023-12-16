@@ -4,9 +4,9 @@ using Vemo.Domain.Common;
 namespace Vemo.Domain.Entities.Vehicles;
 
 /// <summary>
-/// VehiclePart
+/// Part
 /// </summary>
-public class VehiclePart : BaseAuditableEntity
+public class Part : BaseAuditableEntity
 {
     /// <summary>
     /// Gets or sets Name
@@ -32,16 +32,10 @@ public class VehiclePart : BaseAuditableEntity
     /// Gets or sets VehicleType
     /// </summary>
     public string? VehicleType { get; set; }
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceSchedules
-    /// </summary>
+    
     [JsonIgnore]
-    public List<VehiclePartCondition> VehiclePartConditions { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceHistories
-    /// </summary>
+    public List<ConditionPart> ConditionParts { get; set; } = null!;
+    
     [JsonIgnore]
-    public List<VehiclePartMaintenanceHistory>? VehiclePartMaintenanceHistories { get; set; }
+    public List<MaintenancePart>? MaintenanceParts { get; set; }
 }

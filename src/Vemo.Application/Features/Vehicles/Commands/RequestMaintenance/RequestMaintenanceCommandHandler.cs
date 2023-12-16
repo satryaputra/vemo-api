@@ -10,6 +10,7 @@ namespace Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<RequestMaintenanceCommand, GenericResponseDto>
 {
     private readonly IMapper _mapper;
+    private readonly IVehicleRepository _vehicleRepository;
     private readonly IPartRepository _partRepository;
     private readonly IMaintenanceVehicleRepository _maintenanceVehicleRepository;
     private readonly IMaintenancePartRepository _maintenancePartRepository;
@@ -18,16 +19,19 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     /// Initialize a new instance of the <see cref="RequestMaintenanceCommandHandler" /> class.
     /// </summary>
     /// <param name="mapper"></param>
+    /// <param name="vehicleRepository"></param>
     /// <param name="partRepository"></param>
     /// <param name="maintenanceVehicleRepository"></param>
     /// <param name="maintenancePartRepository"></param>
     public RequestMaintenanceCommandHandler(
         IMapper mapper,
+        IVehicleRepository vehicleRepository,
         IPartRepository partRepository,
         IMaintenanceVehicleRepository maintenanceVehicleRepository, 
         IMaintenancePartRepository maintenancePartRepository)
     {
         _mapper = mapper;
+        _vehicleRepository = vehicleRepository;
         _partRepository = partRepository;
         _maintenanceVehicleRepository = maintenanceVehicleRepository;
         _maintenancePartRepository = maintenancePartRepository;
@@ -44,6 +48,12 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
         newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
         await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
+        
+        // Update status of vehicle
+        await _vehicleRepository.UpdateStatusVehicleAsync(
+            request.VehicleId,
+            _maintenanceVehicleRepository.RequestMaintenance(),
+            cancellationToken);
 
         foreach (var partId in request.ListPartId)
         {

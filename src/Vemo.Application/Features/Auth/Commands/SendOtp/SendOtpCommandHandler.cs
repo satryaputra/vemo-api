@@ -10,18 +10,18 @@ namespace Vemo.Application.Features.Auth.Commands.SendOtp;
 internal sealed class SendOtpCommandHandler : IRequestHandler<SendOtpCommand, GenericResponseDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserAuthInfoRepository _userAuthInfoRepository;
+    private readonly IAuthInfoRepository _authInfoRepository;
     private readonly IEmailService _emailService;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="SendOtpCommandHandler"/> class.
     /// </summary>
-    /// <param name="userAuthInfoRepository"></param>
+    /// <param name="authInfoRepository"></param>
     /// <param name="userRepository"></param>
     /// <param name="emailService"></param>
-    public SendOtpCommandHandler(IUserAuthInfoRepository userAuthInfoRepository, IUserRepository userRepository, IEmailService emailService)
+    public SendOtpCommandHandler(IAuthInfoRepository authInfoRepository, IUserRepository userRepository, IEmailService emailService)
     {
-        _userAuthInfoRepository = userAuthInfoRepository;
+        _authInfoRepository = authInfoRepository;
         _userRepository = userRepository;
         _emailService = emailService;
     }
@@ -39,7 +39,7 @@ internal sealed class SendOtpCommandHandler : IRequestHandler<SendOtpCommand, Ge
 
         var otp = OtpBuilder.CreateOtp();
 
-        await _userAuthInfoRepository.AddNewOtpAsync(
+        await _authInfoRepository.AddNewOtpAsync(
             userId, 
             otp,
             OtpBuilder.GetExpires(),

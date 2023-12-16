@@ -33,10 +33,7 @@ public class Notification : BaseEntity
     /// Gets or sets CreatedAt
     /// </summary>
     public DateTime CreatedAt { get; set; }
-    
-    /// <summary>
-    /// Gets or sets User
-    /// </summary>
+
     [JsonIgnore]
     public User User { get; set; } = null!;
     

@@ -30,14 +30,13 @@ public class User : BaseAuditableEntity
     public string Role { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets UserAuthInfo
+    /// Gets or sets
     /// </summary>
+    public string? Photo { get; set; }
+    
     [JsonIgnore]
-    public UserAuthInfo? UserAuthInfo { get; init; }
-
-    /// <summary>
-    /// Gets or sets Vehicles
-    /// </summary>
+    public AuthInfo? UserAuthInfo { get; init; }
+    
     [JsonIgnore]
     public List<Vehicle>? Vehicles { get; set; }
 }

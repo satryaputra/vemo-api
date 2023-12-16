@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vemo.Application.Common.Interfaces;
+using Vemo.Application.Common.Utils;
 using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Users;
 using Vemo.Domain.Entities.Vehicles;
@@ -27,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     /// <summary>
     /// Gets or sets UserAuthInfos
     /// </summary>
-    public DbSet<UserAuthInfo> UserAuthInfos { get; set; } = null!;
+    public DbSet<AuthInfo> AuthInfos { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets Vehicles
@@ -35,19 +36,24 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets VehicleParts
+    /// Gets or sets Parts
     /// </summary>
-    public DbSet<VehiclePart> VehicleParts { get; set; } = null!;
+    public DbSet<Part> Parts { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets VehiclePartMaintenanceSchedules
+    /// Gets or sets ConditionParts
     /// </summary>
-    public DbSet<VehiclePartCondition> VehiclePartConditions { get; set; } = null!;
+    public DbSet<ConditionPart> ConditionParts { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets MaintenanceVehicles
+    /// </summary>
+    public DbSet<MaintenanceVehicle> MaintenanceVehicles { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets VehiclePartMaintenanceHistories
     /// </summary>
-    public DbSet<VehiclePartMaintenanceHistory> VehiclePartMaintenanceHistories { get; set; } = null!;
+    public DbSet<MaintenancePart> MaintenanceParts { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets Notifications
@@ -78,9 +84,37 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .HasIndex(v => v.LicensePlate)
             .IsUnique();
 
-        modelBuilder.Entity<VehiclePart>()
+        modelBuilder.Entity<User>()
             .HasData(
-                new VehiclePart
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "admin",
+                    Email = "admin@vemo.com",
+                    Password = PasswordHasher.HashPassword("Admin!123"),
+                    Role = "admin",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = null,
+                    Vehicles = null,
+                    UserAuthInfo = null
+                },
+                new User
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "customer",
+                    Email = "customer@vemo.com",
+                    Password = PasswordHasher.HashPassword("Customer!123"),
+                    Role = "customer",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = null,
+                    Vehicles = null,
+                    UserAuthInfo = null
+                }
+            );
+
+        modelBuilder.Entity<Part>()
+            .HasData(
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Oli",
@@ -90,7 +124,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Radiator",
@@ -100,7 +134,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Busi",
@@ -110,7 +144,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Rem",
@@ -120,7 +154,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Ban",
@@ -130,7 +164,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Aki",
@@ -140,7 +174,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = null,
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "V-Belt",
@@ -150,7 +184,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "matic",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "CVT",
@@ -160,7 +194,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "matic",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Rantai dan Gear",
@@ -170,7 +204,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                     VehicleType = "manual",
                     CreatedAt = DateTime.UtcNow
                 },
-                new VehiclePart
+                new Part
                 {
                     Id = Guid.NewGuid(),
                     Name = "Kampas Kopling",

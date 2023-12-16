@@ -10,19 +10,19 @@ namespace Vemo.Application.Features.Auth.Commands.Login;
 internal sealed class LoginCommandHandler :IRequestHandler<LoginCommand, TokenResponseDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserAuthInfoRepository _userAuthInfoRepository;
+    private readonly IAuthInfoRepository _authInfoRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="LoginCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
-    /// <param name="userAuthInfoRepository"></param>
+    /// <param name="authInfoRepository"></param>
     public LoginCommandHandler(
         IUserRepository userRepository, 
-        IUserAuthInfoRepository userAuthInfoRepository)
+        IAuthInfoRepository authInfoRepository)
     {
         _userRepository = userRepository;
-        _userAuthInfoRepository = userAuthInfoRepository;
+        _authInfoRepository = authInfoRepository;
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ internal sealed class LoginCommandHandler :IRequestHandler<LoginCommand, TokenRe
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();
         
-        await _userAuthInfoRepository.AddNewRefreshTokenAsync(user.Id, refreshToken, refreshTokenExpires, cancellationToken);
+        await _authInfoRepository.AddNewRefreshTokenAsync(user.Id, refreshToken, refreshTokenExpires, cancellationToken);
 
         return new TokenResponseDto(accessToken, refreshToken, refreshTokenExpires);
     }

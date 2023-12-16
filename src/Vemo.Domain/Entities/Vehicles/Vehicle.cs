@@ -38,10 +38,7 @@ public class Vehicle : BaseAuditableEntity
     /// Gets or sets Status
     /// </summary>
     public string Status { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets User
-    /// </summary>
+    
     [JsonIgnore]
     public User User { get; set; } = null!;
 
@@ -49,16 +46,10 @@ public class Vehicle : BaseAuditableEntity
     /// Gets or sets UserId
     /// </summary>
     public Guid UserId { get; set; }
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceSchedules
-    /// </summary>
+    
     [JsonIgnore]
-    public List<VehiclePartCondition>? VehiclePartConditions { get; set; }
-
-    /// <summary>
-    /// Gets or sets VehiclePartMaintenanceHistories
-    /// </summary>
+    public List<MaintenanceVehicle>? MaintenanceVehicles { get; set; }
+    
     [JsonIgnore]
-    public List<VehiclePartMaintenanceHistory>? VehiclePartMaintenanceHistories { get; set; }
+    public List<ConditionPart>? ConditionParts { get; set; }
 }

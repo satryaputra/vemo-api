@@ -81,6 +81,20 @@ public class UserRepository : IUserRepository
         user.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
     }
+    
+    /// <summary>
+    /// UpdatePhotoAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="imageName"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdatePhotoAsync(Guid userId, string imageName, CancellationToken cancellationToken)
+    {
+        var user = await GetUserByIdAsync(userId, cancellationToken);
+        user.Photo = imageName;
+        user.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 
     /// <summary>
     /// IsUserExistsByEmailAsync
@@ -91,5 +105,17 @@ public class UserRepository : IUserRepository
     public async Task<bool> IsUserExistsByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _context.Users.AnyAsync(u => u.Email.Equals(email), cancellationToken);
+    }
+
+    /// <summary>
+    /// IsEmptyPhotoAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<bool> IsEmptyPhotoAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var user = await GetUserByIdAsync(userId, cancellationToken);
+        return user.Photo is null;
     }
 }

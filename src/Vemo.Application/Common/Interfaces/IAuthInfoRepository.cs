@@ -3,9 +3,9 @@
 namespace Vemo.Application.Common.Interfaces;
 
 /// <summary>
-/// IUserAuthInfoRepository
+/// IAuthInfoRepository
 /// </summary>
-public interface IUserAuthInfoRepository
+public interface IAuthInfoRepository
 {
     /// <summary>
     /// AddRefreshTokenAsync
@@ -33,7 +33,7 @@ public interface IUserAuthInfoRepository
     /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<UserAuthInfo> GetUserAuthInfoByUserIdAsync(Guid userId, CancellationToken cancellationToken);
+    Task<AuthInfo> GetAuthInfoByUserIdAsync(Guid userId, CancellationToken cancellationToken);
 
     /// <summary>
     /// IsUserAuthInfoExistsByUserIdAsync
@@ -41,5 +41,5 @@ public interface IUserAuthInfoRepository
     /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<bool> IsUserAuthInfoExistsByUserIdAsync(Guid userId, CancellationToken cancellationToken);
+    Task<bool> IsAuthInfoExistsByUserIdAsync(Guid userId, CancellationToken cancellationToken);
 }

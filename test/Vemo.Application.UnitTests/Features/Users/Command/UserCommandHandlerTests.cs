@@ -30,10 +30,10 @@ public class CreateUserCommandHandlerTests
         userRepositoryMock.Setup(x => x.CreateUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
-        var userAuthInfoRepositoryMock = new Mock<IUserAuthInfoRepository>();
+        var userAuthInfoRepositoryMock = new Mock<IAuthInfoRepository>();
         userAuthInfoRepositoryMock
-            .Setup(x => x.GetUserAuthInfoByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new UserAuthInfo());
+            .Setup(x => x.GetAuthInfoByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new AuthInfo());
 
         var handler = new CreateUserCommandHandler(
             mapperMock.Object,

@@ -24,4 +24,9 @@ public class UserResponseDto
     /// Gets or sets Role
     /// </summary>
     public string Role { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets Photo
+    /// </summary>
+    public string Photo { get; set; } = string.Empty;
 }

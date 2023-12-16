@@ -12,22 +12,22 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
-    private readonly IUserAuthInfoRepository _userAuthInfoRepository;
+    private readonly IAuthInfoRepository _authInfoRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="CreateUserCommandHandler"/> class.
     /// </summary>
     /// <param name="mapper"></param>
     /// <param name="userRepository"></param>
-    /// <param name="userAuthInfoRepository"></param>
+    /// <param name="authInfoRepository"></param>
     public CreateUserCommandHandler(
         IMapper mapper, 
         IUserRepository userRepository, 
-        IUserAuthInfoRepository userAuthInfoRepository)
+        IAuthInfoRepository authInfoRepository)
     {
         _mapper = mapper;
         _userRepository = userRepository;
-        _userAuthInfoRepository = userAuthInfoRepository;
+        _authInfoRepository = authInfoRepository;
     }
 
     /// <summary>
@@ -48,11 +48,12 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
 
         await _userRepository.CreateUserAsync(newUser, cancellationToken);
         
+        // Generate token
         var accessToken = TokenBuilder.CreateAccessToken(newUser.Id, newUser.Role);
         var refreshToken = TokenBuilder.CreateRefreshToken();
         var refreshTokenExpires = TokenBuilder.GetRefreshTokenExpired();
 ;
-        await _userAuthInfoRepository.AddNewRefreshTokenAsync(newUser.Id, refreshToken, refreshTokenExpires, cancellationToken);
+        await _authInfoRepository.AddNewRefreshTokenAsync(newUser.Id, refreshToken, refreshTokenExpires, cancellationToken);
 
         return new TokenCreateUserResponseDto(newUser.Id, accessToken, refreshToken, refreshTokenExpires);
     }

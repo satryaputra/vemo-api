@@ -166,12 +166,12 @@ public static class TokenBuilder
     /// <summary>
     /// IsValidRefreshToken
     /// </summary>
-    /// <param name="userAuthInfo"></param>
+    /// <param name="authInfo"></param>
     /// <param name="refreshTokenRequest"></param>
     /// <returns></returns>
-    public static bool IsValidRefreshToken(UserAuthInfo userAuthInfo, string refreshTokenRequest)
+    public static bool IsValidRefreshToken(AuthInfo authInfo, string refreshTokenRequest)
     {
-        return userAuthInfo.RefreshToken!.Equals(refreshTokenRequest) && userAuthInfo.RefreshTokenExpires >= DateTime.UtcNow;
+        return authInfo.RefreshToken!.Equals(refreshTokenRequest) && authInfo.RefreshTokenExpires >= DateTime.UtcNow;
     }
 
     /// <summary>

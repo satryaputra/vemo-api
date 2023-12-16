@@ -33,6 +33,22 @@ public class VehicleRepository : IVehicleRepository
     }
 
     /// <summary>
+    /// UpdateStatusVehicleAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task UpdateStatusVehicleAsync(Guid vehicleId, string status, CancellationToken cancellationToken)
+    {
+        var vehicle = await GetVehicleByIdAsync(vehicleId, cancellationToken);
+        vehicle.Status = status;
+        vehicle.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// ApproveVehicleAsync
     /// </summary>
     /// <param name="vehicleId"></param>
@@ -41,9 +57,16 @@ public class VehicleRepository : IVehicleRepository
     public async Task ApproveVehicleAsync(Guid vehicleId, CancellationToken cancellationToken)
     {
         var vehicle = await GetVehicleByIdAsync(vehicleId, cancellationToken);
-        vehicle.Status = Approve();
-        vehicle.UpdatedAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync(cancellationToken);
+        if (vehicle.Status.Equals(Approve()))
+        {
+            throw new BadRequestException("Kendaraan sudah disetujui");
+        }
+        else
+        {
+            vehicle.Status = Approve();
+            vehicle.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 
     /// <summary>

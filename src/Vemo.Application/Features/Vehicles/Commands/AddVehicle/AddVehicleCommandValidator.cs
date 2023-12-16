@@ -24,7 +24,7 @@ public class AddVehicleCommandValidator : AbstractValidator<AddVehicleCommand>
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")
             .Must(role => role is "matic" or "manual").WithMessage("{PropertyName} harus 'matic' atau 'manual'");
-        
+
         RuleFor(x => x.LicensePlate)
             .NotNull().WithMessage("{PropertyName} wajib diisi")
             .NotEmpty().WithMessage("{PropertyName} tidak boleh kosong")

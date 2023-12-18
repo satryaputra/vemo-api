@@ -20,4 +20,4 @@ services:
     depends_on:
         - postgres
     volumes:
-      - "../../frontend/public/PhotoProfile:/app/PhotoProfile"
+      - "/home/vemoserver/vemo/frontend/public/PhotoProfile:/app/PhotoProfile"

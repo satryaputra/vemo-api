@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Utils;
+using Vemo.Application.Features.Notifications.Commands.AddNotification;
 using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Application.Features.Vehicles.Commands.AddPart;
 using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
+using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Users;
 using Vemo.Domain.Entities.Vehicles;
 
@@ -39,5 +41,7 @@ public class MappingProfile : Profile
         CreateMap<AddPartVehicleCommand, Part>();
 
         CreateMap<RequestMaintenanceCommand, MaintenanceVehicle>();
+
+        CreateMap<AddNotificationCommand, Notification>();
     }
 }

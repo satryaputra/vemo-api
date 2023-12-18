@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Infrastructure.Persistence;
+using Vemo.Infrastructure.Repositories.Notifications;
 using Vemo.Infrastructure.Repositories.Users;
 using Vemo.Infrastructure.Repositories.Vehicles;
 using Vemo.Infrastructure.Services;
@@ -39,6 +40,9 @@ public static class DependencyInjection
         services.AddScoped<IConditionPartRepository, ConditionPartRepository>();
         services.AddScoped<IMaintenanceVehicleRepository, MaintenanceVehicleRepository>();
         services.AddScoped<IMaintenancePartRepository, MaintenancePartRepository>();
+        // -- Notifications
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        
         
         // Services
         // -- email

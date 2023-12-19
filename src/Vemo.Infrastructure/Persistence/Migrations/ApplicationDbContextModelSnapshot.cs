@@ -22,7 +22,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notification", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notifications", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -412,7 +412,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notification", b =>
+            modelBuilder.Entity("Vemo.Domain.Entities.Notifications.Notifications", b =>
                 {
                     b.HasOne("Vemo.Domain.Entities.Users.User", "User")
                         .WithMany()

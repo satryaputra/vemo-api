@@ -52,6 +52,7 @@ public class AuthController : BaseController
         }, cancellationToken);
 
         SetRefreshToken(refreshAccessTokenResponse.RefreshToken, refreshAccessTokenResponse.RefreshTokenExpires);
+        
         return Ok(new { refreshAccessTokenResponse.AccessToken });
     }
 

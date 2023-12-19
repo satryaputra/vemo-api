@@ -35,10 +35,13 @@ public class CreateUserCommandHandlerTests
             .Setup(x => x.GetAuthInfoByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new AuthInfo());
 
+        var notificationMock = new Mock<INotificationRepository>();
+
         var handler = new CreateUserCommandHandler(
             mapperMock.Object,
             userRepositoryMock.Object,
-            userAuthInfoRepositoryMock.Object
+            userAuthInfoRepositoryMock.Object,
+            notificationMock.Object
         );
 
         // Act

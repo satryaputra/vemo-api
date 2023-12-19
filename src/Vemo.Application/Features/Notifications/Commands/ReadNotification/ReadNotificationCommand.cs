@@ -6,7 +6,7 @@
 public class ReadNotificationCommand : IRequest<GenericResponseDto>
 {
     /// <summary>
-    /// Gets or sets NotificationId
+    /// Gets or sets ListNotificationId
     /// </summary>
-    public Guid NotificationId { get; set; }
+    public List<Guid> ListNotificationId { get; set; } = null!;
 }

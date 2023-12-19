@@ -26,7 +26,10 @@ public class ReadNotificationCommandHandler : IRequestHandler<ReadNotificationCo
     /// <returns></returns>
     public async Task<GenericResponseDto> Handle(ReadNotificationCommand request, CancellationToken cancellationToken)
     {
-        await _notificationRepository.ReadNotificationAsync(request.NotificationId, cancellationToken);
+        foreach (var notificationId in request.ListNotificationId)
+        {
+            await _notificationRepository.ReadNotificationAsync(notificationId, cancellationToken);
+        }
         return new GenericResponseDto("Berhasil mengubah status read notification");
     }
 }

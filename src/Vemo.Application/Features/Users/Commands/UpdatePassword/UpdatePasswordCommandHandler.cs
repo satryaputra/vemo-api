@@ -1,6 +1,7 @@
 ﻿using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
+using Vemo.Domain.Entities.Notifications;
 
 namespace Vemo.Application.Features.Users.Commands.UpdatePassword;
 
@@ -10,14 +11,19 @@ namespace Vemo.Application.Features.Users.Commands.UpdatePassword;
 internal sealed class UpdatePasswordCommandHandler : IRequestHandler<UpdatePasswordCommand, GenericResponseDto>
 {
     private readonly IUserRepository _userRepository;
+    private readonly INotificationRepository _notificationRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="UpdatePasswordCommandHandler"/> class.
     /// </summary>
     /// <param name="userRepository"></param>
-    public UpdatePasswordCommandHandler(IUserRepository userRepository)
+    /// <param name="notificationRepository"></param>
+    public UpdatePasswordCommandHandler(
+        IUserRepository userRepository, 
+        INotificationRepository notificationRepository)
     {
         _userRepository = userRepository;
+        _notificationRepository = notificationRepository;
     }
 
     /// <summary>
@@ -42,6 +48,16 @@ internal sealed class UpdatePasswordCommandHandler : IRequestHandler<UpdatePassw
         }
 
         await _userRepository.UpdatePasswordAsync(user.Id, request.NewPassword, cancellationToken);
+
+        // Notification
+        var notification = new Notification
+        {
+            Title = "Ubah Password",
+            Description = "Selamat! Anda telah berhasil mengubah password akun Anda",
+            UserId = request.UserId
+        };
+
+        await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return new GenericResponseDto("Update password berhasil");
     }

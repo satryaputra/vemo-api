@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
+using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
@@ -15,6 +16,7 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     private readonly IPartRepository _partRepository;
     private readonly IMaintenanceVehicleRepository _maintenanceVehicleRepository;
     private readonly IMaintenancePartRepository _maintenancePartRepository;
+    private readonly INotificationRepository _notificationRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="RequestMaintenanceCommandHandler" /> class.
@@ -24,18 +26,21 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     /// <param name="partRepository"></param>
     /// <param name="maintenanceVehicleRepository"></param>
     /// <param name="maintenancePartRepository"></param>
+    /// <param name="notificationRepository"></param>
     public RequestMaintenanceCommandHandler(
         IMapper mapper,
         IVehicleRepository vehicleRepository,
         IPartRepository partRepository,
         IMaintenanceVehicleRepository maintenanceVehicleRepository, 
-        IMaintenancePartRepository maintenancePartRepository)
+        IMaintenancePartRepository maintenancePartRepository, 
+        INotificationRepository notificationRepository)
     {
         _mapper = mapper;
         _vehicleRepository = vehicleRepository;
         _partRepository = partRepository;
         _maintenanceVehicleRepository = maintenanceVehicleRepository;
         _maintenancePartRepository = maintenancePartRepository;
+        _notificationRepository = notificationRepository;
     }
 
     /// <summary>
@@ -77,6 +82,16 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
 
             await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
         }
+        
+        // Notification
+        var notification = new Notification
+        {
+            Title = "Perawatan Kendaraan",
+            Description = $"Permintaan perawatan kendaraan {vehicle.Name} dengan plat nomor {vehicle.LicensePlate} anda berhasil, mohon ditunggu untuk info selanjutnya dari admin. Terimakasih",
+            UserId = vehicle.UserId
+        };
+
+        await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return new GenericResponseDto("Berhasil mengirim permintaan perawatan");
     }

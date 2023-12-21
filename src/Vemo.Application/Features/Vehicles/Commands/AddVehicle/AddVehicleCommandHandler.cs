@@ -2,6 +2,7 @@
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Application.Common.Utils;
+using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Features.Vehicles.Commands.AddVehicle;
@@ -15,6 +16,7 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     private readonly IVehicleRepository _vehicleRepository;
     private readonly IPartRepository _partRepository;
     private readonly IConditionPartRepository _conditionRepository;
+    private readonly INotificationRepository _notificationRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="AddVehicleCommandHandler"/> class.
@@ -22,15 +24,20 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
     /// <param name="mapper"></param>
     /// <param name="vehicleRepository"></param>
     /// <param name="partRepository"></param>
+    /// <param name="conditionRepository"></param>
+    /// <param name="notificationRepository"></param>
     public AddVehicleCommandHandler(
         IMapper mapper, 
         IVehicleRepository vehicleRepository, 
-        IPartRepository partRepository, IConditionPartRepository conditionRepository)
+        IPartRepository partRepository, 
+        IConditionPartRepository conditionRepository, 
+        INotificationRepository notificationRepository)
     {
         _mapper = mapper;
         _vehicleRepository = vehicleRepository;
         _partRepository = partRepository;
         _conditionRepository = conditionRepository;
+        _notificationRepository = notificationRepository;
     }
 
     /// <summary>
@@ -76,6 +83,16 @@ internal sealed class AddVehicleCommandHandler : IRequestHandler<AddVehicleComma
             
             await _conditionRepository.AddConditionPartAsync(newConditionPart, cancellationToken);
         }
+        
+        // Notification
+        var notification = new Notification
+        {
+            Title = "Pendaftaran Kendaraan",
+            Description = $"Kendaraan {newVehicle.Name} anda dengan Plat Nomor {newVehicle.LicensePlate} berhasil didaftarkan, mohon tunggu untuk peninjauan admin lebih lanjut. Terimakasih",
+            UserId = request.UserId
+        };
+
+        await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return newVehicle.Id;
     }

@@ -61,14 +61,14 @@ internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserComma
         await _authInfoRepository.AddNewRefreshTokenAsync(newUser.Id, refreshToken, refreshTokenExpires, cancellationToken);
 
         // Notification
-        var newNotification = new Notification
+        var notification = new Notification
         {
             Title = "Selamat Datang di Vemo",
             Description = "Terimakasih telah mendaftar dan mempercayakan kendaraan Anda di Vemo",
             UserId = newUser.Id
         };
 
-        await _notificationRepository.AddNotificationAsync(newNotification, cancellationToken);
+        await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return new TokenCreateUserResponseDto(newUser.Id, accessToken, refreshToken, refreshTokenExpires);
     }

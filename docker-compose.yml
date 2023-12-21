@@ -20,8 +20,4 @@ services:
     depends_on:
         - postgres
     volumes:
-<<<<<<< Updated upstream
       - "/home/vemoserver/vemo/frontend/public/PhotoProfile:/app/PhotoProfile"
-=======
-      - "/home/vemoserver/vemo/frontend/public/PhotoProfile:/app/PhotoProfile"
->>>>>>> Stashed changes

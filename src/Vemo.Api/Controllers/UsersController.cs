@@ -59,6 +59,11 @@ public class UsersController : BaseController
         return Ok(await Mediator.Send(updateUserCommand, cancellationToken));
     }
 
+    /// <summary>
+    /// GetCurrentUser
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
     {
@@ -83,6 +88,11 @@ public class UsersController : BaseController
         return Ok(await Mediator.Send(updatePasswordCommand, cancellationToken));
     }
 
+    /// <summary>
+    /// UploadImage
+    /// </summary>
+    /// <param name="image"></param>
+    /// <returns></returns>
     [HttpPatch("photo"), AllowAnonymous]
     public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
     {

@@ -8,7 +8,7 @@ using Vemo.Application.Features.Vehicles.Queries.GetVehicles;
 namespace Vemo.Api.Controllers;
 
 /// <summary>
-/// Represents RESTful of User
+/// Represents RESTful of Vehicle
 /// </summary>
 [Route("vehicles"), Authorize]
 public class VehicleController : BaseController
@@ -74,6 +74,12 @@ public class VehicleController : BaseController
         return Ok(await Mediator.Send(new ApproveVehicleCommand { VehicleId = vehicleId }, cancellationToken));
     }
 
+    /// <summary>
+    /// GetConditionPartsByVehicleId
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("{vehicleId:guid}/parts")]
     public async Task<IActionResult> GetConditionPartsByVehicleId(
         Guid vehicleId,
@@ -85,6 +91,12 @@ public class VehicleController : BaseController
         }, cancellationToken));
     }
 
+    /// <summary>
+    /// RequestMaintenance
+    /// </summary>
+    /// <param name="requestMaintenanceCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("maintenance")]
     public async Task<IActionResult> RequestMaintenance(
         RequestMaintenanceCommand requestMaintenanceCommand,

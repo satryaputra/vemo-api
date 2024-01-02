@@ -28,7 +28,8 @@ public class AuthInfoRepository : IAuthInfoRepository
     /// <param name="refreshToken"></param>
     /// <param name="refreshTokenExpires"></param>
     /// <param name="cancellationToken"></param>
-    public async Task AddNewRefreshTokenAsync(Guid userId, string refreshToken, DateTime refreshTokenExpires, CancellationToken cancellationToken)
+    public async Task AddNewRefreshTokenAsync(Guid userId, string refreshToken, DateTime refreshTokenExpires,
+        CancellationToken cancellationToken)
     {
         if (await IsAuthInfoExistsByUserIdAsync(userId, cancellationToken))
         {
@@ -48,6 +49,22 @@ public class AuthInfoRepository : IAuthInfoRepository
             await _context.AuthInfos.AddAsync(newUserAuthInfo, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    /// <summary>
+    /// DeleteRefreshTokenAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task DeleteRefreshTokenAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var authInfo = await _context.AuthInfos.FirstOrDefaultAsync(x => x.UserId.Equals(userId), cancellationToken)
+            ?? throw new NotFoundException("AuthInfo by UserId tidak ditemukan | DeleteRefreshTokenAsync");
+        authInfo.RefreshToken = null;
+        authInfo.RefreshTokenExpires = null;
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>

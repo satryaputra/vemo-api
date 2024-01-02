@@ -1,4 +1,5 @@
 ﻿using Vemo.Application.Features.Auth.Commands.Login;
+using Vemo.Application.Features.Auth.Commands.Logout;
 using Vemo.Application.Features.Auth.Commands.RefreshToken;
 using Vemo.Application.Features.Auth.Commands.ResetPassword;
 using Vemo.Application.Features.Auth.Commands.SendOtp;
@@ -52,7 +53,7 @@ public class AuthController : BaseController
         }, cancellationToken);
 
         SetRefreshToken(refreshAccessTokenResponse.RefreshToken, refreshAccessTokenResponse.RefreshTokenExpires);
-        
+
         return Ok(new { refreshAccessTokenResponse.AccessToken });
     }
 
@@ -113,7 +114,7 @@ public class AuthController : BaseController
     {
         return Ok(await Mediator.Send(new SendOtpCommand
             {
-                AccessToken = GetAccessTokenFromHeader(), 
+                AccessToken = GetAccessTokenFromHeader(),
                 Email = email
             },
             cancellationToken));
@@ -130,9 +131,21 @@ public class AuthController : BaseController
     {
         return Ok(await Mediator.Send(new VerifyOtpQuery
             {
-                AccessToken = GetAccessTokenFromHeader(), 
+                AccessToken = GetAccessTokenFromHeader(),
                 Otp = verify
             },
             cancellationToken));
+    }
+
+    /// <summary>
+    /// Logout
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpDelete("logout")]
+    public async Task<IActionResult> Logout(CancellationToken cancellationToken)
+    {
+        await Mediator.Send(new LogoutCommand { AccessToken = GetAccessTokenFromHeader() }, cancellationToken);
+        return NoContent();
     }
 }

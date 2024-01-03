@@ -1,8 +1,10 @@
-﻿using Vemo.Application.Common.Utils;
+﻿using Vemo.Application.Common.Interfaces;
+using Vemo.Application.Common.Utils;
 using Vemo.Application.Features.Users.Commands.CreateUser;
 using Vemo.Application.Features.Users.Commands.UpdatePassword;
 using Vemo.Application.Features.Users.Commands.UpdatePhotoProfile;
 using Vemo.Application.Features.Users.Commands.UpdateUser;
+using Vemo.Application.Features.Users.Queries.GetActiveUsers;
 using Vemo.Application.Features.Users.Queries.GetUserById;
 using Vemo.Domain.Enums;
 
@@ -14,6 +16,17 @@ namespace Vemo.Api.Controllers;
 [Route("users"), Authorize]
 public class UsersController : BaseController
 {
+    private readonly ICacheService _cacheService;
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="UsersController"/> class.
+    /// </summary>
+    /// <param name="cacheService"></param>
+    public UsersController(ICacheService cacheService)
+    {
+        _cacheService = cacheService;
+    }
+
     /// <summary>
     /// RegisterUser
     /// </summary>
@@ -67,9 +80,15 @@ public class UsersController : BaseController
     [HttpGet("me")]
     public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
     {
+        var userId = TokenBuilder.GetUserIdFromJwtToken(GetAccessTokenFromHeader(), TokenType.AccessToken);
+
+        // caching
+        var userOnlineKey = $"user-active:{userId}";
+        await _cacheService.SetDataAsync(userOnlineKey, userId, DateTime.UtcNow.AddMinutes(1));
+
         return Ok(await Mediator.Send(new GetUserByIdQuery()
             {
-                UserId = TokenBuilder.GetUserIdFromJwtToken(GetAccessTokenFromHeader(), TokenType.AccessToken)
+                UserId = userId
             },
             cancellationToken));
     }
@@ -101,7 +120,7 @@ public class UsersController : BaseController
             AccessToken = GetAccessTokenFromHeader(),
             ImageName = image.FileName,
         });
-        
+
         var imagePath = Path.Combine("../../../frontend/public/PhotoProfile", image.FileName);
         await using (var stream = new FileStream(imagePath, FileMode.Create))
         {
@@ -109,5 +128,16 @@ public class UsersController : BaseController
         }
 
         return Ok(updatePhotoResponse);
+    }
+
+    /// <summary>
+    /// GetActiveUsers
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("active"), AllowAnonymous]
+    public async Task<IActionResult> GetActiveUsers(CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetActiveUsersQuery(), cancellationToken));
     }
 }

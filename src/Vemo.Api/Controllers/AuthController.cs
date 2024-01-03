@@ -145,6 +145,7 @@ public class AuthController : BaseController
     [HttpDelete("logout")]
     public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
+        Response.Cookies.Delete(RefreshTokenHandler.GetKey);
         await Mediator.Send(new LogoutCommand { AccessToken = GetAccessTokenFromHeader() }, cancellationToken);
         return NoContent();
     }

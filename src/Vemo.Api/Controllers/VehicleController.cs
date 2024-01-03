@@ -141,7 +141,7 @@ public class VehicleController : BaseController
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("count"), AllowAnonymous]
+    [HttpGet("count"), Authorize(Roles = "admin")]
     public async Task<IActionResult> Count(CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new CountVehiclesQuery(), cancellationToken));

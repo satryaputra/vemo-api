@@ -147,7 +147,7 @@ public class UsersController : BaseController
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("active"), AllowAnonymous]
+    [HttpGet("active"), Authorize(Roles = "admin")]
     public async Task<IActionResult> GetActiveUsers(CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetActiveUsersQuery(), cancellationToken));

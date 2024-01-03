@@ -14,6 +14,13 @@ public interface IUserRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task CreateUserAsync(User user, CancellationToken cancellationToken);
+    
+    /// <summary>
+    /// GetAllUsersAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<User>> GetAllUsersAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// GetUserIdByIdAsync

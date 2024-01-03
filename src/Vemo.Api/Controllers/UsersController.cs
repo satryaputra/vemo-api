@@ -5,6 +5,7 @@ using Vemo.Application.Features.Users.Commands.UpdatePassword;
 using Vemo.Application.Features.Users.Commands.UpdatePhotoProfile;
 using Vemo.Application.Features.Users.Commands.UpdateUser;
 using Vemo.Application.Features.Users.Queries.GetActiveUsers;
+using Vemo.Application.Features.Users.Queries.GetAllUsers;
 using Vemo.Application.Features.Users.Queries.GetUserById;
 using Vemo.Domain.Enums;
 
@@ -42,6 +43,17 @@ public class UsersController : BaseController
         SetRefreshToken(createUserResponse.RefreshToken, createUserResponse.RefreshTokenExpires);
         return CreatedAtAction(nameof(GetUserById), new { userId = createUserResponse.UserId },
             new { createUserResponse.AccessToken });
+    }
+
+    /// <summary>
+    /// GetAllUsers
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet, AllowAnonymous]
+    public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetAllUsersQuery(), cancellationToken));
     }
 
     /// <summary>

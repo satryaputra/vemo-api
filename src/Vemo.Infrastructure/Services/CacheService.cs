@@ -18,7 +18,7 @@ public class CacheService : ICacheService
     {
         var configurationOptions = new ConfigurationOptions
         {
-            EndPoints = { "localhost:6379" },
+            EndPoints = { "redis:6379" },
             AbortOnConnectFail = false,
         };
         var redis = ConnectionMultiplexer.Connect(configurationOptions);

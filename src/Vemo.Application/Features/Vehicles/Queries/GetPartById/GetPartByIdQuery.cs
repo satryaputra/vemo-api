@@ -1,4 +1,4 @@
-﻿using Vemo.Domain.Entities.Vehicles;
+using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Features.Vehicles.Queries.GetPartById;
 

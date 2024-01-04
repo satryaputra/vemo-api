@@ -3,6 +3,9 @@ using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Features.Vehicles.Queries.GetPartById;
 
+/// <summary>
+/// GetPartByIdQueryHandler
+/// </summary>
 internal sealed class GetPartByIdQueryHandler : IRequestHandler<GetPartByIdQuery, Part>
 {
     private readonly IPartRepository _partRepository;

@@ -18,6 +18,14 @@ public interface IAuthInfoRepository
     Task AddNewRefreshTokenAsync(Guid userId, string refreshToken, DateTime refreshTokenExpires, CancellationToken cancellationToken);
 
     /// <summary>
+    /// DeleteRefreshTokenAsync
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task DeleteRefreshTokenAsync(Guid userId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// AddNewOtpAsync
     /// </summary>
     /// <param name="userId"></param>

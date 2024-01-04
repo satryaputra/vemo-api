@@ -8,7 +8,7 @@ namespace Vemo.Application.Features.Vehicles.Queries.GetPartById;
 public class GetPartByIdQuery : IRequest<Part>
 {
     /// <summary>
-    /// PartId
+    /// Gets or sets PartId
     /// </summary>
     public Guid PartId { get; set; }
 }

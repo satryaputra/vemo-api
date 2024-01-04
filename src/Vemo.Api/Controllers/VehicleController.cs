@@ -1,14 +1,17 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
+using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
+using Vemo.Application.Features.Vehicles.Queries.GetPartById;
+using Vemo.Application.Features.Vehicles.Queries.GetPartsByVehicleId;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicleById;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicles;
 
 namespace Vemo.Api.Controllers;
 
 /// <summary>
-/// Represents RESTful of User
+/// Represents RESTful of Vehicle
 /// </summary>
 [Route("vehicles"), Authorize]
 public class VehicleController : BaseController
@@ -57,7 +60,7 @@ public class VehicleController : BaseController
         [FromQuery] string? status,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId, Status = status}, cancellationToken));
+        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId, Status = status }, cancellationToken));
     }
 
     /// <summary>
@@ -74,6 +77,40 @@ public class VehicleController : BaseController
         return Ok(await Mediator.Send(new ApproveVehicleCommand { VehicleId = vehicleId }, cancellationToken));
     }
 
+    /// <summary>
+    /// GetPartsByVehicleId
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("parts")]
+    public async Task<IActionResult> GetPartsByVehicleId(
+        [FromQuery] Guid vehicleId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetPartByVehicleIdQuery { VehicleId = vehicleId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// GetPartById
+    /// </summary>
+    /// <param name="partId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("parts/{partId:guid}")]
+    public async Task<IActionResult> GetPartById(
+        [FromRoute] Guid partId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetPartByIdQuery { PartId = partId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// GetConditionPartsByVehicleId
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("{vehicleId:guid}/parts")]
     public async Task<IActionResult> GetConditionPartsByVehicleId(
         Guid vehicleId,
@@ -85,11 +122,28 @@ public class VehicleController : BaseController
         }, cancellationToken));
     }
 
+    /// <summary>
+    /// RequestMaintenance
+    /// </summary>
+    /// <param name="requestMaintenanceCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("maintenance")]
     public async Task<IActionResult> RequestMaintenance(
         RequestMaintenanceCommand requestMaintenanceCommand,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(requestMaintenanceCommand, cancellationToken));
+    }
+
+    /// <summary>
+    /// Count
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("count"), Authorize(Roles = "admin")]
+    public async Task<IActionResult> Count(CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new CountVehiclesQuery(), cancellationToken));
     }
 }

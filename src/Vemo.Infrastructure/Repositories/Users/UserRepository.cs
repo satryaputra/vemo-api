@@ -34,6 +34,17 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// GetAllUsersAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<User>> GetAllUsersAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Users.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// GetUserIdByIdAsync
     /// </summary>
     /// <param name="userId"></param>
@@ -81,7 +92,7 @@ public class UserRepository : IUserRepository
         user.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync(cancellationToken);
     }
-    
+
     /// <summary>
     /// UpdatePhotoAsync
     /// </summary>

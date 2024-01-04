@@ -45,7 +45,9 @@ public static class DependencyInjection
         
         
         // Services
-        // -- email
+        // -- Email
         services.AddScoped<IEmailService, EmailService>();
+        // -- Cache
+        services.AddScoped<ICacheService, CacheService>();
     }
 }

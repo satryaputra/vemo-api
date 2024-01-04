@@ -16,7 +16,14 @@ public class CacheService : ICacheService
     /// </summary>
     public CacheService()
     {
-        var redis = ConnectionMultiplexer.Connect("localhost:6379");
+        var configurationOptions = new ConfigurationOptions
+        {
+            EndPoints = { "localhost:6379" },
+            AbortOnConnectFail = false,
+            ConnectTimeout = 5000,
+            SyncTimeout = 5000,
+        };
+        var redis = ConnectionMultiplexer.Connect(configurationOptions);
         _cacheDb = redis.GetDatabase();
     }
 

@@ -40,7 +40,8 @@ internal sealed class ApproveVehicleCommandHandler : IRequestHandler<ApproveVehi
         {
             Title = "Pendaftaran Kendaraan",
             Description = $"Selamat! Kendaraan {vehicle.Name} anda dengan Plat Nomor {vehicle.LicensePlate} telah disetujui oleh admin",
-            UserId = vehicle.UserId
+            UserId = vehicle.UserId,
+            Category = "admin"
         };
 
         await _notificationRepository.AddNotificationAsync(notification, cancellationToken);

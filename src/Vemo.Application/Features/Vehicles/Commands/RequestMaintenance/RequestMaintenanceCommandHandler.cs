@@ -31,8 +31,8 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         IMapper mapper,
         IVehicleRepository vehicleRepository,
         IPartRepository partRepository,
-        IMaintenanceVehicleRepository maintenanceVehicleRepository, 
-        IMaintenancePartRepository maintenancePartRepository, 
+        IMaintenanceVehicleRepository maintenanceVehicleRepository,
+        IMaintenancePartRepository maintenancePartRepository,
         INotificationRepository notificationRepository)
     {
         _mapper = mapper;
@@ -57,11 +57,11 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         {
             throw new BadRequestException("Kendaraan masih dalam status pending");
         }
-        
+
         var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
         newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
         await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
-        
+
         // Update status of vehicle
         await _vehicleRepository.UpdateStatusVehicleAsync(
             request.VehicleId,
@@ -82,13 +82,15 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
 
             await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
         }
-        
+
         // Notification
         var notification = new Notification
         {
             Title = "Perawatan Kendaraan",
-            Description = $"Permintaan perawatan kendaraan {vehicle.Name} dengan plat nomor {vehicle.LicensePlate} anda berhasil, mohon ditunggu untuk info selanjutnya dari admin. Terimakasih",
-            UserId = vehicle.UserId
+            Description =
+                $"Permintaan perawatan kendaraan {vehicle.Name} dengan plat nomor {vehicle.LicensePlate} anda berhasil, mohon ditunggu untuk info selanjutnya dari admin. Terimakasih",
+            UserId = vehicle.UserId,
+            Category = "admin"
         };
 
         await _notificationRepository.AddNotificationAsync(notification, cancellationToken);

@@ -15,25 +15,16 @@ services.AddInfrastructureServices(configuration);
 // App
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
-
 app.UseCors();
-
 app.UseAuthentication();
-
 app.UseMiddleware<TokenExceptionHandlerMiddleware>();
-
 app.UseAuthorization();
-
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
 app.MapControllers();
-
 app.Run();

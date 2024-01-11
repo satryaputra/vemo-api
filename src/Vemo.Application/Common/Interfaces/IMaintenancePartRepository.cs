@@ -14,4 +14,13 @@ public interface IMaintenancePartRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task AddMaintenancePartAsync(MaintenancePart newMaintenancePart, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetMaintenancePartByIdAsync
+    /// </summary>
+    /// <param name="maintenanceVehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<MaintenancePart>> GetMaintenancePartsByMaintenanceVehicleIdAsync(Guid maintenanceVehicleId,
+        CancellationToken cancellationToken);
 }

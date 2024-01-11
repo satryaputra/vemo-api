@@ -3,6 +3,7 @@ using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
+using Vemo.Application.Features.Vehicles.Queries.GetMaintenanceByVehicleId;
 using Vemo.Application.Features.Vehicles.Queries.GetPartById;
 using Vemo.Application.Features.Vehicles.Queries.GetPartsByVehicleId;
 using Vemo.Application.Features.Vehicles.Queries.GetVehicleById;
@@ -128,12 +129,19 @@ public class VehicleController : BaseController
     /// <param name="requestMaintenanceCommand"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("maintenance")]
+    [HttpPost("maintenances")]
     public async Task<IActionResult> RequestMaintenance(
         RequestMaintenanceCommand requestMaintenanceCommand,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(requestMaintenanceCommand, cancellationToken));
+    }
+
+    [HttpGet("maintenances/{vehicleId:guid}"), Authorize(Roles = "admin")]
+    public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid vehicleId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetMaintenanceByVehicleIdQuery { VehicleId = vehicleId }, cancellationToken));
     }
 
     /// <summary>

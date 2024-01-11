@@ -41,11 +41,13 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
     /// <returns></returns>
     public async Task<List<VehicleResponseDto>> Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
     {
+        // Get vehicle by user id
         if (request.UserId is not null && string.IsNullOrEmpty(request.Status))
         {
             var vehicles = await _vehicleRepository.GetVehiclesByUserIdAsync(request.UserId, cancellationToken);
             var vehiclesMapped = _mapper.Map<List<VehicleResponseDto>>(vehicles);
             
+            // fill average condition for per vehicle
             foreach (var vehicle in vehiclesMapped)
             {
                 var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
@@ -55,6 +57,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
 
             return vehiclesMapped;
         }
+        // Get vehicle by vehicle status
         else if (request.UserId is null && request.Status != null)
         {
             var vehicles = await _vehicleRepository.GetVehiclesByStatusAsync(request.Status, cancellationToken);
@@ -69,6 +72,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
 
             return vehiclesMapped;
         }
+        // Get vehicle by user id d
         else if (request.UserId is not null && !string.IsNullOrEmpty(request.Status))
         {
             throw new NotFoundException("This features is under development");

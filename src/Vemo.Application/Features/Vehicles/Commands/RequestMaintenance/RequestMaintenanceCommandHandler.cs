@@ -51,39 +51,65 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     /// <returns></returns>
     public async Task<GenericResponseDto> Handle(RequestMaintenanceCommand request, CancellationToken cancellationToken)
     {
+        // get
         var vehicle = await _vehicleRepository.GetVehicleByIdAsync(request.VehicleId, cancellationToken);
 
-        if (vehicle.Status.Equals(_vehicleRepository.Pending()))
+        var maintenanceVehicle =
+            await _maintenanceVehicleRepository.GetMaintenanceVehicleByVehicleIdAsync(request.VehicleId,
+                cancellationToken);
+
+        if (maintenanceVehicle is null)
         {
-            throw new BadRequestException("Kendaraan masih dalam status pending");
-        }
+            // Create new maintenance vehicle
+            var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
+            newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
+            await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
 
-        var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
-        newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
-        await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
-
-        // Update status of vehicle
-        await _vehicleRepository.UpdateStatusVehicleAsync(
-            request.VehicleId,
-            _maintenanceVehicleRepository.RequestMaintenance(),
-            cancellationToken);
-
-        foreach (var partId in request.ListPartId)
-        {
-            var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
-
-            var newMaintenancePart = new MaintenancePart
+            // Create new maintenance parts
+            foreach (var partId in request.ListPartId)
             {
-                MaintenanceVehicleId = newMaintenanceVehicle.Id,
-                PartId = partId,
-                MaintenanceFinalPrice = part.MaintenancePrice,
-                MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
-            };
+                var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
 
-            await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+                var newMaintenancePart = new MaintenancePart
+                {
+                    MaintenanceVehicleId = newMaintenanceVehicle.Id,
+                    PartId = partId,
+                    MaintenanceFinalPrice = part.MaintenancePrice,
+                    MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
+                };
+
+                await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+            }
+        }
+        else if (!maintenanceVehicle.Status.Equals("requested"))
+        {
+            // Update status maintenance vehicle
+            await _maintenanceVehicleRepository.UpdateStatusAsync(maintenanceVehicle,
+                _maintenanceVehicleRepository.RequestMaintenance(), cancellationToken);
+
+            // Create new maintenance parts
+            foreach (var partId in request.ListPartId)
+            {
+                var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
+
+                var newMaintenancePart = new MaintenancePart
+                {
+                    MaintenanceVehicleId = maintenanceVehicle.Id,
+                    PartId = partId,
+                    MaintenanceFinalPrice = part.MaintenancePrice,
+                    MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
+                };
+
+                await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+            }
+        }
+        else
+        {
+            throw new BadRequestException("Kendaraan masih dalam proses permintaan perawatan");
         }
 
-        // Notification
+
+        // Create Notification
         var notification = new Notification
         {
             Title = "Perawatan Kendaraan",

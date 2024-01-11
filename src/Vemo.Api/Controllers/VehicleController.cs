@@ -53,15 +53,19 @@ public class VehicleController : BaseController
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="status"></param>
+    /// <param name="maintenanceStatus"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> GetVehicles(
         [FromQuery] Guid? userId,
         [FromQuery] string? status,
+        [FromQuery] string? maintenanceStatus,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetVehiclesQuery { UserId = userId, Status = status }, cancellationToken));
+        return Ok(await Mediator.Send(
+            new GetVehiclesQuery { UserId = userId, Status = status, MaintenanceStatus = maintenanceStatus },
+            cancellationToken));
     }
 
     /// <summary>

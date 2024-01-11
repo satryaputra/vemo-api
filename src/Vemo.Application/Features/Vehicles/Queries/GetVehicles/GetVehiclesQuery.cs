@@ -14,4 +14,9 @@ public class GetVehiclesQuery : IRequest<List<VehicleResponseDto>>
     /// Gets or sets UserId Status
     /// </summary>
     public string? Status { get; set; }
+
+    /// <summary>
+    /// Gets or sets UserId Status
+    /// </summary>
+    public string? MaintenanceStatus { get; set; }
 }

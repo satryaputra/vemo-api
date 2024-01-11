@@ -42,15 +42,17 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
     public async Task<List<VehicleResponseDto>> Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
     {
         // Get vehicle by user id
-        if (request.UserId is not null && string.IsNullOrEmpty(request.Status))
+        if (request.UserId is not null && string.IsNullOrEmpty(request.Status) &&
+            string.IsNullOrEmpty(request.MaintenanceStatus))
         {
             var vehicles = await _vehicleRepository.GetVehiclesByUserIdAsync(request.UserId, cancellationToken);
             var vehiclesMapped = _mapper.Map<List<VehicleResponseDto>>(vehicles);
-            
+
             // fill average condition for per vehicle
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions =
+                    await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
@@ -58,21 +60,40 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
             return vehiclesMapped;
         }
         // Get vehicle by vehicle status
-        else if (request.UserId is null && request.Status != null)
+        else if (request.UserId is null && request.Status is not null &&
+                 string.IsNullOrEmpty(request.MaintenanceStatus))
         {
             var vehicles = await _vehicleRepository.GetVehiclesByStatusAsync(request.Status, cancellationToken);
             var vehiclesMapped = _mapper.Map<List<VehicleResponseDto>>(vehicles);
-            
+
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions =
+                    await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
 
             return vehiclesMapped;
         }
-        // Get vehicle by user id d
+        // Get vehicle by maintenance status
+        else if (request.UserId is null && request.Status is null && request.MaintenanceStatus is not null)
+        {
+            var vehicles =
+                await _vehicleRepository.GetVehiclesByMaintenanceStatusAsync(request.MaintenanceStatus,
+                    cancellationToken);
+            var vehiclesMapped = _mapper.Map<List<VehicleResponseDto>>(vehicles);
+
+            foreach (var vehicle in vehiclesMapped)
+            {
+                var vehiclePartConditions =
+                    await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
+                vehicle.Condition = vehiclePartConditionsAverage;
+            }
+
+            return vehiclesMapped;
+        }
         else if (request.UserId is not null && !string.IsNullOrEmpty(request.Status))
         {
             throw new NotFoundException("This features is under development");
@@ -81,10 +102,11 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
         {
             var vehicles = await _vehicleRepository.GetAllVehiclesAsync(cancellationToken);
             var vehiclesMapped = _mapper.Map<List<VehicleResponseDto>>(vehicles);
-            
+
             foreach (var vehicle in vehiclesMapped)
             {
-                var vehiclePartConditions = await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
+                var vehiclePartConditions =
+                    await GetPartConditionByVehicleIdAsync(vehicle.VehicleId, cancellationToken);
                 var vehiclePartConditionsAverage = vehiclePartConditions.Average(x => x.Condition);
                 vehicle.Condition = vehiclePartConditionsAverage;
             }
@@ -104,7 +126,7 @@ internal sealed class GetVehiclesQueryHandler : IRequestHandler<GetVehiclesQuery
         foreach (var conditionPart in conditionParts)
         {
             int percentage;
-            
+
             var part = await _partRepository.GetPartByIdAsync(conditionPart.PartId, cancellationToken);
             var monthsSinceLastMaintenance = (int)((DateTime.Now - conditionPart.LastMaintenance).TotalDays / 30.44);
 

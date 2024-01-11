@@ -81,7 +81,7 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
                 await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
             }
         }
-        else if (!maintenanceVehicle.Status.Equals("requested"))
+        else if (!maintenanceVehicle.Status.Equals(_maintenanceVehicleRepository.RequestMaintenance()))
         {
             // Update status maintenance vehicle
             await _maintenanceVehicleRepository.UpdateStatusAsync(maintenanceVehicle,
@@ -108,6 +108,9 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
             throw new BadRequestException("Kendaraan masih dalam proses permintaan perawatan");
         }
 
+        // Update maintenance status in vehicle
+        await _vehicleRepository.UpdateMaintenaceStatusVehicleAsync(vehicle,
+            _maintenanceVehicleRepository.RequestMaintenance(), cancellationToken);
 
         // Create Notification
         var notification = new Notification

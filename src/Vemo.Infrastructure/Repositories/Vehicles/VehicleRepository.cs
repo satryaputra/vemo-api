@@ -49,6 +49,20 @@ public class VehicleRepository : IVehicleRepository
     }
 
     /// <summary>
+    /// UpdateMaintenaceStatusVehicleAsync
+    /// </summary>
+    /// <param name="vehicle"></param>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task UpdateMaintenaceStatusVehicleAsync(Vehicle vehicle, string status,
+        CancellationToken cancellationToken)
+    {
+        vehicle.MaintenanceStatus = status;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// ApproveVehicleAsync
     /// </summary>
     /// <param name="vehicleId"></param>
@@ -79,7 +93,7 @@ public class VehicleRepository : IVehicleRepository
     public async Task<Vehicle> GetVehicleByIdAsync(Guid vehicleId, CancellationToken cancellationToken)
     {
         return await _context.Vehicles.FindAsync(new object?[] { vehicleId }, cancellationToken)
-            ?? throw new NotFoundException("Kendaraan tidak ditemukan | GetVehicleByIdAsync");
+               ?? throw new NotFoundException("Kendaraan tidak ditemukan | GetVehicleByIdAsync");
     }
 
     /// <summary>
@@ -102,6 +116,20 @@ public class VehicleRepository : IVehicleRepository
     public async Task<List<Vehicle>> GetVehiclesByStatusAsync(string? status, CancellationToken cancellationToken)
     {
         return await _context.Vehicles.Where(v => v.Status.Equals(status)).ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetVehiclesByMaintenanceStatusAsync
+    /// </summary>
+    /// <param name="maintenanceStatus"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<Vehicle>> GetVehiclesByMaintenanceStatusAsync(string? maintenanceStatus,
+        CancellationToken cancellationToken)
+    {
+        return await _context.Vehicles
+            .Where(v => v.MaintenanceStatus != null && v.MaintenanceStatus.Equals(maintenanceStatus))
+            .ToListAsync(cancellationToken);
     }
 
     /// <summary>

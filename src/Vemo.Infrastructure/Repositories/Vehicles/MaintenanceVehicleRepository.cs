@@ -54,7 +54,6 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public async Task<MaintenanceVehicle?> GetMaintenanceVehicleByVehicleIdAsync(Guid vehicleId,
         CancellationToken cancellationToken)
     {
@@ -63,10 +62,22 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     }
 
     /// <summary>
+    /// GetRequestByVehicleId
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<MaintenanceVehicle?> GetRequestByVehicleIdAsync(Guid vehicleId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.MaintenanceVehicles
+            .FirstOrDefaultAsync(x => x.Status.Equals("requested") && x.VehicleId.Equals(vehicleId), cancellationToken);
+    }
+
+    /// <summary>
     /// RequestMaintenance
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public string RequestMaintenance()
     {
         return "requested";

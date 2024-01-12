@@ -34,6 +34,14 @@ public interface IMaintenanceVehicleRepository
         CancellationToken cancellationToken);
 
     /// <summary>
+    /// GetRequestByVehicleIdAsync
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<MaintenanceVehicle?> GetRequestByVehicleIdAsync(Guid vehicleId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// RequestMaintenance
     /// </summary>
     /// <returns></returns>

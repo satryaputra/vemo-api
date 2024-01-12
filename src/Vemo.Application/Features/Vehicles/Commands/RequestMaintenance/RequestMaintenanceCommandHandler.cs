@@ -3,6 +3,7 @@ using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Vehicles;
+using System.Text;
 
 namespace Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 
@@ -54,14 +55,14 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         // get
         var vehicle = await _vehicleRepository.GetVehicleByIdAsync(request.VehicleId, cancellationToken);
 
-        var maintenanceVehicle =
-            await _maintenanceVehicleRepository.GetMaintenanceVehicleByVehicleIdAsync(request.VehicleId,
-                cancellationToken);
+        var requestMaintenanceVehicles =
+            await _maintenanceVehicleRepository.GetRequestByVehicleIdAsync(vehicle.Id, cancellationToken);
 
-        if (maintenanceVehicle is null)
+        if (requestMaintenanceVehicles is null)
         {
             // Create new maintenance vehicle
             var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
+            newMaintenanceVehicle.Ticket = GenerateTicket(8);
             newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
             await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
 
@@ -81,10 +82,10 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
                 await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
             }
         }
-        else if (!maintenanceVehicle.Status.Equals(_maintenanceVehicleRepository.RequestMaintenance()))
+        else if (!requestMaintenanceVehicles.Status.Equals(_maintenanceVehicleRepository.RequestMaintenance()))
         {
             // Update status maintenance vehicle
-            await _maintenanceVehicleRepository.UpdateStatusAsync(maintenanceVehicle,
+            await _maintenanceVehicleRepository.UpdateStatusAsync(requestMaintenanceVehicles,
                 _maintenanceVehicleRepository.RequestMaintenance(), cancellationToken);
 
             // Create new maintenance parts
@@ -94,7 +95,7 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
 
                 var newMaintenancePart = new MaintenancePart
                 {
-                    MaintenanceVehicleId = maintenanceVehicle.Id,
+                    MaintenanceVehicleId = requestMaintenanceVehicles.Id,
                     PartId = partId,
                     MaintenanceFinalPrice = part.MaintenancePrice,
                     MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
@@ -125,5 +126,20 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return new GenericResponseDto("Berhasil mengirim permintaan perawatan");
+    }
+
+    private string GenerateTicket(int length)
+    {
+        const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var idBuilder = new StringBuilder();
+
+        var random = new Random();
+        for (var i = 0; i < length; i++)
+        {
+            var randomIndex = random.Next(characters.Length);
+            idBuilder.Append(characters[randomIndex]);
+        }
+
+        return idBuilder.ToString();
     }
 }

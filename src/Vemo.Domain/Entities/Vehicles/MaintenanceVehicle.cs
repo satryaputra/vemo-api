@@ -9,6 +9,11 @@ namespace Vemo.Domain.Entities.Vehicles;
 public class MaintenanceVehicle : BaseAuditableEntity
 {
     /// <summary>
+    /// Gets or sets Ticket
+    /// </summary>
+    public string Ticket { get; set; } = string.Empty;
+    
+    /// <summary>
     /// Gets or sets Contact
     /// </summary>
     public string Contact { get; set; } = string.Empty;

@@ -46,4 +46,10 @@ public interface IMaintenanceVehicleRepository
     /// </summary>
     /// <returns></returns>
     string RequestMaintenance();
+
+    /// <summary>
+    /// Gets or sets ServiceMaintenance
+    /// </summary>
+    /// <returns></returns>
+    string ServiceMaintenance();
 }

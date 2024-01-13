@@ -82,4 +82,9 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     {
         return "requested";
     }
+
+    public string ServiceMaintenance()
+    {
+        return "service";
+    }
 }

@@ -128,7 +128,7 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         return new GenericResponseDto("Berhasil mengirim permintaan perawatan");
     }
 
-    private string GenerateTicket(int length)
+    private static string GenerateTicket(int length)
     {
         const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var idBuilder = new StringBuilder();

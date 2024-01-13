@@ -1,5 +1,7 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
+using Vemo.Application.Features.Vehicles.Commands.ChangeMaintenancePrice;
+using Vemo.Application.Features.Vehicles.Commands.ChangeStatusMaintenanceVehicle;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
@@ -141,11 +143,44 @@ public class VehicleController : BaseController
         return Ok(await Mediator.Send(requestMaintenanceCommand, cancellationToken));
     }
 
+    /// <summary>
+    /// GetMaintenanceVehicle
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpGet("maintenances/{vehicleId:guid}"), Authorize(Roles = "admin")]
     public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid vehicleId,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetMaintenanceByVehicleIdQuery { VehicleId = vehicleId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// UpdateStatusMaintenanceVehicle
+    /// </summary>
+    /// <param name="changeStatusMaintenanceVehicleCommand"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPatch("maintenances/status"), Authorize(Roles = "admin")]
+    public async Task<IActionResult> UpdateStatusMaintenanceVehicle(
+        ChangeStatusMaintenanceVehicleCommand changeStatusMaintenanceVehicleCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(changeStatusMaintenanceVehicleCommand, cancellationToken));
+    }
+
+    /// <summary>
+    /// UpdatePriceMaintenancePart
+    /// </summary>
+    /// <param name="changeMaintenancePriceQuery"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPatch("maintenances/part/price")]
+    public async Task<IActionResult> UpdatePriceMaintenancePart(ChangeMaintenancePriceQuery changeMaintenancePriceQuery,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(changeMaintenancePriceQuery, cancellationToken));
     }
 
     /// <summary>

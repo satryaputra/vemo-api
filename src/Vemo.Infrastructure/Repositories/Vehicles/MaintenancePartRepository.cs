@@ -30,6 +30,33 @@ public class MaintenancePartRepository : IMaintenancePartRepository
     }
 
     /// <summary>
+    /// UpdateMaintenancePriceAsync
+    /// </summary>
+    /// <param name="maintenancePart"></param>
+    /// <param name="newPrice"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdateMaintenancePriceAsync(MaintenancePart maintenancePart, double newPrice,
+        CancellationToken cancellationToken)
+    {
+        maintenancePart.MaintenanceFinalPrice = newPrice;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetMaintenancePartById
+    /// </summary>
+    /// <param name="maintenancePartId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<MaintenancePart> GetMaintenancePartById(Guid maintenancePartId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.MaintenanceParts.FindAsync(new object?[] { maintenancePartId }, cancellationToken)
+               ?? throw new NotFoundException("Maintenance Part tidak ditemukan");
+    }
+
+    /// <summary>
     /// GetMaintenancePartByIdAsync
     /// </summary>
     /// <param name="maintenanceVehicleId"></param>

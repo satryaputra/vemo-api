@@ -73,6 +73,15 @@ public interface IVehicleRepository
     Task<List<Vehicle>> GetVehiclesByMaintenanceStatusAsync(string? maintenanceStatus, CancellationToken cancellationToken);
 
     /// <summary>
+    /// UpdateMaintenanceStatus
+    /// </summary>
+    /// <param name="vehicle"></param>
+    /// <param name="maintenanceStatus"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task UpdateMaintenanceStatusAsync(Vehicle vehicle, string maintenanceStatus, CancellationToken cancellationToken);
+
+    /// <summary>
     /// GetVehicleByUserIdAsync
     /// </summary>
     /// <param name="userId"></param>

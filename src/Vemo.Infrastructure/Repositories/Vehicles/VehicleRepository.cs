@@ -133,6 +133,19 @@ public class VehicleRepository : IVehicleRepository
     }
 
     /// <summary>
+    /// UpdateMaintenanceStatus
+    /// </summary>
+    /// <param name="vehicle"></param>
+    /// <param name="maintenanceStatus"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdateMaintenanceStatusAsync(Vehicle vehicle, string maintenanceStatus,
+        CancellationToken cancellationToken)
+    {
+        vehicle.MaintenanceStatus = maintenanceStatus;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// GetVehicleByUserIdAsync
     /// </summary>
     /// <param name="userId"></param>

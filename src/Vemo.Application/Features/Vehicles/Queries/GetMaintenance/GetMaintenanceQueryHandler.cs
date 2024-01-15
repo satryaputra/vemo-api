@@ -1,4 +1,5 @@
 using Vemo.Application.Common.Interfaces;
+using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Application.Features.Vehicles.Queries.GetMaintenance;
 
@@ -7,15 +8,18 @@ namespace Vemo.Application.Features.Vehicles.Queries.GetMaintenance;
 /// </summary>
 internal sealed class GetMaintenanceQueryHandler : IRequestHandler<GetMaintenanceQuery, object>
 {
+    private readonly IVehicleRepository _vehicleRepository;
     private readonly IMaintenanceVehicleRepository _maintenanceVehicleRepository;
 
     /// <summary>
     /// Initialize a new instance of the <see cref="GetMaintenanceQueryHandler"/> class.
     /// </summary>
     /// <param name="maintenanceVehicleRepository"></param>
-    public GetMaintenanceQueryHandler(IMaintenanceVehicleRepository maintenanceVehicleRepository)
+    public GetMaintenanceQueryHandler(IMaintenanceVehicleRepository maintenanceVehicleRepository,
+        IVehicleRepository vehicleRepository)
     {
         _maintenanceVehicleRepository = maintenanceVehicleRepository;
+        _vehicleRepository = vehicleRepository;
     }
 
     /// <summary>
@@ -26,7 +30,19 @@ internal sealed class GetMaintenanceQueryHandler : IRequestHandler<GetMaintenanc
     /// <returns></returns>
     public async Task<object> Handle(GetMaintenanceQuery request, CancellationToken cancellationToken)
     {
-        return await _maintenanceVehicleRepository.GetMaintenanceVehicleByVehicleIdAsync(request.VehicleId,
-            cancellationToken);
+        var vehicles = await _vehicleRepository.GetVehiclesByUserIdAsync(request.UserId, cancellationToken);
+
+        var allMaintenanceVehicles = new List<MaintenanceVehicle>();
+
+        foreach (var vehicle in vehicles)
+        {
+            var maintenanceVehicles = await _maintenanceVehicleRepository.GetMaintenanceVehicleByVehicleIdAsync(
+                vehicle.Id,
+                cancellationToken);
+
+            allMaintenanceVehicles.AddRange(maintenanceVehicles);
+        }
+
+        return allMaintenanceVehicles;
     }
 }

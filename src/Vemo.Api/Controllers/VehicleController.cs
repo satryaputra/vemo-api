@@ -163,14 +163,14 @@ public class VehicleController : BaseController
     /// <summary>
     /// GetMaintenanceVehicle
     /// </summary>
-    /// <param name="vehicleId"></param>
+    /// <param name="userId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("maintenances/{vehicleId:guid}")]
-    public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid vehicleId,
+    [HttpGet("maintenances/{userId:guid}")]
+    public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid userId,
         CancellationToken cancellationToken)
     {
-        return Ok(await Mediator.Send(new GetMaintenanceQuery { VehicleId = vehicleId }, cancellationToken));
+        return Ok(await Mediator.Send(new GetMaintenanceQuery { UserId = userId }, cancellationToken));
     }
 
     /// <summary>

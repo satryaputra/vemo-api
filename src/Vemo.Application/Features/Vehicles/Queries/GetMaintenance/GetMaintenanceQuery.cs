@@ -8,5 +8,5 @@ public class GetMaintenanceQuery : IRequest<object>
     /// <summary>
     /// Gets or sets VehicleId
     /// </summary>
-    public Guid VehicleId { get; set; }
+    public Guid UserId { get; set; }
 }

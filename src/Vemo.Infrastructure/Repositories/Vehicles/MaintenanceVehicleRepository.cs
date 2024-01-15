@@ -49,16 +49,28 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     }
 
     /// <summary>
+    /// GetMaintenanceVehicleByIdAsync
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<MaintenanceVehicle> GetMaintenanceVehicleByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _context.MaintenanceVehicles.FindAsync(new object?[] { id }, cancellationToken) ??
+               throw new NotFoundException("Maintenance Vehicle tidak ditemukan");
+    }
+
+    /// <summary>
     /// GetMaintenanceVehicleById
     /// </summary>
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<MaintenanceVehicle?> GetMaintenanceVehicleByVehicleIdAsync(Guid vehicleId,
+    public async Task<List<MaintenanceVehicle>> GetMaintenanceVehicleByVehicleIdAsync(Guid vehicleId,
         CancellationToken cancellationToken)
     {
         return await _context.MaintenanceVehicles
-            .SingleOrDefaultAsync(x => x.VehicleId.Equals(vehicleId), cancellationToken);
+            .Where(x => x.VehicleId.Equals(vehicleId)).ToListAsync(cancellationToken);
     }
 
     /// <summary>

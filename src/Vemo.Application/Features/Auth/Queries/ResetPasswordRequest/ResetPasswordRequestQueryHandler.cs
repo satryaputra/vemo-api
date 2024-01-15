@@ -34,7 +34,7 @@ internal sealed class ResetPasswordRequestQueryHandler : IRequestHandler<ResetPa
         
         var forgotPasswordToken = TokenBuilder.CreateForgotPasswordToken(user.Id);
 
-        var subjectEmail = "Forgot Password Vemo App";
+        const string subjectEmail = "Forgot Password Vemo App";
         var bodyEmail = @$"<p>Klik link dibawah untuk reset password anda</p>
 <a href='http://localhost:5173/forgot-password/{forgotPasswordToken}'>Reset Password</a>";
 

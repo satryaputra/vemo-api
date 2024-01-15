@@ -3,6 +3,7 @@ using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Notifications;
 using Vemo.Domain.Entities.Vehicles;
+using System.Text;
 
 namespace Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 
@@ -51,39 +52,68 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
     /// <returns></returns>
     public async Task<GenericResponseDto> Handle(RequestMaintenanceCommand request, CancellationToken cancellationToken)
     {
+        // get
         var vehicle = await _vehicleRepository.GetVehicleByIdAsync(request.VehicleId, cancellationToken);
 
-        if (vehicle.Status.Equals(_vehicleRepository.Pending()))
+        var requestMaintenanceVehicles =
+            await _maintenanceVehicleRepository.GetRequestByVehicleIdAsync(vehicle.Id, cancellationToken);
+
+        if (requestMaintenanceVehicles is null)
         {
-            throw new BadRequestException("Kendaraan masih dalam status pending");
-        }
+            // Create new maintenance vehicle
+            var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
+            newMaintenanceVehicle.Ticket = GenerateTicket(8);
+            newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
+            await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
 
-        var newMaintenanceVehicle = _mapper.Map<MaintenanceVehicle>(request);
-        newMaintenanceVehicle.Status = _maintenanceVehicleRepository.RequestMaintenance();
-        await _maintenanceVehicleRepository.AddMaintenanceVehicleAsync(newMaintenanceVehicle, cancellationToken);
-
-        // Update status of vehicle
-        await _vehicleRepository.UpdateStatusVehicleAsync(
-            request.VehicleId,
-            _maintenanceVehicleRepository.RequestMaintenance(),
-            cancellationToken);
-
-        foreach (var partId in request.ListPartId)
-        {
-            var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
-
-            var newMaintenancePart = new MaintenancePart
+            // Create new maintenance parts
+            foreach (var partId in request.ListPartId)
             {
-                MaintenanceVehicleId = newMaintenanceVehicle.Id,
-                PartId = partId,
-                MaintenanceFinalPrice = part.MaintenancePrice,
-                MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
-            };
+                var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
 
-            await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+                var newMaintenancePart = new MaintenancePart
+                {
+                    MaintenanceVehicleId = newMaintenanceVehicle.Id,
+                    PartId = partId,
+                    MaintenanceFinalPrice = part.MaintenancePrice,
+                    MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
+                };
+
+                await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+            }
+        }
+        else if (!requestMaintenanceVehicles.Status.Equals(_maintenanceVehicleRepository.RequestMaintenance()))
+        {
+            // Update status maintenance vehicle
+            await _maintenanceVehicleRepository.UpdateStatusAsync(requestMaintenanceVehicles,
+                _maintenanceVehicleRepository.RequestMaintenance(), cancellationToken);
+
+            // Create new maintenance parts
+            foreach (var partId in request.ListPartId)
+            {
+                var part = await _partRepository.GetPartByIdAsync(partId, cancellationToken);
+
+                var newMaintenancePart = new MaintenancePart
+                {
+                    MaintenanceVehicleId = requestMaintenanceVehicles.Id,
+                    PartId = partId,
+                    MaintenanceFinalPrice = part.MaintenancePrice,
+                    MaintenanceServiceFinalPrice = part.MaintenanceServicePrice
+                };
+
+                await _maintenancePartRepository.AddMaintenancePartAsync(newMaintenancePart, cancellationToken);
+            }
+        }
+        else
+        {
+            throw new BadRequestException("Kendaraan masih dalam proses permintaan perawatan");
         }
 
-        // Notification
+        // Update maintenance status in vehicle
+        await _vehicleRepository.UpdateMaintenaceStatusVehicleAsync(vehicle,
+            _maintenanceVehicleRepository.RequestMaintenance(), cancellationToken);
+
+        // Create Notification
         var notification = new Notification
         {
             Title = "Perawatan Kendaraan",
@@ -96,5 +126,20 @@ internal sealed class RequestMaintenanceCommandHandler : IRequestHandler<Request
         await _notificationRepository.AddNotificationAsync(notification, cancellationToken);
 
         return new GenericResponseDto("Berhasil mengirim permintaan perawatan");
+    }
+
+    private static string GenerateTicket(int length)
+    {
+        const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var idBuilder = new StringBuilder();
+
+        var random = new Random();
+        for (var i = 0; i < length; i++)
+        {
+            var randomIndex = random.Next(characters.Length);
+            idBuilder.Append(characters[randomIndex]);
+        }
+
+        return idBuilder.ToString();
     }
 }

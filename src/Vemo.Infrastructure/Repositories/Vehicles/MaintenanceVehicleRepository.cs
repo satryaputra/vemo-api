@@ -1,4 +1,6 @@
-﻿using Vemo.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Vemo.Application.Common.Exceptions;
+using Vemo.Application.Common.Interfaces;
 using Vemo.Domain.Entities.Vehicles;
 
 namespace Vemo.Infrastructure.Repositories.Vehicles;
@@ -26,7 +28,7 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     /// <param name="cancellationToken"></param>
     /// <exception cref="NotImplementedException"></exception>
     public async Task AddMaintenanceVehicleAsync(
-        MaintenanceVehicle newMaintenanceVehicle, 
+        MaintenanceVehicle newMaintenanceVehicle,
         CancellationToken cancellationToken)
     {
         await _context.MaintenanceVehicles.AddAsync(newMaintenanceVehicle, cancellationToken);
@@ -34,12 +36,55 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
     }
 
     /// <summary>
+    /// UpdateStatusAsync
+    /// </summary>
+    /// <param name="maintenanceVehicle"></param>
+    /// <param name="status"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdateStatusAsync(MaintenanceVehicle maintenanceVehicle, string status,
+        CancellationToken cancellationToken)
+    {
+        maintenanceVehicle.Status = status;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetMaintenanceVehicleById
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<MaintenanceVehicle?> GetMaintenanceVehicleByVehicleIdAsync(Guid vehicleId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.MaintenanceVehicles
+            .SingleOrDefaultAsync(x => x.VehicleId.Equals(vehicleId), cancellationToken);
+    }
+
+    /// <summary>
+    /// GetRequestByVehicleId
+    /// </summary>
+    /// <param name="vehicleId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<MaintenanceVehicle?> GetRequestByVehicleIdAsync(Guid vehicleId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.MaintenanceVehicles
+            .FirstOrDefaultAsync(x => x.Status.Equals("requested") && x.VehicleId.Equals(vehicleId), cancellationToken);
+    }
+
+    /// <summary>
     /// RequestMaintenance
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public string RequestMaintenance()
     {
         return "requested";
+    }
+
+    public string ServiceMaintenance()
+    {
+        return "service";
     }
 }

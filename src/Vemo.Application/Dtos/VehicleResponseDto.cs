@@ -39,6 +39,11 @@ public class VehicleResponseDto
     /// Gets or sets Status
     /// </summary>
     public string Status { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Gets or sets MaintenanceStatus
+    /// </summary>
+    public string MaintenanceStatus { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets Condition

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vemo.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -100,6 +100,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                     LicensePlate = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
+                    MaintenanceStatus = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -146,6 +147,7 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Ticket = table.Column<string>(type: "text", nullable: false),
                     Contact = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
@@ -198,16 +200,16 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "AgeInMonth", "CreatedAt", "MaintenancePrice", "MaintenanceServicePrice", "Name", "UpdatedAt", "VehicleType" },
                 values: new object[,]
                 {
-                    { new Guid("1cfbba50-68c2-48d8-935c-e75c7459b9b8"), 5, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7589), 40000f, 15000f, "Rem", null, null },
-                    { new Guid("1e335e39-3dd1-4210-8a77-f119cb26feb0"), 8, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7596), 60000f, 20000f, "V-Belt", null, "matic" },
-                    { new Guid("6b64bd30-e011-4a3d-9375-c2dafd112746"), 4, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7579), 50000f, 10000f, "Oli", null, null },
-                    { new Guid("717786c0-7673-486b-9d39-cb7a41d4033c"), 8, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7600), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
-                    { new Guid("8f8d9d55-3011-4dc4-b819-873e82f7f751"), 9, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7601), 100000f, 20000f, "Kampas Kopling", null, "manual" },
-                    { new Guid("9025bed6-60ce-4ba0-b440-754bc9b130ef"), 24, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7591), 300000f, 25000f, "Ban", null, null },
-                    { new Guid("b4522f19-1ea2-4dea-bfaa-6ab708f2ffc7"), 12, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7598), 100000f, 20000f, "CVT", null, "matic" },
-                    { new Guid("ce84e32e-b732-4235-a74f-dc7a08d9db57"), 10, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7582), 30000f, 20000f, "Radiator", null, null },
-                    { new Guid("da8198bd-b5d0-451b-a8cb-77bc14d6db22"), 6, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7587), 25000f, 5000f, "Busi", null, null },
-                    { new Guid("eeaaad84-03b2-4db6-bb08-65feddfa2ca7"), 3, new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7593), 20000f, 10000f, "Aki", null, null }
+                    { new Guid("2fee4c1b-f36a-4855-93b6-2c41cf216087"), 8, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6744), 100000f, 20000f, "Rantai dan Gear", null, "manual" },
+                    { new Guid("4abbf521-fec6-4b64-908a-a8299a16bae1"), 6, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6704), 25000f, 5000f, "Busi", null, null },
+                    { new Guid("529952b5-cb9b-459a-ba2a-d398f5586de1"), 24, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6730), 300000f, 25000f, "Ban", null, null },
+                    { new Guid("5653d25a-8fd9-4ed6-826a-b84796194d0e"), 3, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6732), 20000f, 10000f, "Aki", null, null },
+                    { new Guid("63a4e801-910b-4789-895d-d39d04eda271"), 4, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6697), 50000f, 10000f, "Oli", null, null },
+                    { new Guid("c7fcf570-1bee-4e9d-bd7f-08e45adfdb34"), 10, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6702), 30000f, 20000f, "Radiator", null, null },
+                    { new Guid("caa9cb1b-66c5-4377-bb96-a9e563a3643f"), 12, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6741), 100000f, 20000f, "CVT", null, "matic" },
+                    { new Guid("d1d2cb70-b518-4387-93a2-6a8410dc7f5a"), 5, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6727), 40000f, 15000f, "Rem", null, null },
+                    { new Guid("d794ad5a-adb6-4198-8948-ba4c4df1359b"), 9, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6747), 100000f, 20000f, "Kampas Kopling", null, "manual" },
+                    { new Guid("fa1e807e-d867-4269-98fc-a2c9e1297509"), 8, new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(6735), 60000f, 20000f, "V-Belt", null, "matic" }
                 });
 
             migrationBuilder.InsertData(
@@ -215,8 +217,8 @@ namespace Vemo.Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "Name", "Password", "Photo", "Role", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("8d478e2c-e27b-4c71-b0de-8779d92c2e62"), new DateTime(2023, 12, 16, 12, 40, 42, 470, DateTimeKind.Utc).AddTicks(5273), "admin@vemo.com", "admin", "czOPTC7GUjb2N+GHVpwBHfuCuLIseT1PKjuiOE44iJmdl+lv", null, "admin", null },
-                    { new Guid("a306652d-6dba-4e74-bac4-2515ff7864d4"), new DateTime(2023, 12, 16, 12, 40, 42, 473, DateTimeKind.Utc).AddTicks(7474), "customer@vemo.com", "customer", "LHWkaVWNzPZS8piwSlznbnn39+rZa076AUCb422fPW/gyt47", null, "customer", null }
+                    { new Guid("7d405102-ef1f-43ef-b16e-7a6a0ed864f6"), new DateTime(2024, 1, 12, 6, 3, 19, 402, DateTimeKind.Utc).AddTicks(7967), "admin@vemo.com", "admin", "rKzX5cZdFfvShlhwzYeXWd06eMvP2/AyKKDVHNHvQMV9mVnR", null, "admin", null },
+                    { new Guid("a90a5c7b-c4fb-4a7b-8692-73b11b24bf23"), new DateTime(2024, 1, 12, 6, 3, 19, 407, DateTimeKind.Utc).AddTicks(5547), "customer@vemo.com", "customer", "eYVctJ0O2oEMQnlbiJD+/PH9bOVXcp4X9YUmSPue/E1+fvOm", null, "customer", null }
                 });
 
             migrationBuilder.CreateIndex(

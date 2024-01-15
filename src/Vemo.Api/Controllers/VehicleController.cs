@@ -1,7 +1,9 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
+using Vemo.Application.Features.Vehicles.Commands.CancelMaintenance;
 using Vemo.Application.Features.Vehicles.Commands.ChangeMaintenancePrice;
 using Vemo.Application.Features.Vehicles.Commands.ChangeStatusMaintenanceVehicle;
+using Vemo.Application.Features.Vehicles.Commands.DoneMaintenance;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
@@ -210,6 +212,20 @@ public class VehicleController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(changeMaintenancePriceQuery, cancellationToken));
+    }
+
+    [HttpPost("maintenance/done")]
+    public async Task<IActionResult> DoneMaintenance(DoneMaintenanceCommand doneMaintenanceCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(doneMaintenanceCommand, cancellationToken));
+    }
+
+    [HttpPost("maintenance/cancel")]
+    public async Task<IActionResult> CancelMaintenance(CancelMaintenanceCommand cancelMaintenanceCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(cancelMaintenanceCommand, cancellationToken));
     }
 
     /// <summary>

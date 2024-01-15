@@ -83,7 +83,9 @@ public class MaintenanceVehicleRepository : IMaintenanceVehicleRepository
         CancellationToken cancellationToken)
     {
         return await _context.MaintenanceVehicles
-            .FirstOrDefaultAsync(x => x.Status.Equals("requested") && x.VehicleId.Equals(vehicleId), cancellationToken);
+            .FirstOrDefaultAsync(
+                x => (x.Status.Equals("requested") || x.Status.Equals("service")) && x.VehicleId.Equals(vehicleId),
+                cancellationToken);
     }
 
     /// <summary>

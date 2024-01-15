@@ -16,10 +16,26 @@ public interface IConditionPartRepository
     Task AddConditionPartAsync(ConditionPart conditionPart, CancellationToken cancellationToken);
 
     /// <summary>
+    /// UpdateLastMaintenanceToNowAsync
+    /// </summary>
+    /// <param name="conditionPart"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task UpdateLastMaintenanceToNowAsync(ConditionPart conditionPart, CancellationToken cancellationToken);
+
+    /// <summary>
     /// GetConditionPartsByVehicleIdAsync
     /// </summary>
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid vehicleId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetConditionPartByPartIdAsync
+    /// </summary>
+    /// <param name="partId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<ConditionPart> GetConditionPartByPartIdAsync(Guid partId, CancellationToken cancellationToken);
 }

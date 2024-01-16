@@ -1,10 +1,14 @@
 ﻿using Vemo.Application.Features.Vehicles.Commands.AddVehicle;
 using Vemo.Application.Features.Vehicles.Commands.ApproveVehicle;
+using Vemo.Application.Features.Vehicles.Commands.CancelMaintenance;
 using Vemo.Application.Features.Vehicles.Commands.ChangeMaintenancePrice;
 using Vemo.Application.Features.Vehicles.Commands.ChangeStatusMaintenanceVehicle;
+using Vemo.Application.Features.Vehicles.Commands.DoneMaintenance;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
 using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetConditionPartsByVehicleId;
+using Vemo.Application.Features.Vehicles.Queries.GetMaintenance;
+using Vemo.Application.Features.Vehicles.Queries.GetMaintenanceById;
 using Vemo.Application.Features.Vehicles.Queries.GetMaintenanceByVehicleId;
 using Vemo.Application.Features.Vehicles.Queries.GetPartById;
 using Vemo.Application.Features.Vehicles.Queries.GetPartsByVehicleId;
@@ -149,11 +153,38 @@ public class VehicleController : BaseController
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("maintenances/{vehicleId:guid}"), Authorize(Roles = "admin")]
-    public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid vehicleId,
+    [HttpGet("maintenances/{vehicleId:guid}/admin"), Authorize(Roles = "admin")]
+    public async Task<IActionResult> GetMaintenanceVehicleAdmin([FromRoute] Guid vehicleId,
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(new GetMaintenanceByVehicleIdQuery { VehicleId = vehicleId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// GetMaintenanceVehicle
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("maintenances/{userId:guid}")]
+    public async Task<IActionResult> GetMaintenanceVehicle([FromRoute] Guid userId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetMaintenanceQuery { UserId = userId }, cancellationToken));
+    }
+
+    /// <summary>
+    /// GetMaintenanceVehicleDetails
+    /// </summary>
+    /// <param name="maintenanceId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("maintenances/details/{maintenanceId:guid}")]
+    public async Task<IActionResult> GetMaintenanceVehicleDetails([FromRoute] Guid maintenanceId,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(new GetMaintenanceByIdQuery { MaintenanceId = maintenanceId },
+            cancellationToken));
     }
 
     /// <summary>
@@ -181,6 +212,20 @@ public class VehicleController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(changeMaintenancePriceQuery, cancellationToken));
+    }
+
+    [HttpPost("maintenance/done")]
+    public async Task<IActionResult> DoneMaintenance(DoneMaintenanceCommand doneMaintenanceCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(doneMaintenanceCommand, cancellationToken));
+    }
+
+    [HttpPost("maintenance/cancel")]
+    public async Task<IActionResult> CancelMaintenance(CancelMaintenanceCommand cancelMaintenanceCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(cancelMaintenanceCommand, cancellationToken));
     }
 
     /// <summary>

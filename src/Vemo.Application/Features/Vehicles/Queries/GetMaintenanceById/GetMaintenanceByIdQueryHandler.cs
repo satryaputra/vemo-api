@@ -1,22 +1,22 @@
 using Vemo.Application.Common.Exceptions;
 using Vemo.Application.Common.Interfaces;
 
-namespace Vemo.Application.Features.Vehicles.Queries.GetMaintenanceByVehicleId;
+namespace Vemo.Application.Features.Vehicles.Queries.GetMaintenanceById;
 
 /// <summary>
-/// GetMaintenanceByVehicleIdQueryHandler
+/// GetMaintenanceByIdQueryHandler
 /// </summary>
-public class GetMaintenanceByVehicleIdQueryHandler : IRequestHandler<GetMaintenanceByVehicleIdQuery, object>
+internal sealed class GetMaintenanceByIdQueryHandler : IRequestHandler<GetMaintenanceByIdQuery, object>
 {
     private readonly IMaintenanceVehicleRepository _maintenanceVehicleRepository;
     private readonly IMaintenancePartRepository _maintenancePartRepository;
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="GetMaintenanceByVehicleIdQueryHandler"/> class.
+    /// Initialize a new instance of the <see cref="GetMaintenanceByIdQueryHandler"/> class.
     /// </summary>
     /// <param name="maintenanceVehicleRepository"></param>
     /// <param name="maintenancePartRepository"></param>
-    public GetMaintenanceByVehicleIdQueryHandler(IMaintenanceVehicleRepository maintenanceVehicleRepository,
+    public GetMaintenanceByIdQueryHandler(IMaintenanceVehicleRepository maintenanceVehicleRepository,
         IMaintenancePartRepository maintenancePartRepository)
     {
         _maintenanceVehicleRepository = maintenanceVehicleRepository;
@@ -29,10 +29,11 @@ public class GetMaintenanceByVehicleIdQueryHandler : IRequestHandler<GetMaintena
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<object> Handle(GetMaintenanceByVehicleIdQuery request, CancellationToken cancellationToken)
+    /// <exception cref="NotFoundException"></exception>
+    public async Task<object> Handle(GetMaintenanceByIdQuery request, CancellationToken cancellationToken)
     {
         var maintenanceVehicle =
-            await _maintenanceVehicleRepository.GetRequestByVehicleIdAsync(request.VehicleId,
+            await _maintenanceVehicleRepository.GetMaintenanceVehicleByIdAsync(request.MaintenanceId,
                 cancellationToken) ?? throw new NotFoundException("Maintenance vehicle tidak ditemukan");
 
         var maintenanceParts =

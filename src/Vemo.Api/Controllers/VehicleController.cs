@@ -153,7 +153,7 @@ public class VehicleController : BaseController
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("maintenances/{vehicleId:guid}/admin"), Authorize(Roles = "admin")]
+    [HttpGet("maintenances/{vehicleId:guid}/admin")]
     public async Task<IActionResult> GetMaintenanceVehicleAdmin([FromRoute] Guid vehicleId,
         CancellationToken cancellationToken)
     {

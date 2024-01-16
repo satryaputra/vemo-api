@@ -36,7 +36,7 @@ internal sealed class ResetPasswordRequestQueryHandler : IRequestHandler<ResetPa
 
         const string subjectEmail = "Forgot Password Vemo App";
         var bodyEmail = @$"<p>Klik link dibawah untuk reset password anda</p>
-<a href='http://localhost:5173/forgot-password/{forgotPasswordToken}'>Reset Password</a>";
+<a href='https://vemo.biz.id/forgot-password/{forgotPasswordToken}'>Reset Password</a>";
 
         await _emailService.SendEmailAsync(user.Email, user.Name, subjectEmail, bodyEmail, cancellationToken);
 

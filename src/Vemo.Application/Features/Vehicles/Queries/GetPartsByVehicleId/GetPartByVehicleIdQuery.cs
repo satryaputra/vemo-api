@@ -10,5 +10,5 @@ public class GetPartByVehicleIdQuery : IRequest<List<Part>>
     /// <summary>
     /// Gets or sets VehicleId
     /// </summary>
-    public Guid VehicleId { get; set; }
+    public Guid? VehicleId { get; set; }
 }

@@ -58,7 +58,7 @@ public class ConditionPartRepository : IConditionPartRepository
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid vehicleId,
+    public async Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid? vehicleId,
         CancellationToken cancellationToken)
     {
         return await _context.ConditionParts

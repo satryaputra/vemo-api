@@ -16,6 +16,29 @@ public interface IPartRepository
     Task AddPartAsync(Part part, CancellationToken cancellationToken);
 
     /// <summary>
+    /// UpdatePartAsync
+    /// </summary>
+    /// <param name="part"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task UpdatePartAsync(Part part, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// DeletePartAsync
+    /// </summary>
+    /// <param name="part"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task DeletePartAsync(Part part, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// GetAllPartsAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<Part>> GetAllPartsAsync(CancellationToken cancellationToken);
+
+    /// <summary>
     /// GetPartByIdAsync
     /// </summary>
     /// <param name="partId"></param>

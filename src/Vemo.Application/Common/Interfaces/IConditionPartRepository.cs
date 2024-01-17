@@ -29,7 +29,7 @@ public interface IConditionPartRepository
     /// <param name="vehicleId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid vehicleId, CancellationToken cancellationToken);
+    Task<List<ConditionPart>> GetConditionPartsByVehicleIdAsync(Guid? vehicleId, CancellationToken cancellationToken);
 
     /// <summary>
     /// GetConditionPartByPartIdAsync

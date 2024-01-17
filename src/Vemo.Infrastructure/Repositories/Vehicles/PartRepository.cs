@@ -34,6 +34,39 @@ public class PartRepository : IPartRepository
     }
 
     /// <summary>
+    /// UpdatePartAsync
+    /// </summary>
+    /// <param name="part"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdatePartAsync(Part part, CancellationToken cancellationToken)
+    {
+        _context.Parts.Update(part);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// DeletePartAsync
+    /// </summary>
+    /// <param name="part"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task DeletePartAsync(Part part, CancellationToken cancellationToken)
+    {
+        _context.Parts.Remove(part);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// GetAllPartsAsync
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<Part>> GetAllPartsAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Parts.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// GetPartByIdAsync
     /// </summary>
     /// <param name="partId"></param>
@@ -43,7 +76,7 @@ public class PartRepository : IPartRepository
     public async Task<Part> GetPartByIdAsync(Guid partId, CancellationToken cancellationToken)
     {
         return await _context.Parts.FindAsync(new object?[] { partId }, cancellationToken)
-               ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetPartVehicleByIdAsync");
+               ?? throw new NotFoundException("Komponen kendaraan tidak ditemukan | GetPartIdAsync");
     }
 
     /// <summary>

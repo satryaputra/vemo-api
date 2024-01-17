@@ -21,12 +21,12 @@ public class Part : BaseAuditableEntity
     /// <summary>
     /// Gets or sets MaintenancePrice
     /// </summary>
-    public float MaintenancePrice { get; set; }
+    public double MaintenancePrice { get; set; }
 
     /// <summary>
     /// Gets or sets MaintenanceServicePrice
     /// </summary>
-    public float MaintenanceServicePrice { get; set; }
+    public double MaintenanceServicePrice { get; set; }
 
     /// <summary>
     /// Gets or sets VehicleType

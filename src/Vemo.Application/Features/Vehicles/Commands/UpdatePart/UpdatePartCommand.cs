@@ -1,29 +1,28 @@
-﻿namespace Vemo.Application.Features.Vehicles.Commands.AddPart;
+namespace Vemo.Application.Features.Vehicles.Commands.UpdatePart;
 
-/// <summary>
-/// AddVehiclePartCommand
-/// </summary>
-public class AddPartVehicleCommand : IRequest<Guid>
+public class UpdatePartCommand : IRequest<object>
 {
+    public Guid PartId{ get; set; }
+    
     /// <summary>
     /// Gets or sets Name
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets AgeInMonth
     /// </summary>
-    public int AgeInMonth { get; set; }
+    public int? AgeInMonth { get; set; }
 
     /// <summary>
     /// Gets or sets MaintenancePrice
     /// </summary>
-    public double MaintenancePrice { get; set; }
+    public double? MaintenancePrice { get; set; }
 
     /// <summary>
     /// Gets or sets MaintenanceServicePrice
     /// </summary>
-    public double MaintenanceServicePrice { get; set; }
+    public double? MaintenanceServicePrice { get; set; }
 
     /// <summary>
     /// Gets or sets VehicleType

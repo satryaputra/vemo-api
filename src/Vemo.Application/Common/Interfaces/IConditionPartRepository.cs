@@ -24,6 +24,15 @@ public interface IConditionPartRepository
     Task UpdateLastMaintenanceToNowAsync(ConditionPart conditionPart, CancellationToken cancellationToken);
 
     /// <summary>
+    /// UpdateLastMaintenance
+    /// </summary>
+    /// <param name="conditionId"></param>
+    /// <param name="newLastMaintenancePart"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task UpdateLastMaintenanceAsync(Guid conditionId, DateTime newLastMaintenancePart, CancellationToken cancellationToken);
+
+    /// <summary>
     /// GetConditionPartsByVehicleIdAsync
     /// </summary>
     /// <param name="vehicleId"></param>

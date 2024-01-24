@@ -52,6 +52,20 @@ public class ConditionPartRepository : IConditionPartRepository
     }
 
     /// <summary>
+    /// UpdateLastMaintenanceAsync
+    /// </summary>
+    /// <param name="conditionId"></param>
+    /// <param name="newLastMaintenancePart"></param>
+    /// <param name="cancellationToken"></param>
+    public async Task UpdateLastMaintenanceAsync(Guid conditionId, DateTime newLastMaintenancePart, CancellationToken cancellationToken)
+    {
+        var conditionPart = await _context.ConditionParts.FindAsync(new object?[] { conditionId }, cancellationToken)
+            ?? throw new NotFoundException("Condition Part tidak ditemukan");
+        conditionPart.LastMaintenance = newLastMaintenancePart;
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// GetConditionPartsByVehicleIdAsync
     /// </summary>
     /// <param name="vehicleId"></param>

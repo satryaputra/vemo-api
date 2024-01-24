@@ -7,6 +7,7 @@ using Vemo.Application.Features.Vehicles.Commands.ChangeStatusMaintenanceVehicle
 using Vemo.Application.Features.Vehicles.Commands.DeletePart;
 using Vemo.Application.Features.Vehicles.Commands.DoneMaintenance;
 using Vemo.Application.Features.Vehicles.Commands.RequestMaintenance;
+using Vemo.Application.Features.Vehicles.Commands.UpdateConditionPart;
 using Vemo.Application.Features.Vehicles.Commands.UpdatePart;
 using Vemo.Application.Features.Vehicles.Queries.CountVehicles;
 using Vemo.Application.Features.Vehicles.Queries.GetAllParts;
@@ -111,6 +112,13 @@ public class VehicleController : BaseController
         CancellationToken cancellationToken)
     {
         return Ok(await Mediator.Send(deletePartCommand, cancellationToken));
+    }
+
+    [HttpPatch("parts/maintenance")]
+    public async Task<IActionResult> UpdateConditionPart(UpdateConditionPartCommand updateConditionPartCommand,
+        CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(updateConditionPartCommand, cancellationToken));
     }
 
     /// <summary>
